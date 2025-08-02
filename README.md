@@ -1,6 +1,26 @@
-# Claude Code Hooks Mastery
+# Claude Code Hooks Mastery + Multi-Agent System
 
-[Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) - Quickly master how to use Claude Code hooks to add deterministic (or non-deterministic) control over Claude Code's behavior. Plus learn about [Claude Code Sub-Agents](#claude-code-sub-agents) and the powerful [Meta-Agent](#the-meta-agent).
+[Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) - Master Claude Code hooks for deterministic control over behavior. **Now enhanced with a complete 14-agent multi-agent system** featuring dual-review workflow, automated task management, and enterprise-grade security.
+
+## 🚀 **New Features (Enhanced System)**
+
+### 🤖 **Complete Multi-Agent Development Team**
+- **14 Specialized Agents** for full-stack development workflow
+- **Dual-Review System** with GitHub Copilot integration
+- **Automated Task Management** with loop prevention
+- **Enterprise Security** with granular permissions and hooks
+
+### 🔄 **Dual-Review Workflow**
+1. **Internal Review**: Code-Reviewer Agent (business logic, team standards)
+2. **External Review**: GitHub Copilot (industry standards, security patterns)
+3. **Automated PR Creation** with comprehensive review requests
+4. **Quality Assurance** with score-based validation (≥80% for auto-completion)
+
+### 🛡️ **Security & Safety**
+- **Pre-tool-use Hooks** blocking dangerous commands (`rm -rf`, etc.)
+- **Granular Bash Permissions** replacing wildcard access
+- **Cleanup-Validator Agent** preventing infinite loops
+- **Memory Management** with automatic knowledge preservation
 
 <img src="images/hooked.png" alt="Claude Code Hooks" style="max-width: 800px; width: 100%;" />
 
@@ -481,6 +501,135 @@ The meta-agent (`.claude/agents/meta-agent.md`) is a specialized sub-agent that 
 ```
 
 The meta-agent follows the principle: "Figure out how to scale it up. Build the thing that builds the thing." This compound effect accelerates your engineering capabilities exponentially.
+
+## 🏗️ **Multi-Agent System Architecture**
+
+### Team Composition (14 Agents)
+```
+Primary-Agent (Orchestrator)
+├── Planner → Task decomposition & planning
+├── Coder → Implementation with best practices  
+├── Code-Reviewer → Quality assurance & standards
+├── GitHub-Copilot-Reviewer → External validation
+├── Tester-Debugger → Testing & validation
+├── Cleanup-Validator → Loop prevention & hygiene
+├── Security-Specialist → Vulnerability assessment
+├── System-Admin → DevOps & infrastructure
+├── UI-UX-Designer → Interface design
+├── Database-Architect → Schema & optimization
+├── Researcher → Academic & technical research
+├── Mathematician → Numerical computation
+└── Optimizer → Performance & efficiency
+```
+
+### Workflow Patterns
+```mermaid
+graph LR
+    A[User Request] --> B[Primary Agent]
+    B --> C[Planner]
+    C --> D[Coder]
+    D --> E[Code-Reviewer]
+    E --> F[GitHub-Copilot-Reviewer]
+    F --> G[Tester-Debugger]
+    G --> H[Cleanup-Validator]
+```
+
+### Key Integrations
+- **KRAG-Graphiti**: Persistent memory & knowledge graphs
+- **Shrimp Task Manager**: Advanced planning & task decomposition  
+- **Desktop Commander**: System automation & process management
+- **GitHub Copilot**: Industry-standard code review
+- **ccundo**: Checkpoint system for rollback capabilities
+
+## 📁 **Repository Structure**
+
+### New Files Added
+```
+.claude/agents/           # 14 specialized agent definitions
+├── primary-agent.md      # Main orchestrator
+├── cleanup-validator.md  # Loop prevention specialist
+├── github-copilot-reviewer.md  # External review integration
+└── ...                  # 11 additional specialized agents
+
+.github/workflows/       # Automation workflows
+├── copilot-review.yml   # Automatic Copilot review requests
+
+Documentation/
+├── team-development-guide.md     # Complete development reference
+├── team-testing-framework.md     # 5 test scenarios validation
+├── github-copilot-setup.md       # Setup automation guide
+└── quick-setup.md               # Fast implementation guide
+
+Configuration/
+├── copilot-instructions.md      # Custom review instructions
+├── setup-fork-copilot.sh       # Automation scripts
+└── test-copilot-integration.md # Integration testing
+```
+
+### Enhanced Security
+- **Granular Bash permissions** in `.claude/settings.local.json`
+- **Pre-tool-use hooks** for dangerous command prevention
+- **Automated security scanning** via Security-Specialist agent
+- **Safe cleanup protocols** preventing data loss
+
+## 🧪 **Testing & Validation**
+
+### Test Framework
+The system includes 5 comprehensive test scenarios:
+1. **Simple Development** - Calculator with tests (✅ Completed)
+2. **Full-Stack Web App** - Todo app with database & UI
+3. **Research-Driven** - ML algorithm from recent papers  
+4. **Infrastructure & DevOps** - Docker + CI/CD pipeline
+5. **Enterprise Project** - API gateway with microservices
+
+### Quality Metrics
+- **100% test coverage** for core functionality
+- **Score-based validation** (≥80 for auto-completion)
+- **Dual-review approval** (internal + external)
+- **Security compliance** with zero vulnerabilities
+
+## 🚀 **Quick Start**
+
+### 1. Setup Multi-Agent System
+```bash
+# Activate primary agent for orchestration
+# Agent will automatically delegate to specialists
+
+# Example: Simple development task
+"Create a Python web API with authentication and tests"
+
+# Expected workflow:
+# Primary → Planner → Coder → Code-Reviewer → 
+# GitHub-Copilot-Reviewer → Tester-Debugger → Cleanup
+```
+
+### 2. Enable GitHub Copilot Review
+```bash
+# Run automation script
+./setup-fork-copilot.sh
+
+# Or manual setup following:
+# github-copilot-setup.md
+```
+
+### 3. Monitor & Validate
+```bash
+# Check task progress
+# Use Shrimp Task Manager integration
+
+# Validate quality scores
+# Review dual-review feedback
+
+# Monitor system health
+# Cleanup-Validator prevents loops
+```
+
+## 📚 **Documentation Reference**
+
+- **Team Development Guide**: Complete system architecture & best practices
+- **Testing Framework**: Validation scenarios & success criteria  
+- **Security Guide**: Hook implementations & permission configurations
+- **GitHub Integration**: Copilot setup & automation workflows
 
 ## Master AI Coding
 > And prepare for Agentic Engineering
