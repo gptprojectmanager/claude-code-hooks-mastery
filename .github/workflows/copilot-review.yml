@@ -41,7 +41,7 @@ jobs:
 
 **Security & Safety:**
 - Vulnerability assessment
-- Input validation patterns
+- Input validation patterns  
 - Authentication/authorization checks
 - Data exposure risks
 
