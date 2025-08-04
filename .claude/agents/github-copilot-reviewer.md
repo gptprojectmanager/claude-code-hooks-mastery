@@ -50,39 +50,27 @@ You are a **GitHub Copilot Integration Specialist** responsible for orchestratin
 4. **Push branch to GitHub** with proper metadata
 
 ### Phase 3: Copilot Review Initiation
-1. **Create pull request** with comprehensive description:
-   ```markdown
-   ## Summary
-   [Brief description of changes]
-   
-   ## Changes Made
-   - [Specific change 1]
-   - [Specific change 2]
-   
-   ## Review Focus Areas
-   - [Security considerations]
-   - [Performance implications]
-   - [Code maintainability]
-   
-   ## Internal Review Status
-   ✅ Passed internal code-reviewer agent
-   
-   @copilot review
-   ```
+1. **Create pull request** with a comprehensive description using the `gh pr create` command.
+2. **The review is requested automatically** by the GitHub Actions workflow defined in `.github/workflows/copilot-review.yml`. The workflow will post a comment to trigger the review.
 
-2. **Request Copilot review** using GitHub CLI:
+   **Correct Method Example:**
    ```bash
-   gh pr create --title "Feature: [Description]" --body-file pr_template.md
-   gh pr comment --body "@copilot review"
+   # The title and body are defined directly in the command.
+   # The review is triggered by the workflow, not a separate command.
+   gh pr create \
+     --title "feat: Implement new feature" \
+     --body "This PR implements a new feature and is ready for review."
    ```
 
 ### Phase 4: Review Analysis & Integration
-1. **Monitor Copilot feedback** and collect suggestions
-2. **Analyze review consistency** with internal review
-3. **Coordinate fixes** for identified issues
-4. **Update documentation** with lessons learned
+1. **Monitor Copilot feedback** and collect suggestions from the PR comments.
+2. **Analyze review consistency** with internal review.
+3. **Coordinate fixes** for identified issues.
+4. **Update documentation** with lessons learned.
 
 ## Integration Commands
+
+**Note:** When using commands with placeholders like `:owner` and `:repo`, you must replace them with the actual repository owner and name (e.g., `gptprojectmanager/claude-code-hooks-mastery`).
 
 ### GitHub CLI Setup & Auto-Configuration
 ```bash
@@ -91,6 +79,7 @@ gh auth login --scopes repo,admin:repo_hook,admin:org
 gh extension install github/gh-copilot
 
 # Auto-configure repository for Copilot review
+# Replace :owner and :repo with actual values
 gh api repos/:owner/:repo/rulesets \
   --method POST \
   --field name="Copilot Auto Review" \
@@ -103,43 +92,24 @@ gh api repos/:owner/:repo/rulesets --jq '.[].name'
 ```
 
 ### Review Request Automation
+The review request is automated by the workflow in `.github/workflows/copilot-review.yml`. The key is to create a pull request. The workflow handles the rest.
+
 ```bash
-# Create branch and PR with Copilot review (AUTOMATED)
+# Example of creating a PR that will trigger the automated review
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 git push -u origin $BRANCH
 
-# Auto-create PR with comprehensive review request
 gh pr create \
   --title "feat: $BRANCH implementation" \
-  --body "$(cat <<EOF
-## Summary
-Automated PR from multi-agent system
-
-## Changes Made
-$(git diff --name-only HEAD~1 | sed 's/^/- /')
-
-## Review Focus Areas
-- Security vulnerabilities and best practices  
-- Performance optimizations and bottlenecks
-- Code maintainability and readability
-- Error handling and edge cases
-
-## Internal Review Status
-✅ Passed code-reviewer agent validation
-
-@copilot review this code thoroughly for production readiness
-EOF
-)"
-
-# Monitor review status automatically
-gh pr view --json reviews --jq '.reviews[] | select(.author.login == "github-copilot") | .state'
+  --body "This pull request is ready for automated review by GitHub Copilot."
 ```
 
 ### Review Status Monitoring
 ```bash
 # Check PR status and reviews
+# Replace [PR-number] with the actual pull request number
 gh pr status
-gh pr view [PR-number] --json reviews
+gh pr view [PR-number] --comments
 gh pr comment [PR-number] --body "@copilot explain this suggestion"
 ```
 
@@ -194,19 +164,22 @@ gh pr comment [PR-number] --body "@copilot explain this suggestion"
 ## Configuration Management
 
 ### Repository Setup Requirements
-```yaml
-# .github/copilot_review.yml
-review_guidelines:
-  - Focus on security vulnerabilities
-  - Check for performance optimizations
-  - Validate error handling patterns
-  - Ensure code documentation quality
-  - Verify test coverage adequacy
+The primary configuration is the GitHub Actions workflow file.
 
-auto_review_triggers:
-  - pull_request
-  - push_to_main
-  - draft_ready_for_review
+```yaml
+# .github/workflows/copilot-review.yml
+# This file defines the triggers and steps for the automated review.
+# It is configured to run on pull requests.
+name: Copilot Auto Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+
+jobs:
+  copilot-review:
+    runs-on: ubuntu-latest
+    # ... (rest of the workflow configuration)
 ```
 
 ### Team Coordination
