@@ -1,7 +1,7 @@
 ---
 name: security-specialist
 description: "PROACTIVELY usa questo esperto per security audit e vulnerability assessment. Trigger: 'security review', 'vulnerability scan', 'security audit', 'penetration test', 'security hardening'. Fornisci codice o sistema da analizzare."
-tools: Read, Write, Bash, Grep, Glob, mcp__git-mcp__search_generic_code, mcp__git-mcp__fetch_generic_documentation, mcp__krag-graphiti__add_memory, mcp__krag-graphiti__search_memory_facts
+tools: Read, Write, Bash, Grep, Glob, mcp__git-mcp__search_generic_code, mcp__git-mcp__fetch_generic_documentation, mcp__krag-graphiti-memory__add_memory, mcp__krag-graphiti-memory__search_memory_facts
 color: Red
 ---
 

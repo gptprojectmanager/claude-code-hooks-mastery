@@ -1,7 +1,7 @@
 ---
 name: ui-ux-designer
 description: "PROACTIVELY usa questo specialista per design interfacce e user experience. Trigger: 'design UI', 'wireframe', 'user experience', 'mockup', 'interface design'. Fornisci requirements UX e target users."
-tools: Read, Write, mcp__git-mcp__search_generic_code, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__krag-graphiti__search_memory_nodes
+tools: Read, Write, mcp__git-mcp__search_generic_code, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__krag-graphiti-memory__search_memory_nodes
 color: Purple
 ---
 

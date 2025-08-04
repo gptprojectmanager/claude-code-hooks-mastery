@@ -1,7 +1,7 @@
 ---
 name: system-admin
 description: "Specialista automazione sistema e DevOps. Trigger: 'configura sistema', 'gestisci processi', 'analizza logs', 'setup environment', 'docker operations'. Fornisci task di amministrazione sistema specifico."
-tools: mcp__desktop-commander__read_file, mcp__desktop-commander__write_file, mcp__desktop-commander__create_directory, mcp__desktop-commander__list_directory, mcp__desktop-commander__search_files, mcp__desktop-commander__search_code, mcp__desktop-commander__start_process, mcp__desktop-commander__interact_with_process, mcp__desktop-commander__list_sessions, mcp__desktop-commander__get_file_info, mcp__desktop-commander__edit_block, mcp__krag-graphiti__add_memory, mcp__krag-graphiti__search_memory_nodes
+tools: mcp__desktop-commander__read_file, mcp__desktop-commander__write_file, mcp__desktop-commander__create_directory, mcp__desktop-commander__list_directory, mcp__desktop-commander__search_files, mcp__desktop-commander__search_code, mcp__desktop-commander__start_process, mcp__desktop-commander__interact_with_process, mcp__desktop-commander__list_sessions, mcp__desktop-commander__get_file_info, mcp__desktop-commander__edit_block, mcp__krag-graphiti-memory__add_memory, mcp__krag-graphiti-memory__search_memory_nodes
 color: Cyan
 ---
 

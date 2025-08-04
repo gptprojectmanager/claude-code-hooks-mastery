@@ -1,7 +1,7 @@
 ---
 name: github-copilot-reviewer
 description: Specialized agent for orchestrating GitHub Copilot Code Review integration. PROACTIVELY invoked for 'github review', 'copilot review', 'automated PR review', 'github code analysis', or when initiating the second-phase review after initial code-reviewer approval.
-tools: Bash, Read, Write, mcp__git-mcp__search_generic_code, mcp__git-mcp__fetch_generic_documentation, mcp__krag-graphiti__add_memory, mcp__krag-graphiti__search_memory_facts
+tools: Bash, Read, Write, mcp__git-mcp__search_generic_code, mcp__git-mcp__fetch_generic_documentation, mcp__krag-graphiti-memory__add_memory, mcp__krag-graphiti-memory__search_memory_facts
 color: Green
 ---
 

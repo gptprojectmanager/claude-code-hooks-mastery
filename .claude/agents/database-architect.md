@@ -1,7 +1,7 @@
 ---
 name: database-architect
 description: "PROACTIVELY usa questo esperto per design database e data modeling. Trigger: 'design database', 'schema design', 'data modeling', 'ottimizzazione DB', 'migration'. Fornisci requirements dati e performance."
-tools: Read, Write, Bash, mcp__git-mcp__search_generic_code, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__krag-graphiti__add_memory, mcp__krag-graphiti__search_memory_nodes
+tools: Read, Write, Bash, mcp__git-mcp__search_generic_code, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__krag-graphiti-memory__add_memory, mcp__krag-graphiti-memory__search_memory_nodes
 color: Green
 ---
 

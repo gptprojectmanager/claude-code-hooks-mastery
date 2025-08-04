@@ -1,7 +1,7 @@
 ---
 name: cleanup-validator
 description: Specialized agent for system cleanup, task validation, and workflow hygiene. PROACTIVELY invoked for 'cleanup tasks', 'validate completion', 'clear memory', 'audit system state', or when detecting potential loops/inconsistencies in workflows.
-tools: mcp__shrimp-task-manager__clear_all_tasks, mcp__shrimp-task-manager__delete_task, mcp__shrimp-task-manager__list_tasks, mcp__shrimp-task-manager__verify_task, mcp__krag-graphiti__clear_graph, mcp__krag-graphiti__delete_episode, mcp__krag-graphiti__search_memory_nodes, Read, Write, Bash
+tools: mcp__shrimp-task-manager__clear_all_tasks, mcp__shrimp-task-manager__delete_task, mcp__shrimp-task-manager__list_tasks, mcp__shrimp-task-manager__verify_task, mcp__krag-graphiti-memory__clear_graph, mcp__krag-graphiti-memory__delete_episode, mcp__krag-graphiti-memory__search_memory_nodes, Read, Write, Bash
 color: Purple
 ---
 

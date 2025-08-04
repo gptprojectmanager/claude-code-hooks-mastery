@@ -1,20 +1,195 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(mkdir:*)",
-      "Bash(uv:*)",
-      "Bash(find:*)",
-      "Bash(mv:*)",
-      "Bash(grep:*)",
-      "Bash(npm:*)",
-      "Bash(ls:*)",
-      "Bash(cp:*)",
-      "Write",
-      "Edit",
-      "Bash(chmod:*)",
-      "Bash(touch:*)"
-    ],
-    "deny": []
+  "mcpServers": {
+    "krag-graphiti-memory": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://localhost:8000/sse"
+      ],
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "krag-qdrant-memory": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://localhost:8001/sse"
+      ],
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "matlab-server": {
+      "command": "node",
+      "args": [
+        "/Users/sam/matlab-mcp-server/build_files/index.js"
+      ],
+      "env": {
+        "MATLAB_PATH": "/Applications/MATLAB_R2024a.app/bin/matlab"
+      },
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "wolframalpha": {
+      "command": "node",
+      "args": [
+        "/Users/sam/wolframalpha-llm-mcp/build/index.js"
+      ],
+      "env": {
+        "WOLFRAM_LLM_APP_ID": "VYR43J-GW3TWJ9G3K"
+      },
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "youtube": {
+      "command": "node",
+      "args": [
+        "/Users/sam/.npm-global/lib/node_modules/@anaisbetts/mcp-youtube/lib/index.mjs"
+      ],
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "shrimp-task-manager": {
+      "command": "node",
+      "args": [
+        "/Users/sam/mcp-shrimp-task-manager/dist/index.js"
+      ],
+      "env": {
+        "DATA_DIR": "/Users/sam/ShrimpData",
+        "TEMPLATES_USE": "en",
+        "ENABLE_GUI": "true"
+      },
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "paper-search-mcp": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "paper_search_mcp.server"
+      ],
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "papers-with-code-mcp": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "papers_with_code_mcp"
+      ],
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "desktop-commander": {
+      "command": "npx",
+      "args": [
+        "@wonderwhy-er/desktop-commander@latest"
+      ],
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "git-mcp": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://gitmcp.io/docs"
+      ],
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-sequentialthinking-tools"
+      ],
+      "env": {
+        "MAX_HISTORY_SIZE": "1000"
+      },
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "elevenlabs": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "elevenlabs_mcp"
+      ],
+      "env": {
+        "ELEVENLABS_API_KEY": "sk_3d42b5377138544b5d9c5456bd7214ba44b06019c524d1c0"
+      },
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "playwright": {
+      "command": "node",
+      "args": [
+        "/Users/sam/.npm-global/lib/node_modules/@executeautomation/playwright-mcp-server/dist/index.js"
+      ],
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "puppeteer": {
+      "command": "node",
+      "args": [
+        "/Users/sam/.npm-global/lib/node_modules/puppeteer-mcp-server/dist/index.js"
+      ],
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "firecrawl-mcp": {
+      "command": "npx",
+      "args": [
+        "firecrawl-mcp-server"
+      ],
+      "env": {
+        "FIRECRAWL_API_KEY": "fc-2d8231dc2b9244e7ab41cd8052c5ac46"
+      },
+      "disabled": false,
+      "autoapprove": [
+        "*"
+      ]
+    }
   },
   "hooks": {
     "PreToolUse": [
@@ -24,6 +199,10 @@
           {
             "type": "command",
             "command": "uv run .claude/hooks/pre_tool_use.py"
+          },
+          {
+            "type": "command",
+            "command": "uv run .claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type PreToolUse --summarize"
           }
         ]
       }
@@ -35,6 +214,10 @@
           {
             "type": "command",
             "command": "uv run .claude/hooks/post_tool_use.py"
+          },
+          {
+            "type": "command",
+            "command": "uv run .claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type PostToolUse --summarize"
           }
         ]
       }
@@ -45,7 +228,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "uv run .claude/hooks/notification.py --notify"
+            "command": "uv run .claude/hooks/notification.py --notify "
+          },
+          {
+            "type": "command",
+            "command": "uv run .claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type Notification --summarize"
           }
         ]
       }
@@ -57,6 +244,10 @@
           {
             "type": "command",
             "command": "uv run .claude/hooks/stop.py --chat"
+          },
+          {
+            "type": "command",
+            "command": "uv run .claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type Stop --add-chat"
           }
         ]
       }
@@ -68,16 +259,10 @@
           {
             "type": "command",
             "command": "uv run .claude/hooks/subagent_stop.py"
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
+          },
           {
             "type": "command",
-            "command": "uv run .claude/hooks/user_prompt_submit.py --log-only"
+            "command": "uv run .claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type SubagentStop"
           }
         ]
       }
@@ -88,18 +273,21 @@
         "hooks": [
           {
             "type": "command",
-            "command": "uv run .claude/hooks/pre_compact.py"
+            "command": "uv run .claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type PreCompact"
           }
         ]
       }
     ],
-    "SessionStart": [
+    "UserPromptSubmit": [
       {
-        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "uv run .claude/hooks/session_start.py"
+            "command": "uv run .claude/hooks/user_prompt_submit.py --log-only"
+          },
+          {
+            "type": "command",
+            "command": "uv run .claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type UserPromptSubmit --summarize"
           }
         ]
       }

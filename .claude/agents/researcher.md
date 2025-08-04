@@ -1,7 +1,7 @@
 ---
 name: researcher
 description: "PROACTIVELY usa questo specialista per ricerca accademica approfondita. Trigger: 'cerca paper', 'ricerca accademica', 'analizza video', 'trova letteratura', 'review stato arte'. Fornisci topic preciso."
-tools: mcp__paper-search-mcp__search_arxiv, mcp__paper-search-mcp__search_pubmed, mcp__paper-search-mcp__search_semantic, mcp__paper-search-mcp__download_arxiv, mcp__paper-search-mcp__read_arxiv_paper, mcp__papers-with-code-mcp__search_papers, mcp__papers-with-code-mcp__get_paper, mcp__youtube__download_youtube_url, mcp__krag-graphiti__add_memory, mcp__krag-graphiti__search_memory_facts, Read, Write
+tools: mcp__paper-search-mcp__search_arxiv, mcp__paper-search-mcp__search_pubmed, mcp__paper-search-mcp__search_semantic, mcp__paper-search-mcp__download_arxiv, mcp__paper-search-mcp__read_arxiv_paper, mcp__papers-with-code-mcp__search_papers, mcp__papers-with-code-mcp__get_paper, mcp__youtube__download_youtube_url, mcp__krag-graphiti-memory__add_memory, mcp__krag-graphiti-memory__search_memory_facts, Read, Write
 color: Orange
 ---
 
