@@ -216,3 +216,25 @@ primary-agent receives both specialist deliverable + comprehensive validation
 - 🛡️ **Zero file modification risk** with safe wrapper
 - 🛡️ **Centralized monitoring** of all Gemini CLI usage
 - 🛡️ **Audit trail** for compliance and debugging
+
+## **🔐 Architettura di Sicurezza del Wrapper (`safe-gemini-wrapper.py`)**
+
+La garanzia di "Zero file modification risk" non è una funzionalità nativa di Gemini CLI, ma è implementata attraverso uno script wrapper personalizzato che impone un ambiente di esecuzione "sola lettura" di fatto. Questo wrapper agisce come un gatekeeper di sicurezza prima di ogni chiamata a Gemini CLI, basandosi su tre livelli di protezione:
+
+### 1. Validazione Semantica del Prompt
+Prima di eseguire qualsiasi comando, il wrapper analizza il prompt per prevenire operazioni di scrittura.
+- **Whitelist (Prefissi Obbligatori)**: Il prompt **deve** iniziare con un prefisso sicuro come `ANALYZE ONLY - DO NOT MODIFY`, `DESCRIBE ONLY`, o `ASSESS ONLY`. Se il prefisso manca, l'operazione viene bloccata.
+- **Blacklist (Parole Chiave Pericolose)**: Il wrapper cerca attivamente parole chiave che implicano una modifica, come `fix`, `implement`, `create`, `write`, `delete`, `refactor`, ecc. Se una di queste parole viene trovata, l'esecuzione viene interrotta.
+
+### 2. Verifica di Integrità tramite Hashing dei File
+Per garantire che nessun file venga alterato, il wrapper utilizza un sistema di hashing.
+- **Pre-analisi**: Calcola un hash SHA256 aggregato di tutti i file nel percorso specificato (escludendo `.git`).
+- **Post-analisi**: Ricalcola l'hash dopo che Gemini CLI ha terminato.
+- **Confronto**: Se i due hash non corrispondono, significa che è avvenuta una modifica. Questo attiva immediatamente la procedura di rollback.
+
+### 3. Backup e Rollback Atomico con Git
+Come ultima linea di difesa, il wrapper sfrutta Git per garantire che il repository possa essere ripristinato a uno stato noto.
+- **Backup**: Prima dell'analisi, esegue `git add -A` e `git commit` per creare un punto di ripristino sicuro.
+- **Rollback**: Se la verifica di hashing fallisce, il wrapper esegue automaticamente `git checkout -- .` e `git clean -fd` per annullare qualsiasi modifica ai file e rimuovere eventuali file creati, riportando il repository allo stato esatto del backup.
+
+Questa architettura a più livelli garantisce che, anche in caso di comportamento inaspettato di Gemini CLI, il sistema degli agenti possa utilizzarlo per analisi su larga scala senza alcun rischio di modifiche non autorizzate o accidentali alla codebase.
