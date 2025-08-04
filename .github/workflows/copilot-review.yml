@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - 'test/copilot-review-setup'
     paths-ignore:
       - '*.md'
       - '.gitignore'
