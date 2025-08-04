@@ -67,7 +67,7 @@ def get_tts_script_path():
 def get_llm_completion_message():
     """
     Generate completion message using available LLM services.
-    Priority order: OpenAI > Anthropic > fallback to random message
+    Priority order: Gemini > Anthropic > OpenAI > fallback to random message
 
     Returns:
         str: Generated or fallback completion message
@@ -75,6 +75,22 @@ def get_llm_completion_message():
     # Get current script directory and construct utils/llm path
     script_dir = Path(__file__).parent
     llm_dir = script_dir / "utils" / "llm"
+
+    # Try Gemini first (highest priority)
+    if os.getenv("GEMINI_API_KEY"):
+        gemini_script = llm_dir / "gemini.py"
+        if gemini_script.exists():
+            try:
+                result = subprocess.run(
+                    ["uv", "run", str(gemini_script), "--completion"],
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                )
+                if result.returncode == 0 and result.stdout.strip():
+                    return result.stdout.strip()
+            except (subprocess.TimeoutExpired, subprocess.SubprocessError):
+                pass
 
     # Try Anthropic second
     if os.getenv("ANTHROPIC_API_KEY"):
@@ -92,7 +108,7 @@ def get_llm_completion_message():
             except (subprocess.TimeoutExpired, subprocess.SubprocessError):
                 pass
 
-    # Try OpenAI first (highest priority)
+    # Try OpenAI third
     if os.getenv("OPENAI_API_KEY"):
         oai_script = llm_dir / "oai.py"
         if oai_script.exists():
