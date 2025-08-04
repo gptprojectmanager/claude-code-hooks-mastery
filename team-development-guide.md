@@ -8,29 +8,23 @@ Questa guida completa documenta il processo di sviluppo, miglioramento e creazio
 
 Costruire un team di sub-agenti specializzati per automatizzare compiti di sviluppo software professionale, con orchestrazione intelligente, memoria persistente e capabilities enterprise-level.
 
-## 🆕 **Aggiornamenti Recenti di Sicurezza**
+## 🆕 **Aggiornamenti Recenti (Agosto 2025)**
 
-### Agente Cleanup-Validator Implementato
-- **File**: `.claude/agents/cleanup-validator.md`
-- **Scopo**: Prevenzione loop infiniti e gestione igiene workflow
-- **Tools**: Cleanup completo task e memoria con safety protocols
-
-### Limitazioni Permessi Bash Implementate
-- **File**: `.claude/settings.local.json`
-- **Modifiche**: 
-  - `"Bash(rm:*)"` → Pattern specifici sicuri
-  - `"Bash(chmod:*)"` → Solo permessi standard (644, 755, +x)
-- **Sicurezza**: Prevenzione comandi distruttivi mantenendo funzionalità
-
-### Primary Agent Potenziato  
-- **Nuovi Tools**: `delete_task`, `verify_task` per cleanup immediato
-- **Efficienza**: Controllo diretto task senza overhead delegation
+### Correzioni e Stabilizzazione del Workflow GitHub Copilot
+Il workflow di revisione automatica con GitHub Copilot (`.github/workflows/copilot-review.yml`) è stato reso stabile attraverso una serie di correzioni critiche:
+- **Sintassi YAML Corretta**: Risolto un errore di sintassi che impediva l'esecuzione del workflow.
+- **Gestione Eventi Push/PR**: Il workflow ora si attiva correttamente sia su `push` verso branch protetti che su `pull_request`, eseguendo i passaggi di revisione solo quando è presente una PR.
+- **Installazione GitHub CLI**: L'installazione della CLI di GitHub è stata spostata in uno step dedicato per garantirne la disponibilità a tutti i passaggi successivi.
+- **Contesto di Esecuzione**: Impostata la `working-directory` per i comandi `gh` per risolvere l'errore "not a git repository".
+- **Gestione Label (Rimosso)**: Lo step che aggiungeva label è stato rimosso per evitare errori dovuti a label non esistenti nel repository, semplificando il processo.
+- **Risoluzione Conflitti di Merge**: Aggiornata la branch con le modifiche dal repository `upstream`, risolvendo conflitti e mantenendo la coerenza della codebase.
+- **Correzione Prompt Agente**: Il prompt dell'agente `github-copilot-reviewer` è stato allineato al workflow reale per garantire che le sue azioni siano corrette e prevedibili.
 
 ### Sistema Dual-Review GitHub Copilot Implementato
 - **File**: `.claude/agents/github-copilot-reviewer.md` 
-- **Scopo**: Integrazione GitHub Copilot Code Review nel workflow
-- **Benefici**: Double-validation con AI diversi per quality assurance
-- **Workflow**: code-reviewer → github-copilot-reviewer → PR finalization
+- **Scopo**: Integrazione GitHub Copilot Code Review nel workflow.
+- **Benefici**: Double-validation con AI diversi per quality assurance.
+- **Workflow**: `code-reviewer` → `github-copilot-reviewer` → Finalizzazione PR.
 
 ## 📚 Riferimenti Essenziali
 
@@ -44,50 +38,31 @@ Costruire un team di sub-agenti specializzati per automatizzare compiti di svilu
 #### 1. **Awesome Claude Prompts** 
 - **URL**: `https://github.com/langgptai/awesome-claude-prompts`
 - **Local Path**: `/Users/sam/awesome-claude-prompts`
-- **Utilità**: Collection di 70+ categorie di prompts ottimizzati per Claude
-- **Focus**: Development workflows, business applications, creative tasks
+- **Utilità**: Collection di 70+ categorie di prompts ottimizzati per Claude.
 
 #### 2. **Awesome Claude Code**
 - **URL**: `https://github.com/hesreallyhim/awesome-claude-code`  
 - **Local Path**: `/Users/sam/awesome-claude-code`
-- **Utilità**: Commands, files, workflows specifici per Claude Code
-- **Focus**: Agentic coding patterns e best practices
+- **Utilità**: Commands, files, workflows specifici per Claude Code.
 
 #### 3. **Awesome AI System Prompts**
 - **URL**: `https://github.com/dontriskit/awesome-ai-system-prompts`
 - **Local Path**: `/Users/sam/awesome-ai-system-prompts`
-- **Utilità**: System prompts per multiple AI tools incluso Claude
-- **Focus**: AI agent builders e prompt engineers
+- **Utilità**: System prompts per multiple AI tools incluso Claude.
 
 #### 4. **ccundo - Checkpoint System**
 - **URL**: `https://github.com/RonitSachdev/ccundo`
 - **Local Path**: `/Users/sam/ccundo`
-- **Utilità**: Granular undo/redo functionality per Claude Code
-- **Installato**: `npm install -g ccundo`
-- **Features**: Zero-config, cascading safety, detailed previews
+- **Utilità**: Granular undo/redo functionality per Claude Code.
 
 #### 5. **Shrimp Task Manager**
 - **URL**: Repository locale
 - **Local Path**: `/Users/sam/mcp-shrimp-task-manager`
-- **Utilità**: MCP server per task management avanzato
-- **Configurato**: In `.claude.json` come MCP server
+- **Utilità**: MCP server per task management avanzato.
 
 ## 🏗️ Architettura Attuale del Team
 
-### Core Development Team (5 agenti)
-1. **planner**: Planning con Shrimp Task Manager
-2. **coder**: Sviluppo con Gemini CLI + Context7
-3. **code-reviewer**: Review con GitHub search + security
-4. **tester-debugger**: Testing completo
-5. **optimizer**: Ottimizzazione con documentazione
-
-### Domain Specialists (3 agenti)
-6. **researcher**: Ricerca accademica + YouTube + memoria
-7. **mathematician**: WolframAlpha + MATLAB + computazione
-8. **system-admin**: DevOps + Desktop Commander + ccundo
-
-### Orchestrator (1 agente)
-9. **primary-agent**: Project management + memoria + coordinamento
+Attualmente, il sistema è composto da **28 agenti specializzati**, che collaborano per coprire un ampio spettro di compiti di sviluppo software.
 
 ## 📁 File Critici da Analizzare
 
@@ -105,21 +80,6 @@ Costruire un team di sub-agenti specializzati per automatizzare compiti di svilu
 # - Guidelines tools assignment  
 # - Output format standards
 # - Best practices integration
-```
-
-### File di Documentazione Strategica
-```bash
-/Users/sam/claude-code-hooks-mastery/summaryconversation0208.md
-# Piano strategico originale con:
-# - Approccio bottom-up
-# - Framework conceptuale
-# - Strategia Gemini CLI
-
-/Users/sam/claude-code-hooks-mastery/multiagentsummary.md  
-# Best practices teoriche da transcript video:
-# - Information flow sub-agents
-# - System vs user prompts
-# - Isolation patterns
 ```
 
 ## 🛠️ MCP Tools Disponibili
@@ -267,8 +227,8 @@ sequential-thinking: # Ragionamento strutturato
 
 ---
 
-**Ultima modifica**: 2025-01-02  
-**Versione Team**: 1.0 (9 agenti)  
-**Prossimo review**: 2025-04-01
+**Ultima modifica**: 2025-08-04  
+**Versione Team**: 1.1 (28 agenti)  
+**Prossimo review**: 2025-11-01
 
 *Questa guida deve essere aggiornata ad ogni modifica significativa del team o integrazione di nuovi tools/repositories.*
