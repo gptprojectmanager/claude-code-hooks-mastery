@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent Observability Dashboard</title>
+    <script src="https://unpkg.com/chart.js@4.4.0/dist/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header .subtitle {
+            color: #718096;
+            font-size: 1.1em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card h3 {
+            color: #4a5568;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            color: #2d3748;
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-panel h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            font-weight: 500;
+        }
+
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .agent-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .agent-card.active {
+            border-color: #48bb78;
+            background: rgba(72, 187, 120, 0.1);
+        }
+
+        .agent-card.inactive {
+            opacity: 0.6;
+        }
+
+        .agent-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .agent-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .agent-status.active {
+            background: #48bb78;
+            box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.3);
+        }
+
+        .agent-status.inactive {
+            background: #a0aec0;
+        }
+
+        .agent-name {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 1.1em;
+        }
+
+        .agent-role {
+            color: #718096;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            text-transform: capitalize;
+        }
+
+        .agent-category {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+        }
+
+        .agent-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8em;
+            color: #718096;
+        }
+
+        .events-panel {
+            grid-column: 1 / -1;
+        }
+
+        .events-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+
+        .event-item {
+            padding: 15px;
+            border-bottom: 1px solid #f7fafc;
+            transition: background-color 0.2s ease;
+        }
+
+        .event-item:hover {
+            background: #f7fafc;
+        }
+
+        .event-item:last-child {
+            border-bottom: none;
+        }
+
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .event-type {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .event-agent {
+            background: #667eea;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+
+        .event-time {
+            color: #a0aec0;
+            font-size: 0.9em;
+        }
+
+        .event-details {
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        .connection-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 500;
+            z-index: 1000;
+        }
+
+        .connection-status.connected {
+            background: #48bb78;
+            color: white;
+        }
+
+        .connection-status.disconnected {
+            background: #f56565;
+            color: white;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background: white;
+            color: #4a5568;
+            font-size: 0.9em;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .agent-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+            }
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: #718096;
+        }
+
+        .delegation-flow {
+            margin: 20px 0;
+        }
+
+        .delegation-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: #f7fafc;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+
+        .delegation-arrow {
+            margin: 0 10px;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Multi-Agent Observability Dashboard</h1>
+            <p class="subtitle">Real-time monitoring of 14 Claude Code Sub-Agents</p>
+        </div>
+
+        <div class="connection-status" id="connectionStatus">
+            Connecting...
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Agents</h3>
+                <div class="value" id="totalAgents">-</div>
+                <div class="label">Configured</div>
+            </div>
+            <div class="stat-card">
+                <h3>Active Agents</h3>
+                <div class="value" id="activeAgents">-</div>
+                <div class="label">Last 24h</div>
+            </div>
+            <div class="stat-card">
+                <h3>Events Today</h3>
+                <div class="value" id="eventsToday">-</div>
+                <div class="label">Total Events</div>
+            </div>
+            <div class="stat-card">
+                <h3>Success Rate</h3>
+                <div class="value" id="successRate">-</div>
+                <div class="label">Completion Rate</div>
+            </div>
+        </div>
+
+        <div class="dashboard-panel">
+            <h2>Agent Overview</h2>
+            <div class="filter-bar">
+                <select class="filter-select" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="core_development">Core Development</option>
+                    <option value="quality_assurance">Quality Assurance</option>
+                    <option value="security">Security</option>
+                    <option value="design_architecture">Design & Architecture</option>
+                    <option value="domain_specialists">Domain Specialists</option>
+                </select>
+                <select class="filter-select" id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+            <div class="agent-grid" id="agentGrid">
+                <div class="loading">Loading agents...</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-panel">
+                <h2>Agent Activity Chart</h2>
+                <div class="chart-container">
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </div>
+            <div class="dashboard-panel">
+                <h2>Delegation Patterns</h2>
+                <div class="delegation-flow" id="delegationFlow">
+                    <div class="loading">Loading delegation patterns...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-panel events-panel">
+            <h2>Recent Events</h2>
+            <div class="filter-bar">
+                <select class="filter-select" id="eventTypeFilter">
+                    <option value="">All Event Types</option>
+                    <option value="SubagentStop">Subagent Stop</option>
+                    <option value="PreToolUse">Pre Tool Use</option>
+                    <option value="PostToolUse">Post Tool Use</option>
+                    <option value="SecurityBlock">Security Block</option>
+                </select>
+                <select class="filter-select" id="agentFilter">
+                    <option value="">All Agents</option>
+                </select>
+            </div>
+            <div class="events-list" id="eventsList">
+                <div class="loading">Loading events...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class MultiAgentDashboard {
+            constructor() {
+                this.ws = null;
+                this.agents = [];
+                this.events = [];
+                this.stats = {};
+                this.filters = {
+                    category: '',
+                    status: '',
+                    eventType: '',
+                    agent: ''
+                };
+                
+                this.init();
+            }
+
+            async init() {
+                await this.loadInitialData();
+                this.connectWebSocket();
+                this.setupEventListeners();
+                this.setupChart();
+            }
+
+            async loadInitialData() {
+                try {
+                    // Load agent stats
+                    const statsResponse = await fetch('/api/agents/stats');
+                    this.stats = await statsResponse.json();
+                    this.updateStatsDisplay();
+
+                    // Load agent metadata
+                    const agentsResponse = await fetch('/api/agents/metadata');
+                    this.agents = await agentsResponse.json();
+                    this.renderAgents();
+                    this.updateAgentFilter();
+
+                    // Load recent events
+                    const eventsResponse = await fetch('/events/recent?limit=50');
+                    this.events = await eventsResponse.json();
+                    this.renderEvents();
+
+                    // Load delegation patterns
+                    this.renderDelegationPatterns();
+
+                } catch (error) {
+                    console.error('Failed to load initial data:', error);
+                }
+            }
+
+            connectWebSocket() {
+                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                const wsUrl = `${protocol}//${window.location.host}/stream`;
+                
+                this.ws = new WebSocket(wsUrl);
+                
+                this.ws.onopen = () => {
+                    this.updateConnectionStatus(true);
+                };
+                
+                this.ws.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    
+                    if (data.type === 'event') {
+                        this.events.unshift(data.data);
+                        this.events = this.events.slice(0, 100); // Keep last 100 events
+                        this.renderEvents();
+                        this.updateStats();
+                    } else if (data.type === 'initial') {
+                        this.events = data.data;
+                        this.renderEvents();
+                    }
+                };
+                
+                this.ws.onclose = () => {
+                    this.updateConnectionStatus(false);
+                    // Reconnect after 3 seconds
+                    setTimeout(() => this.connectWebSocket(), 3000);
+                };
+                
+                this.ws.onerror = (error) => {
+                    console.error('WebSocket error:', error);
+                    this.updateConnectionStatus(false);
+                };
+            }
+
+            updateConnectionStatus(connected) {
+                const status = document.getElementById('connectionStatus');
+                status.textContent = connected ? 'Connected' : 'Disconnected';
+                status.className = `connection-status ${connected ? 'connected' : 'disconnected'}`;
+            }
+
+            updateStatsDisplay() {
+                document.getElementById('totalAgents').textContent = this.stats.total_agents || 0;
+                document.getElementById('activeAgents').textContent = this.stats.active_agents || 0;
+                
+                // Calculate events today
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const eventsToday = this.events.filter(event => 
+                    new Date(event.timestamp) >= today
+                ).length;
+                document.getElementById('eventsToday').textContent = eventsToday;
+
+                // Calculate success rate
+                const completedEvents = this.events.filter(event => 
+                    event.hook_event_type === 'SubagentStop'
+                ).length;
+                const successRate = this.events.length > 0 ? 
+                    Math.round((completedEvents / this.events.length) * 100) : 0;
+                document.getElementById('successRate').textContent = `${successRate}%`;
+            }
+
+            renderAgents() {
+                const grid = document.getElementById('agentGrid');
+                
+                if (this.agents.length === 0) {
+                    grid.innerHTML = '<div class="loading">No agents found</div>';
+                    return;
+                }
+
+                const filteredAgents = this.agents.filter(agent => {
+                    const categoryMatch = !this.filters.category || agent.agent_category === this.filters.category;
+                    const statusMatch = !this.filters.status || this.getAgentStatus(agent) === this.filters.status;
+                    return categoryMatch && statusMatch;
+                });
+
+                grid.innerHTML = filteredAgents.map(agent => `
+                    <div class="agent-card ${this.getAgentStatus(agent)}" onclick="dashboard.selectAgent('${agent.agent_name}')">
+                        <div class="agent-header">
+                            <div class="agent-status ${this.getAgentStatus(agent)}"></div>
+                            <div class="agent-name">${agent.agent_name}</div>
+                        </div>
+                        <div class="agent-role">${agent.agent_role}</div>
+                        <div class="agent-category">${agent.agent_category.replace('_', ' ')}</div>
+                        <div class="agent-stats">
+                            <span>Events: ${agent.event_count || 0}</span>
+                            <span>Success: ${Math.round((agent.success_rate || 0) * 100)}%</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            getAgentStatus(agent) {
+                const lastActivity = agent.last_activity;
+                if (!lastActivity) return 'inactive';
+                
+                const hoursSinceActivity = (Date.now() - lastActivity) / (1000 * 60 * 60);
+                return hoursSinceActivity < 24 ? 'active' : 'inactive';
+            }
+
+            selectAgent(agentName) {
+                // Update agent filter and refresh events
+                document.getElementById('agentFilter').value = agentName;
+                this.filters.agent = agentName;
+                this.renderEvents();
+            }
+
+            renderEvents() {
+                const list = document.getElementById('eventsList');
+                
+                const filteredEvents = this.events.filter(event => {
+                    const typeMatch = !this.filters.eventType || event.hook_event_type === this.filters.eventType;
+                    const agentMatch = !this.filters.agent || event.agent_name === this.filters.agent;
+                    return typeMatch && agentMatch;
+                });
+
+                if (filteredEvents.length === 0) {
+                    list.innerHTML = '<div class="loading">No events found</div>';
+                    return;
+                }
+
+                list.innerHTML = filteredEvents.slice(0, 20).map(event => `
+                    <div class="event-item">
+                        <div class="event-header">
+                            <span class="event-type">${event.hook_event_type}</span>
+                            ${event.agent_name ? `<span class="event-agent">${event.agent_name}</span>` : ''}
+                            <span class="event-time">${this.formatTime(event.timestamp)}</span>
+                        </div>
+                        <div class="event-details">
+                            Session: ${event.session_id.substring(0, 8)}...
+                            ${event.agent_role ? ` | Role: ${event.agent_role}` : ''}
+                            ${event.delegation_chain ? ` | Chain: ${event.delegation_chain}` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            renderDelegationPatterns() {
+                const container = document.getElementById('delegationFlow');
+                
+                if (!this.stats.delegation_patterns) {
+                    container.innerHTML = '<div class="loading">No delegation patterns found</div>';
+                    return;
+                }
+
+                const patterns = Object.entries(this.stats.delegation_patterns)
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, 10);
+
+                container.innerHTML = patterns.map(([pattern, count]) => `
+                    <div class="delegation-item">
+                        <span>${pattern.replace(' → ', '<span class="delegation-arrow">→</span>')}</span>
+                        <div style="margin-left: auto; font-weight: 600;">${count}</div>
+                    </div>
+                `).join('');
+            }
+
+            setupEventListeners() {
+                document.getElementById('categoryFilter').addEventListener('change', (e) => {
+                    this.filters.category = e.target.value;
+                    this.renderAgents();
+                });
+
+                document.getElementById('statusFilter').addEventListener('change', (e) => {
+                    this.filters.status = e.target.value;
+                    this.renderAgents();
+                });
+
+                document.getElementById('eventTypeFilter').addEventListener('change', (e) => {
+                    this.filters.eventType = e.target.value;
+                    this.renderEvents();
+                });
+
+                document.getElementById('agentFilter').addEventListener('change', (e) => {
+                    this.filters.agent = e.target.value;
+                    this.renderEvents();
+                });
+            }
+
+            updateAgentFilter() {
+                const select = document.getElementById('agentFilter');
+                const uniqueAgents = [...new Set(this.events.map(e => e.agent_name).filter(Boolean))];
+                
+                select.innerHTML = '<option value="">All Agents</option>' +
+                    uniqueAgents.map(agent => `<option value="${agent}">${agent}</option>`).join('');
+            }
+
+            setupChart() {
+                const ctx = document.getElementById('activityChart').getContext('2d');
+                
+                // Prepare data for last 24 hours
+                const hours = [];
+                const eventCounts = [];
+                
+                for (let i = 23; i >= 0; i--) {
+                    const hour = new Date();
+                    hour.setHours(hour.getHours() - i, 0, 0, 0);
+                    hours.push(hour.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }));
+                    
+                    const eventsInHour = this.events.filter(event => {
+                        const eventTime = new Date(event.timestamp);
+                        return eventTime >= hour && eventTime < new Date(hour.getTime() + 60 * 60 * 1000);
+                    }).length;
+                    
+                    eventCounts.push(eventsInHour);
+                }
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: hours,
+                        datasets: [{
+                            label: 'Events per Hour',
+                            data: eventCounts,
+                            borderColor: '#667eea',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+
+            updateStats() {
+                // Recalculate and update stats when new events arrive
+                this.updateStatsDisplay();
+                this.updateAgentFilter();
+            }
+
+            formatTime(timestamp) {
+                return new Date(timestamp).toLocaleTimeString();
+            }
+        }
+
+        // Initialize dashboard when page loads
+        let dashboard;
+        document.addEventListener('DOMContentLoaded', () => {
+            dashboard = new MultiAgentDashboard();
+        });
+    </script>
+</body>
+</html>

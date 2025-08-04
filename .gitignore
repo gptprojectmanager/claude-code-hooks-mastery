@@ -107,4 +107,10 @@ temp/
 
 .mcp.json
 
+# Claude Code sensitive config
+.claude/settings.json
+
 output
+outputs/
+
+extras/

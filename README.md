@@ -1,6 +1,26 @@
-# Claude Code Hooks Mastery
+# Claude Code Hooks Mastery + Multi-Agent System
 
-[Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) - Quickly master how to use Claude Code hooks to add deterministic (or non-deterministic) control over Claude Code's behavior. Plus learn about [Claude Code Sub-Agents](#claude-code-sub-agents) and the powerful [Meta-Agent](#the-meta-agent).
+[Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) - Master Claude Code hooks for deterministic control over behavior. **Now enhanced with a complete 14-agent multi-agent system** featuring dual-review workflow, automated task management, and enterprise-grade security.
+
+## 🚀 **New Features (Enhanced System)**
+
+### 🤖 **Complete Multi-Agent Development Team**
+- **14 Specialized Agents** for full-stack development workflow
+- **Dual-Review System** with GitHub Copilot integration
+- **Automated Task Management** with loop prevention
+- **Enterprise Security** with granular permissions and hooks
+
+### 🔄 **Dual-Review Workflow**
+1. **Internal Review**: Code-Reviewer Agent (business logic, team standards)
+2. **External Review**: GitHub Copilot (industry standards, security patterns)
+3. **Automated PR Creation** with comprehensive review requests
+4. **Quality Assurance** with score-based validation (≥80% for auto-completion)
+
+### 🛡️ **Security & Safety**
+- **Pre-tool-use Hooks** blocking dangerous commands (`rm -rf`, etc.)
+- **Granular Bash Permissions** replacing wildcard access
+- **Cleanup-Validator Agent** preventing infinite loops
+- **Memory Management** with automatic knowledge preservation
 
 <img src="images/hooked.png" alt="Claude Code Hooks" style="max-width: 800px; width: 100%;" />
 
@@ -413,9 +433,53 @@ Options:
 
 <img src="images/subagents.png" alt="Claude Code Sub-Agents" style="max-width: 800px; width: 100%;" />
 
-Claude Code supports specialized sub-agents that handle specific tasks with custom prompts, tools, and separate context windows.
+Claude Code supports specialized sub-agents that handle specific tasks with custom system prompts, tools, and separate context windows. Sub-agents are AI assistants that your primary Claude Code agent can delegate tasks to.
 
-**Agent Storage:**
+### Understanding Sub-Agents: System Prompts, Not User Prompts
+
+**Critical Concept**: The content in agent files (`.claude/agents/*.md`) are **system prompts** that configure the sub-agent's behavior. They are NOT user prompts. This is the #1 misunderstanding when creating agents.
+
+**Information Flow**:
+```
+You (User) → Primary Agent → Sub-Agent → Primary Agent → You (User)
+```
+
+<img src="images/SubAgentFlow.gif" alt="Sub-Agent Information Flow" style="max-width: 800px; width: 100%;" />
+
+1. **You** make a request to Claude Code (primary agent)
+2. **Primary Agent** analyzes your request and delegates to appropriate sub-agent
+3. **Sub-Agent** executes task using its system prompt instructions
+4. **Sub-Agent** reports results back to primary agent
+5. **Primary Agent** synthesizes and presents results to you
+
+**Key Points**:
+- Sub-agents NEVER communicate directly with you
+- Sub-agents start fresh with no conversation history
+- Sub-agents respond to the primary agent's prompt, not yours
+- The `description` field tells the primary agent WHEN to use the sub-agent
+
+### Agent Storage & Organization
+
+This repository demonstrates various agent configurations:
+
+**Project Agents** (`.claude/agents/`):
+```
+.claude/agents/
+├── crypto/                    # Cryptocurrency analysis agents
+│   ├── crypto-coin-analyzer-haiku.md
+│   ├── crypto-coin-analyzer-opus.md
+│   ├── crypto-coin-analyzer-sonnet.md
+│   ├── crypto-investment-plays-*.md
+│   ├── crypto-market-agent-*.md
+│   ├── crypto-movers-haiku.md
+│   └── macro-crypto-correlation-scanner-*.md
+├── hello-world-agent.md       # Simple greeting agent
+├── llm-ai-agents-and-eng-research.md  # AI research specialist
+├── meta-agent.md              # Agent that creates agents
+└── work-completion-summary.md # Audio summary generator
+```
+
+**Storage Hierarchy**:
 - **Project agents**: `.claude/agents/` (higher priority, project-specific)
 - **User agents**: `~/.claude/agents/` (lower priority, available across all projects)
 - **Format**: Markdown files with YAML frontmatter
@@ -427,6 +491,7 @@ name: agent-name
 description: When to use this agent (critical for automatic delegation)
 tools: Tool1, Tool2, Tool3  # Optional - inherits all tools if omitted
 color: Cyan  # Visual identifier in terminal
+model: opus # Optional - haiku | sonnet | opus - defaults to sonnet
 ---
 
 # Purpose
@@ -461,6 +526,19 @@ Sub-agents enable:
 - Remember sub-agents start fresh with no context - be explicit about what they need to know
 - Follow Problem → Solution → Technology approach when building agents
 
+### Complex Workflows & Agent Chaining
+
+Claude Code can intelligently chain multiple sub-agents together for complex tasks:
+
+<img src="images/SubAgentChain.gif" alt="Sub-Agent Chaining" style="max-width: 800px; width: 100%;" />
+
+For example:
+- "First analyze the market with crypto-market-agent, then use crypto-investment-plays to find opportunities"
+- "Use the debugger agent to fix errors, then have the code-reviewer check the changes"
+- "Generate a new agent with meta-agent, then test it on a specific task"
+
+This chaining allows you to build sophisticated workflows while maintaining clean separation of concerns.
+
 ### The Meta-Agent
 
 The meta-agent (`.claude/agents/meta-agent.md`) is a specialized sub-agent that generates new sub-agents from descriptions. It's the "agent that builds agents" - a critical tool for scaling your agent development velocity.
@@ -481,6 +559,135 @@ The meta-agent (`.claude/agents/meta-agent.md`) is a specialized sub-agent that 
 ```
 
 The meta-agent follows the principle: "Figure out how to scale it up. Build the thing that builds the thing." This compound effect accelerates your engineering capabilities exponentially.
+
+## 🏗️ **Multi-Agent System Architecture**
+
+### Team Composition (14 Agents)
+```
+Primary-Agent (Orchestrator)
+├── Planner → Task decomposition & planning
+├── Coder → Implementation with best practices  
+├── Code-Reviewer → Quality assurance & standards
+├── GitHub-Copilot-Reviewer → External validation
+├── Tester-Debugger → Testing & validation
+├── Cleanup-Validator → Loop prevention & hygiene
+├── Security-Specialist → Vulnerability assessment
+├── System-Admin → DevOps & infrastructure
+├── UI-UX-Designer → Interface design
+├── Database-Architect → Schema & optimization
+├── Researcher → Academic & technical research
+├── Mathematician → Numerical computation
+└── Optimizer → Performance & efficiency
+```
+
+### Workflow Patterns
+```mermaid
+graph LR
+    A[User Request] --> B[Primary Agent]
+    B --> C[Planner]
+    C --> D[Coder]
+    D --> E[Code-Reviewer]
+    E --> F[GitHub-Copilot-Reviewer]
+    F --> G[Tester-Debugger]
+    G --> H[Cleanup-Validator]
+```
+
+### Key Integrations
+- **KRAG-Graphiti**: Persistent memory & knowledge graphs
+- **Shrimp Task Manager**: Advanced planning & task decomposition  
+- **Desktop Commander**: System automation & process management
+- **GitHub Copilot**: Industry-standard code review
+- **ccundo**: Checkpoint system for rollback capabilities
+
+## 📁 **Repository Structure**
+
+### New Files Added
+```
+.claude/agents/           # 14 specialized agent definitions
+├── primary-agent.md      # Main orchestrator
+├── cleanup-validator.md  # Loop prevention specialist
+├── github-copilot-reviewer.md  # External review integration
+└── ...                  # 11 additional specialized agents
+
+.github/workflows/       # Automation workflows
+├── copilot-review.yml   # Automatic Copilot review requests
+
+Documentation/
+├── team-development-guide.md     # Complete development reference
+├── team-testing-framework.md     # 5 test scenarios validation
+├── github-copilot-setup.md       # Setup automation guide
+└── quick-setup.md               # Fast implementation guide
+
+Configuration/
+├── copilot-instructions.md      # Custom review instructions
+├── setup-fork-copilot.sh       # Automation scripts
+└── test-copilot-integration.md # Integration testing
+```
+
+### Enhanced Security
+- **Granular Bash permissions** in `.claude/settings.local.json`
+- **Pre-tool-use hooks** for dangerous command prevention
+- **Automated security scanning** via Security-Specialist agent
+- **Safe cleanup protocols** preventing data loss
+
+## 🧪 **Testing & Validation**
+
+### Test Framework
+The system includes 5 comprehensive test scenarios:
+1. **Simple Development** - Calculator with tests (✅ Completed)
+2. **Full-Stack Web App** - Todo app with database & UI
+3. **Research-Driven** - ML algorithm from recent papers  
+4. **Infrastructure & DevOps** - Docker + CI/CD pipeline
+5. **Enterprise Project** - API gateway with microservices
+
+### Quality Metrics
+- **100% test coverage** for core functionality
+- **Score-based validation** (≥80 for auto-completion)
+- **Dual-review approval** (internal + external)
+- **Security compliance** with zero vulnerabilities
+
+## 🚀 **Quick Start**
+
+### 1. Setup Multi-Agent System
+```bash
+# Activate primary agent for orchestration
+# Agent will automatically delegate to specialists
+
+# Example: Simple development task
+"Create a Python web API with authentication and tests"
+
+# Expected workflow:
+# Primary → Planner → Coder → Code-Reviewer → 
+# GitHub-Copilot-Reviewer → Tester-Debugger → Cleanup
+```
+
+### 2. Enable GitHub Copilot Review
+```bash
+# Run automation script
+./setup-fork-copilot.sh
+
+# Or manual setup following:
+# github-copilot-setup.md
+```
+
+### 3. Monitor & Validate
+```bash
+# Check task progress
+# Use Shrimp Task Manager integration
+
+# Validate quality scores
+# Review dual-review feedback
+
+# Monitor system health
+# Cleanup-Validator prevents loops
+```
+
+## 📚 **Documentation Reference**
+
+- **Team Development Guide**: Complete system architecture & best practices
+- **Testing Framework**: Validation scenarios & success criteria  
+- **Security Guide**: Hook implementations & permission configurations
+- **GitHub Integration**: Copilot setup & automation workflows
 
 ## Master AI Coding
 > And prepare for Agentic Engineering

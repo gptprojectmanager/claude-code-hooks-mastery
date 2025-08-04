@@ -1,0 +1,92 @@
+name: Copilot Auto Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+    paths-ignore:
+      - '*.md'
+      - '.gitignore'
+      - 'LICENSE'
+
+jobs:
+  copilot-review:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false && github.event_name == 'pull_request'
+    
+    permissions:
+      contents: read
+      pull-requests: write
+      
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install GitHub CLI
+      run: |
+        if ! command -v gh &> /dev/null;
+        then
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+          sudo apt update
+          sudo apt install gh
+        fi
+      
+    - name: Request Copilot Review
+      working-directory: ${{ github.workspace }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh pr comment ${{ github.event.pull_request.number }} --body-file - <<EOF
+        🤖 **Automated Copilot Review Request**
+
+        @copilot review this code comprehensively for:
+
+        **Security & Safety:**
+        - Vulnerability assessment
+        - Input validation patterns  
+        - Authentication/authorization checks
+        - Data exposure risks
+
+        **Performance & Optimization:**
+        - Algorithm efficiency
+        - Resource usage patterns
+        - Scalability considerations
+        - Memory management
+
+        **Code Quality & Maintainability:**
+        - SOLID principles adherence
+        - Design patterns usage
+        - Error handling completeness
+        - Documentation quality
+
+        **Multi-Agent System Specific:**
+        - Agent orchestration patterns
+        - Tool integration safety
+        - Task management efficiency
+        - Hook implementation security
+
+        Please provide detailed feedback with specific suggestions for improvement.
+        EOF
+
+    - name: Monitor Review Progress
+      working-directory: ${{ github.workspace }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "🔍 Monitoring Copilot review progress..."
+        
+        # Wait a moment for review to be processed
+        sleep 30
+        
+        # Check if review has been provided
+        REVIEW_COUNT=$(gh pr view ${{ github.event.pull_request.number }} --json reviews --jq '.reviews | length')
+        
+        if [ "$REVIEW_COUNT" -gt 0 ]; then
+          echo "✅ Copilot review detected!"
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "✅ **Copilot Review Completed** - Please review the feedback and address any suggestions before merging."
+        else
+          echo "⏳ Copilot review pending - will be available shortly"
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "⏳ **Copilot Review Pending** - Review will be available within a few minutes. Please wait for feedback before merging."
+        fi
