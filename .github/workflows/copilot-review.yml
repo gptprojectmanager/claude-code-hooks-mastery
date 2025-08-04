@@ -1,14 +1,6 @@
 name: Copilot Auto Review
 
 on:
-  push:
-    branches:
-      - main
-      - 'test/copilot-review-setup'
-    paths-ignore:
-      - '*.md'
-      - '.gitignore'
-      - 'LICENSE'
   pull_request:
     types: [opened, synchronize, ready_for_review]
     paths-ignore:
@@ -40,7 +32,6 @@ jobs:
         fi
       
     - name: Request Copilot Review
-      if: github.event_name == 'pull_request'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
@@ -78,7 +69,6 @@ jobs:
         EOF
 
     - name: Add Review Labels
-      if: github.event_name == 'pull_request'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
@@ -87,7 +77,6 @@ jobs:
           --add-label "automated-review"
           
     - name: Monitor Review Progress
-      if: github.event_name == 'pull_request'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
