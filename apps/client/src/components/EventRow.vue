@@ -250,6 +250,15 @@ const formatTime = (timestamp?: number) => {
 };
 
 const copyPayload = async () => {
+  if (!navigator.clipboard) {
+    console.error('Clipboard API not available.');
+    copyButtonText.value = '❌ Not Supported';
+    setTimeout(() => {
+      copyButtonText.value = '📋 Copy';
+    }, 2000);
+    return;
+  }
+
   try {
     await navigator.clipboard.writeText(formattedPayload.value);
     copyButtonText.value = '✅ Copied!';
@@ -257,8 +266,14 @@ const copyPayload = async () => {
       copyButtonText.value = '📋 Copy';
     }, 2000);
   } catch (err) {
-    console.error('Failed to copy:', err);
-    copyButtonText.value = '❌ Failed';
+    console.error('Failed to copy payload:', err);
+    let errorMessage = '❌ Failed';
+    if (err instanceof DOMException) {
+      if (err.name === 'NotAllowedError') {
+        errorMessage = '❌ Permission Denied';
+      }
+    }
+    copyButtonText.value = errorMessage;
     setTimeout(() => {
       copyButtonText.value = '📋 Copy';
     }, 2000);
