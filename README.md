@@ -433,9 +433,53 @@ Options:
 
 <img src="images/subagents.png" alt="Claude Code Sub-Agents" style="max-width: 800px; width: 100%;" />
 
-Claude Code supports specialized sub-agents that handle specific tasks with custom prompts, tools, and separate context windows.
+Claude Code supports specialized sub-agents that handle specific tasks with custom system prompts, tools, and separate context windows. Sub-agents are AI assistants that your primary Claude Code agent can delegate tasks to.
 
-**Agent Storage:**
+### Understanding Sub-Agents: System Prompts, Not User Prompts
+
+**Critical Concept**: The content in agent files (`.claude/agents/*.md`) are **system prompts** that configure the sub-agent's behavior. They are NOT user prompts. This is the #1 misunderstanding when creating agents.
+
+**Information Flow**:
+```
+You (User) → Primary Agent → Sub-Agent → Primary Agent → You (User)
+```
+
+<img src="images/SubAgentFlow.gif" alt="Sub-Agent Information Flow" style="max-width: 800px; width: 100%;" />
+
+1. **You** make a request to Claude Code (primary agent)
+2. **Primary Agent** analyzes your request and delegates to appropriate sub-agent
+3. **Sub-Agent** executes task using its system prompt instructions
+4. **Sub-Agent** reports results back to primary agent
+5. **Primary Agent** synthesizes and presents results to you
+
+**Key Points**:
+- Sub-agents NEVER communicate directly with you
+- Sub-agents start fresh with no conversation history
+- Sub-agents respond to the primary agent's prompt, not yours
+- The `description` field tells the primary agent WHEN to use the sub-agent
+
+### Agent Storage & Organization
+
+This repository demonstrates various agent configurations:
+
+**Project Agents** (`.claude/agents/`):
+```
+.claude/agents/
+├── crypto/                    # Cryptocurrency analysis agents
+│   ├── crypto-coin-analyzer-haiku.md
+│   ├── crypto-coin-analyzer-opus.md
+│   ├── crypto-coin-analyzer-sonnet.md
+│   ├── crypto-investment-plays-*.md
+│   ├── crypto-market-agent-*.md
+│   ├── crypto-movers-haiku.md
+│   └── macro-crypto-correlation-scanner-*.md
+├── hello-world-agent.md       # Simple greeting agent
+├── llm-ai-agents-and-eng-research.md  # AI research specialist
+├── meta-agent.md              # Agent that creates agents
+└── work-completion-summary.md # Audio summary generator
+```
+
+**Storage Hierarchy**:
 - **Project agents**: `.claude/agents/` (higher priority, project-specific)
 - **User agents**: `~/.claude/agents/` (lower priority, available across all projects)
 - **Format**: Markdown files with YAML frontmatter
@@ -447,6 +491,7 @@ name: agent-name
 description: When to use this agent (critical for automatic delegation)
 tools: Tool1, Tool2, Tool3  # Optional - inherits all tools if omitted
 color: Cyan  # Visual identifier in terminal
+model: opus # Optional - haiku | sonnet | opus - defaults to sonnet
 ---
 
 # Purpose
@@ -480,6 +525,19 @@ Sub-agents enable:
 - Include phrases like "use PROACTIVELY" or trigger words (e.g., "if they say TTS") in descriptions
 - Remember sub-agents start fresh with no context - be explicit about what they need to know
 - Follow Problem → Solution → Technology approach when building agents
+
+### Complex Workflows & Agent Chaining
+
+Claude Code can intelligently chain multiple sub-agents together for complex tasks:
+
+<img src="images/SubAgentChain.gif" alt="Sub-Agent Chaining" style="max-width: 800px; width: 100%;" />
+
+For example:
+- "First analyze the market with crypto-market-agent, then use crypto-investment-plays to find opportunities"
+- "Use the debugger agent to fix errors, then have the code-reviewer check the changes"
+- "Generate a new agent with meta-agent, then test it on a specific task"
+
+This chaining allows you to build sophisticated workflows while maintaining clean separation of concerns.
 
 ### The Meta-Agent
 

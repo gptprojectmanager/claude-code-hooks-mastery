@@ -111,3 +111,6 @@ temp/
 .claude/settings.json
 
 output
+outputs/
+
+extras/
