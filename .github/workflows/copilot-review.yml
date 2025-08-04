@@ -68,14 +68,6 @@ jobs:
         Please provide detailed feedback with specific suggestions for improvement.
         EOF
 
-    - name: Add Review Labels
-      working-directory: ${{ github.workspace }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        gh pr edit ${{ github.event.pull_request.number }} \
-          --add-label "copilot-review-requested" \
-          --add-label "automated-review"          
     - name: Monitor Review Progress
       working-directory: ${{ github.workspace }}
       env:
