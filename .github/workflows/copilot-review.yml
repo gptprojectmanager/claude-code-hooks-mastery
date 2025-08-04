@@ -28,13 +28,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      
-    - name: Request Copilot Review
-      if: github.event_name == 'pull_request'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install GitHub CLI
       run: |
-        # Install GitHub CLI if not available
         if ! command -v gh &> /dev/null;
         then
           curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
@@ -42,7 +38,12 @@ jobs:
           sudo apt update
           sudo apt install gh
         fi
-        
+      
+    - name: Request Copilot Review
+      if: github.event_name == 'pull_request'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
         # Request comprehensive Copilot review
         gh pr comment ${{ github.event.pull_request.number }} --body-file - <<EOF
         🤖 **Automated Copilot Review Request**
