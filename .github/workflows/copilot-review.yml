@@ -1,6 +1,13 @@
 name: Copilot Auto Review
 
 on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '*.md'
+      - '.gitignore'
+      - 'LICENSE'
   pull_request:
     types: [opened, synchronize, ready_for_review]
     paths-ignore:
@@ -34,36 +41,37 @@ jobs:
         fi
         
         # Request comprehensive Copilot review
-        gh pr comment ${{ github.event.pull_request.number }} \
-          --body "🤖 **Automated Copilot Review Request**
+        gh pr comment ${{ github.event.pull_request.number }} --body-file - <<EOF
+        🤖 **Automated Copilot Review Request**
 
-@copilot review this code comprehensively for:
+        @copilot review this code comprehensively for:
 
-**Security & Safety:**
-- Vulnerability assessment
-- Input validation patterns  
-- Authentication/authorization checks
-- Data exposure risks
+        **Security & Safety:**
+        - Vulnerability assessment
+        - Input validation patterns  
+        - Authentication/authorization checks
+        - Data exposure risks
 
-**Performance & Optimization:**
-- Algorithm efficiency
-- Resource usage patterns
-- Scalability considerations
-- Memory management
+        **Performance & Optimization:**
+        - Algorithm efficiency
+        - Resource usage patterns
+        - Scalability considerations
+        - Memory management
 
-**Code Quality & Maintainability:**
-- SOLID principles adherence
-- Design patterns usage
-- Error handling completeness
-- Documentation quality
+        **Code Quality & Maintainability:**
+        - SOLID principles adherence
+        - Design patterns usage
+        - Error handling completeness
+        - Documentation quality
 
-**Multi-Agent System Specific:**
-- Agent orchestration patterns
-- Tool integration safety
-- Task management efficiency
-- Hook implementation security
+        **Multi-Agent System Specific:**
+        - Agent orchestration patterns
+        - Tool integration safety
+        - Task management efficiency
+        - Hook implementation security
 
-Please provide detailed feedback with specific suggestions for improvement."
+        Please provide detailed feedback with specific suggestions for improvement.
+        EOF
 
     - name: Add Review Labels
       env:
