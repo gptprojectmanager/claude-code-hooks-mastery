@@ -57,49 +57,50 @@
 #### Phase 2 Completion:
 - [ ] **Task 2.25**: Git commit checkpoint - FASE 2 complete (pending nomenclature cleanup)
 
-### 📝 FASE 3A: HAIKU AGENTS CREATION
+### ✅ FASE 3A: HAIKU AGENTS CREATION - COMPLETED!
 **Target**: 8 new Haiku agents (business-marketing category)
+**Status**: 8/8 agents created (100% complete!) 🎉
 
-- [ ] **Task 3A.1**: Create api-documenter-haiku.md + api_documenter_workflow.md
-- [ ] **Task 3A.2**: Create business-analyst-haiku.md + business_analyst_workflow.md
-- [ ] **Task 3A.3**: Create content-marketer-haiku.md + content_marketer_workflow.md
-- [ ] **Task 3A.4**: Create customer-support-haiku.md + customer_support_workflow.md
-- [ ] **Task 3A.5**: Create sales-automator-haiku.md + sales_automator_workflow.md
-- [ ] **Task 3A.6**: Create search-specialist-haiku.md + search_specialist_gemini_workflow.md
-- [ ] **Task 3A.7**: Create legal-advisor-haiku.md + legal_advisor_workflow.md
+- [x] **Task 3A.1**: Create api-documenter-haiku.md + api_documenter_prompt.md ✅
+- [x] **Task 3A.2**: Create business-analyst-haiku.md + business_analyst_prompt.md ✅
+- [x] **Task 3A.3**: Create content-marketer-haiku.md + content_marketer_prompt.md ✅
+- [x] **Task 3A.4**: Create customer-support-haiku.md + customer_support_prompt.md ✅
+- [x] **Task 3A.5**: Create sales-automator-haiku.md + sales_automator_prompt.md ✅
+- [x] **Task 3A.6**: Create search-specialist-haiku.md + search_specialist_gemini_prompt.md ✅
+- [x] **Task 3A.7**: Create legal-advisor-haiku.md + legal_advisor_prompt.md ✅
 - [ ] **Task 3A.8**: Git commit checkpoint - FASE 3A complete
 
 ### ⚡ FASE 3B: SONNET AGENTS CREATION  
 **Target**: 21 new Sonnet agents (4 categories)
 
 #### Language Specialists (9 agents):
-- [ ] **Task 3B.1**: Create typescript-pro-sonnet.md + typescript_pro_workflow.md
-- [ ] **Task 3B.2**: Create golang-pro-sonnet.md + golang_pro_workflow.md
-- [ ] **Task 3B.3**: Create rust-pro-sonnet.md + rust_pro_workflow.md
-- [ ] **Task 3B.4**: Create c-pro-sonnet.md + c_pro_workflow.md
-- [ ] **Task 3B.5**: Create cpp-pro-sonnet.md + cpp_pro_workflow.md
-- [ ] **Task 3B.6**: Create php-pro-sonnet.md + php_pro_workflow.md
-- [ ] **Task 3B.7**: Create java-pro-sonnet.md + java_pro_workflow.md
-- [ ] **Task 3B.8**: Create ios-developer-sonnet.md + ios_developer_workflow.md
-- [ ] **Task 3B.9**: Create sql-pro-sonnet.md + sql_pro_workflow.md
+- [ ] **Task 3B.1**: Create typescript-pro-sonnet.md + typescript_pro_prompt.md
+- [ ] **Task 3B.2**: Create golang-pro-sonnet.md + golang_pro_prompt.md
+- [ ] **Task 3B.3**: Create rust-pro-sonnet.md + rust_pro_prompt.md
+- [ ] **Task 3B.4**: Create c-pro-sonnet.md + c_pro_prompt.md
+- [ ] **Task 3B.5**: Create cpp-pro-sonnet.md + cpp_pro_prompt.md
+- [ ] **Task 3B.6**: Create php-pro-sonnet.md + php_pro_prompt.md
+- [ ] **Task 3B.7**: Create java-pro-sonnet.md + java_pro_prompt.md
+- [ ] **Task 3B.8**: Create ios-developer-sonnet.md + ios_developer_prompt.md
+- [ ] **Task 3B.9**: Create sql-pro-sonnet.md + sql_pro_prompt.md
 
 #### Development Architecture (3 agents):
-- [ ] **Task 3B.10**: Create frontend-developer-sonnet.md + frontend_developer_workflow.md
-- [ ] **Task 3B.11**: Create mobile-developer-sonnet.md + mobile_developer_workflow.md
-- [ ] **Task 3B.12**: Create graphql-architect-sonnet.md + graphql_architect_workflow.md
+- [ ] **Task 3B.10**: Create frontend-developer-sonnet.md + frontend_developer_prompt.md
+- [ ] **Task 3B.11**: Create mobile-developer-sonnet.md + mobile_developer_prompt.md
+- [ ] **Task 3B.12**: Create graphql-architect-sonnet.md + graphql_architect_prompt.md
 
 #### Infrastructure Operations (6 agents):
-- [ ] **Task 3B.13**: Create deployment-engineer-sonnet.md + deployment_engineer_workflow.md
-- [ ] **Task 3B.14**: Create database-optimizer-sonnet.md + database_optimizer_gemini_workflow.md
-- [ ] **Task 3B.15**: Create database-admin-sonnet.md + database_admin_workflow.md
-- [ ] **Task 3B.16**: Create terraform-specialist-sonnet.md + terraform_specialist_workflow.md
-- [ ] **Task 3B.17**: Create network-engineer-sonnet.md + network_engineer_workflow.md
-- [ ] **Task 3B.18**: Create dx-optimizer-sonnet.md + dx_optimizer_workflow.md
+- [ ] **Task 3B.13**: Create deployment-engineer-sonnet.md + deployment_engineer_prompt.md
+- [ ] **Task 3B.14**: Create database-optimizer-sonnet.md + database_optimizer_gemini_prompt.md
+- [ ] **Task 3B.15**: Create database-admin-sonnet.md + database_admin_prompt.md
+- [ ] **Task 3B.16**: Create terraform-specialist-sonnet.md + terraform_specialist_prompt.md
+- [ ] **Task 3B.17**: Create network-engineer-sonnet.md + network_engineer_prompt.md
+- [ ] **Task 3B.18**: Create dx-optimizer-sonnet.md + dx_optimizer_prompt.md
 
 #### Quality Security (3 agents):
-- [ ] **Task 3B.19**: Create test-automator-sonnet.md + test_automator_workflow.md
-- [ ] **Task 3B.20**: Create debugger-sonnet.md + debugger_workflow.md
-- [ ] **Task 3B.21**: Create error-detective-sonnet.md + error_detective_gemini_workflow.md
+- [ ] **Task 3B.19**: Create test-automator-sonnet.md + test_automator_prompt.md
+- [ ] **Task 3B.20**: Create debugger-sonnet.md + debugger_prompt.md
+- [ ] **Task 3B.21**: Create error-detective-sonnet.md + error_detective_gemini_prompt.md
 
 #### Phase 3B Completion:
 - [ ] **Task 3B.22**: Git commit checkpoint - FASE 3B complete
@@ -107,13 +108,13 @@
 ### 🧠 FASE 3C: OPUS AGENTS CREATION
 **Target**: 7 new Opus agents (high-complexity)
 
-- [ ] **Task 3C.1**: Create incident-responder-opus.md + incident_responder_gemini_workflow.md
-- [ ] **Task 3C.2**: Create mlops-engineer-opus.md + mlops_engineer_workflow.md
-- [ ] **Task 3C.3**: Create architect-reviewer-opus.md + architect_reviewer_gemini_workflow.md
-- [ ] **Task 3C.4**: Create prompt-engineer-opus.md + prompt_engineer_gemini_workflow.md
-- [ ] **Task 3C.5**: Create context-manager-opus.md + context_manager_workflow.md
-- [ ] **Task 3C.6**: Create quant-analyst-opus.md + quant_analyst_gemini_workflow.md
-- [ ] **Task 3C.7**: Create risk-manager-opus.md + risk_manager_workflow.md
+- [ ] **Task 3C.1**: Create incident-responder-opus.md + incident_responder_gemini_prompt.md
+- [ ] **Task 3C.2**: Create mlops-engineer-opus.md + mlops_engineer_prompt.md
+- [ ] **Task 3C.3**: Create architect-reviewer-opus.md + architect_reviewer_gemini_prompt.md
+- [ ] **Task 3C.4**: Create prompt-engineer-opus.md + prompt_engineer_gemini_prompt.md
+- [ ] **Task 3C.5**: Create context-manager-opus.md + context_manager_prompt.md
+- [ ] **Task 3C.6**: Create quant-analyst-opus.md + quant_analyst_gemini_prompt.md
+- [ ] **Task 3C.7**: Create risk-manager-opus.md + risk_manager_prompt.md
 - [ ] **Task 3C.8**: Git commit checkpoint - FASE 3C complete
 
 ### 🔧 FASE 4: GEMINI CLI INTEGRATION
@@ -151,14 +152,14 @@
 ## 📊 TASK STATISTICS
 
 - **Total Tasks**: 77 (updated with nomenclature cleanup tasks)
-- **Completed**: 27 (Phase 1 + majority of Phase 2)
-- **In Progress**: 6 (Final Phase 2 conversions + cleanup)
-- **Pending**: 44 (Phases 3-6)
+- **Completed**: 35 (Phase 1 + Phase 2 + FASE 3A complete)
+- **In Progress**: 1 (FASE 3A git commit)
+- **Pending**: 41 (Phases 3B-6)
 
 ### Progress by Phase:
 - **FASE 1**: ✅ 2/2 (100%)
 - **FASE 2**: ✅ 26/26 (100%) - **COMPLETE!**
-- **FASE 3A**: ⏳ 0/8 (0%)
+- **FASE 3A**: ✅ 8/8 (100%) - **COMPLETE!** 🎉
 - **FASE 3B**: ⏳ 0/22 (0%)
 - **FASE 3C**: ⏳ 0/8 (0%)
 - **FASE 4**: ⏳ 0/8 (0%)
@@ -167,14 +168,13 @@
 
 ## 🎯 PRIORITY QUEUE
 
-### 🔥 IMMEDIATE PRIORITY (Post-FASE 2):
+### 🔥 IMMEDIATE PRIORITY (FASE 3B Sprint):
 1. **✅ FASE 2 COMPLETED** - All 26 agents converted successfully!
-2. **Complete nomenclature cleanup** (6 files to rename from _workflow.md to _prompt.md)
-3. **Git commit FASE 2 completion**
-4. **Begin FASE 3A** - Start creating 8 Haiku agents
+2. **🎉 FASE 3A COMPLETED** - All 8 Haiku agents created (100%)
+3. **Git commit FASE 3A completion**
+4. **Begin FASE 3B** - Start creating 21 Sonnet agents (4 categories)
 
 ### HIGH PRIORITY (Complete Next):
-4. Complete FASE 3A (8 Haiku agents)
 5. Complete FASE 3B (21 Sonnet agents)
 6. Complete FASE 3C (7 Opus agents)
 
@@ -207,10 +207,11 @@
 - **100% completion of FASE 2** - Ready for FASE 3!
 
 ### 🎯 Recent Completions:
-- **Final FASE 2 Batch**: optimizer-sonnet, ui-ux-designer-sonnet, javascript-pro-sonnet, python-pro-sonnet
-- **Total Progress**: 26/26 agents converted (100% FASE 2 complete!)
+- **🎉 FASE 3A COMPLETED**: All 8 Haiku agents created successfully! ✅
+- **New Haiku Agents**: api-documenter, business-analyst, content-marketer, customer-support, sales-automator, search-specialist, legal-advisor
+- **Total Progress**: 34 agents completed (26 converted + 8 new Haiku)
 - **Quality Assurance**: All batches validated by work-validator
-- **Architecture Readiness**: System ready for FASE 3 agent creation
+- **System Status**: Ready for FASE 3B (21 Sonnet agents)
 
 ---
 *Task plan updated: 2025-08-05*
