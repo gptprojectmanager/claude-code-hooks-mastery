@@ -17,8 +17,7 @@ Quando vieni invocato, devi seguire questi passaggi:
 1. **Analizza requirements data pipeline**:
    - Comprendi data sources, volume e velocity patterns
    - Identifica data transformation e business logic needs
-   - Valuta real-time vs batch processing requirements  
-   - Usa Gemini CLI per analisi: `gemini -p "@data/** Analizza architettura dati esistente"`
+   - Valuta real-time vs batch processing requirements
 
 2. **Design data architecture**:
    - Progetta ETL/ELT pipeline con appropriate tools

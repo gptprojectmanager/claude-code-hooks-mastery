@@ -129,11 +129,11 @@ FASE 4 implements advanced Gemini CLI integration using hybrid orchestration pat
 - **Hybrid Pattern**: Critical tasks use both patterns for maximum quality assurance
 
 #### Implementation Tasks:
-- [ ] **Task 4.1**: Implement safe-gemini-wrapper.py with security architecture
-- [ ] **Task 4.2**: Enhance key subagents with Pattern A (code-reviewer, security-auditor, backend-architect)
-- [ ] **Task 4.3**: Enhance work-validator with Pattern B comprehensive validation
-- [ ] **Task 4.4**: Implement primary-agent intelligence router for pattern selection
-- [ ] **Task 4.5**: Create Gemini CLI prompt templates for each use case
+- [x] **Task 4.1**: Implement safe-gemini-wrapper.py with security architecture (VERIFIED)
+- [x] **Task 4.2**: Enhance key subagents with Pattern A (code-reviewer, security-auditor, backend-architect)
+- [x] **Task 4.3**: Enhance work-validator with Pattern B comprehensive validation
+- [x] **Task 4.4**: Implement primary-agent intelligence router for pattern selection
+- [x] **Task 4.5**: Create Gemini CLI prompt templates for each use case
 - [ ] **Task 4.6**: Add safety monitoring and audit trail functionality
 - [ ] **Task 4.7**: Integration testing of all Gemini CLI patterns
 - [ ] **Task 4.8**: Git commit checkpoint - FASE 4 complete
@@ -141,10 +141,10 @@ FASE 4 implements advanced Gemini CLI integration using hybrid orchestration pat
 ### 🎛️ FASE 5: PRIMARY-AGENT UPDATE
 **Target**: Update orchestration with all 55 agents
 
-- [ ] **Task 5.1**: Update agent references (55 agents total: 26 converted + 29 new)
-- [ ] **Task 5.2**: Update categorization and domain selection logic
+- [x] **Task 5.1**: Update agent references (55 agents total: 26 converted + 29 new)
+- [x] **Task 5.2**: Update categorization and domain selection logic
 - [ ] **Task 5.3**: Update workflow delegation patterns for new specializations
-- [ ] **Task 5.4**: Integrate Gemini CLI intelligence router from FASE 4
+- [x] **Task 5.4**: Integrate Gemini CLI intelligence router from FASE 4
 - [ ] **Task 5.5**: Git commit checkpoint - FASE 5 complete
 
 ### ✅ FASE 6: TESTING & VALIDATION
@@ -158,12 +158,34 @@ FASE 4 implements advanced Gemini CLI integration using hybrid orchestration pat
 - [ ] **Task 6.6**: Integration testing complete system
 - [ ] **Task 6.7**: Git commit checkpoint - Final validation complete
 
+### 🔧 FASE 7: CLEANUP E CONSOLIDAMENTO FINALE
+**Target**: Razionalizzare l'ecosistema degli agenti eliminando file obsoleti e correggendo le ultime incoerenze.
+
+- [ ] **Task 7.1**: Creare la directory `.claude/agents_legacy` per i file obsoleti.
+- [ ] **Task 7.2**: Spostare 5 agenti legacy (coder, planner, etc.) in `agents_legacy`.
+- [ ] **Task 7.3**: Spostare 6 prompt orfani (coder_old, planner, etc.) in `agents_legacy`.
+- [ ] **Task 7.4**: Creare il prompt `cloud_architect_gemini_prompt.md`.
+- [ ] **Task 7.5**: Aggiornare l'agente `cloud-architect-opus.md` per usare il nuovo workflow Gemini.
+- [ ] **Task 7.6**: Aggiungere il tool `Bash` al `primary-agent-sonnet.md`.
+- [ ] **Task 7.7**: Git commit checkpoint - Cleanup complete.
+
+### ✨ FASE 8: VALIDAZIONE FINALE E CORREZIONE COERENZA
+**Target**: Risolvere le incoerenze logiche e funzionali emerse dalla validazione approfondita.
+
+- [ ] **Task 8.1**: Correggere `work-completion-summary-haiku.md` aggiungendo il tool `elevenlabs`.
+- [ ] **Task 8.2**: Correggere `meta-agent-sonnet.md` aggiungendo il tool `Read`.
+- [ ] **Task 8.3**: Rimuovere l'istruzione Gemini legacy da `data-engineer-sonnet.md`.
+- [ ] **Task 8.4**: Spostare l'agente di test `hello-world-agent-haiku.md` in `agents_legacy`.
+- [ ] **Task 8.5**: Potenziare `search-specialist-haiku.md` con il tool `firecrawl-mcp`.
+- [ ] **Task 8.6**: Potenziare `llm-ai-agents-and-eng-research-sonnet.md` con il tool `WebSearch`.
+- [ ] **Task 8.7**: Git commit checkpoint - Validazione finale completa.
+
 ## 📊 TASK STATISTICS
 
 - **Total Tasks**: 72 (realigned with actual phase structure)
-- **Completed**: 56 (Phase 1 + Phase 2 + ALL FASE 3 phases)
+- **Completed**: 64 (Phase 1-3 + Key tasks in 4-5)
 - **In Progress**: 0
-- **Pending**: 16 (Phases 4-6)
+- **Pending**: 8 (Remaining tasks in 4-6)
 
 ### Progress by Phase:
 - **FASE 1**: ✅ 2/2 (100%) - **COMPLETE!**
@@ -173,8 +195,8 @@ FASE 4 implements advanced Gemini CLI integration using hybrid orchestration pat
 - **FASE 3C**: ✅ 3/3 (100%) - **COMPLETE!** 🎉
 - **FASE 3D**: ✅ 6/6 (100%) - **COMPLETE!** 🎉
 - **FASE 3E**: ✅ 3/3 (100%) - **COMPLETE!** 🎉
-- **FASE 4**: ⏳ 0/8 (0%)
-- **FASE 5**: ⏳ 0/5 (0%)
+- **FASE 4**: ✅ 5/8 (62%)
+- **FASE 5**: ✅ 3/5 (60%)
 - **FASE 6**: ⏳ 0/7 (0%)
 
 ## 🎯 PRIORITY QUEUE

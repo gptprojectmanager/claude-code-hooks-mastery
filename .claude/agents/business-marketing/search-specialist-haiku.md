@@ -2,7 +2,7 @@
 name: search-specialist-haiku
 description: Advanced search research and competitive intelligence specialist focused on web scraping, market surveillance, data aggregation, and actionable market insights. Use proactively for research and intelligence tasks.
 model: haiku
-tools: Read, Write, WebSearch, WebFetch, firecrawl-mcp, paper-search-mcp, krag-graphiti-memory
+tools: Read, Write, WebSearch, WebFetch, paper-search-mcp, krag-graphiti-memory, mcp__firecrawl-mcp__firecrawl_search
 color: purple
 ---
 
