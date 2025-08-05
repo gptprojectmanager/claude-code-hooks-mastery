@@ -99,83 +99,45 @@
 20. ✅ **tester-debugger-sonnet** → `tester_debugger_prompt.md`
 21. ✅ **work-validator-sonnet** → `work_validator_prompt.md`
 
-### FASE 3A: Creazione 8 Agenti Haiku Mancanti
-**Agenti da creare:**
-```
-business-marketing/
-├── api-documenter-haiku.md → api_documenter_workflow.md
-├── business-analyst-haiku.md → business_analyst_workflow.md  
-├── content-marketer-haiku.md → content_marketer_workflow.md
-├── customer-support-haiku.md → customer_support_workflow.md
-├── sales-automator-haiku.md → sales_automator_workflow.md
-├── search-specialist-haiku.md → search_specialist_gemini_workflow.md (Gemini CLI)
-└── legal-advisor-haiku.md → legal_advisor_workflow.md
-```
+## 🎯 PROSSIME FASI
 
-### FASE 3B: Creazione 21 Agenti Sonnet Mancanti
-**Agenti da creare per categorie:**
+### 🔧 FASE 4: Integrazione Gemini CLI
+**Riferimento**: `.claude/docs/gemini-cli-orchestration-patterns.md`
 
-**Language Specialists (9 agenti):**
-- typescript-pro-sonnet.md → typescript_pro_workflow.md
-- golang-pro-sonnet.md → golang_pro_workflow.md
-- rust-pro-sonnet.md → rust_pro_workflow.md
-- c-pro-sonnet.md → c_pro_workflow.md
-- cpp-pro-sonnet.md → cpp_pro_workflow.md
-- php-pro-sonnet.md → php_pro_workflow.md
-- java-pro-sonnet.md → java_pro_workflow.md
-- ios-developer-sonnet.md → ios_developer_workflow.md
-- sql-pro-sonnet.md → sql_pro_workflow.md
+**Obiettivo**: Implementare pattern di orchestrazione avanzati per abilitare analisi su larga scala mantenendo sicurezza zero-modifiche.
 
-**Development Architecture (3 agenti):**
-- frontend-developer-sonnet.md → frontend_developer_workflow.md
-- mobile-developer-sonnet.md → mobile_developer_workflow.md
-- graphql-architect-sonnet.md → graphql_architect_workflow.md
+**Pattern di Implementazione:**
+- **Pattern A (Subagent-Driven)**: Esperti di dominio usano Gemini CLI per analisi specializzate
+- **Pattern B (Validator-Driven)**: Work-validator usa Gemini CLI per assessment di qualità
+- **Pattern Ibrido**: Task critici usano entrambi i pattern per massima qualità
 
-**Infrastructure Operations (6 agenti):**
-- deployment-engineer-sonnet.md → deployment_engineer_workflow.md
-- database-optimizer-sonnet.md → database_optimizer_gemini_workflow.md (Gemini CLI)
-- database-admin-sonnet.md → database_admin_workflow.md
-- terraform-specialist-sonnet.md → terraform_specialist_workflow.md
-- network-engineer-sonnet.md → network_engineer_workflow.md
-- dx-optimizer-sonnet.md → dx_optimizer_workflow.md
+**Task Principali:**
+1. Implementare safe-gemini-wrapper.py con architettura di sicurezza
+2. Potenziare subagenti chiave con Pattern A 
+3. Potenziare work-validator con Pattern B
+4. Implementare router intelligente per selezione pattern
+5. Testing e validazione integrazione
 
-**Quality Security (3 agenti):**
-- test-automator-sonnet.md → test_automator_workflow.md
-- debugger-sonnet.md → debugger_workflow.md
-- error-detective-sonnet.md → error_detective_gemini_workflow.md (Gemini CLI)
+### 🎛️ FASE 5: Aggiornamento Primary-Agent
+**Obiettivo**: Aggiornare orchestrazione con tutti i 55 agenti
 
-### FASE 3C: Creazione 7 Agenti Opus Mancanti
-**Agenti da creare:**
-- incident-responder-opus.md → incident_responder_gemini_workflow.md (Gemini CLI)
-- mlops-engineer-opus.md → mlops_engineer_workflow.md
-- architect-reviewer-opus.md → architect_reviewer_gemini_workflow.md (Gemini CLI)
-- prompt-engineer-opus.md → prompt_engineer_gemini_workflow.md (Gemini CLI)
-- context-manager-opus.md → context_manager_workflow.md
-- quant-analyst-opus.md → quant_analyst_gemini_workflow.md (Gemini CLI)
-- risk-manager-opus.md → risk_manager_workflow.md
+**Task Principali:**
+1. Aggiornare riferimenti agenti (55 totali: 26 convertiti + 29 nuovi)
+2. Aggiornare logica categorizzazione e selezione dominio
+3. Aggiornare pattern di delegazione workflow per nuove specializzazioni
+4. Integrare router intelligente Gemini CLI da FASE 4
 
-### FASE 4: Workflow Gemini CLI Integration
-**Agenti che necessitano Gemini CLI (identificati):**
-- search-specialist (ricerca web approfondita)
-- database-optimizer (analisi large codebase)
-- error-detective (analisi pattern log)
-- legacy-modernizer (analisi sistemi legacy)
-- incident-responder (analisi crisis)
-- prompt-engineer (ottimizzazione LLM)
-- architect-reviewer (analisi architettura)
-- quant-analyst (modelling finanziario)
+### ✅ FASE 6: Testing e Validazione
+**Obiettivo**: Validazione completa del sistema
 
-### FASE 5: Aggiornamento Primary-Agent
-- Aggiornare riferimenti a tutti i 50 agenti
-- Categorizzazione completa per domain selection
-- Workflow patterns per delegation ottimale
+**Task Principali:**
+1. Validazione sintassi YAML per tutti gli agenti
+2. Validazione riferimenti workflow
+3. Validazione assegnazioni tool
+4. Testing delegazione primary-agent
+5. Testing pattern Gemini CLI
+6. Testing integrazione sistema completo
 
-### FASE 6: Testing e Validazione
-- Syntax check YAML header
-- Workflow reference validation
-- Tool assignments validation
-- Integration test primary-agent delegation
-- Gemini CLI test patterns
 
 ## 📊 STATO PROGRESS
 

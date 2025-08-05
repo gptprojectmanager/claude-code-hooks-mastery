@@ -115,40 +115,36 @@
 - [x] **Task 3E.2**: Create tester-debugger-sonnet.md + tester_debugger_prompt.md ✅
 - [x] **Task 3E.3**: Create work-validator-sonnet.md + work_validator_prompt.md ✅
 
-#### Phase 3B Completion:
-- [ ] **Task 3B.22**: Git commit checkpoint - FASE 3B complete
-
-### 🧠 FASE 3C: OPUS AGENTS CREATION
-**Target**: 7 new Opus agents (high-complexity)
-
-- [ ] **Task 3C.1**: Create incident-responder-opus.md + incident_responder_gemini_prompt.md
-- [ ] **Task 3C.2**: Create mlops-engineer-opus.md + mlops_engineer_prompt.md
-- [ ] **Task 3C.3**: Create architect-reviewer-opus.md + architect_reviewer_gemini_prompt.md
-- [ ] **Task 3C.4**: Create prompt-engineer-opus.md + prompt_engineer_gemini_prompt.md
-- [ ] **Task 3C.5**: Create context-manager-opus.md + context_manager_prompt.md
-- [ ] **Task 3C.6**: Create quant-analyst-opus.md + quant_analyst_gemini_prompt.md
-- [ ] **Task 3C.7**: Create risk-manager-opus.md + risk_manager_prompt.md
-- [ ] **Task 3C.8**: Git commit checkpoint - FASE 3C complete
+#### Phase 3 Completion:
+- [x] **Task 3.22**: Git commit checkpoint - ALL FASE 3 PHASES complete ✅
 
 ### 🔧 FASE 4: GEMINI CLI INTEGRATION
-**Target**: Enhance complex workflows with Gemini CLI patterns
+**Target**: Enhance complex workflows with Gemini CLI patterns  
+**Reference**: See `.claude/docs/gemini-cli-orchestration-patterns.md` for detailed implementation patterns
 
-- [ ] **Task 4.1**: Enhance search-specialist with advanced web research patterns
-- [ ] **Task 4.2**: Enhance database-optimizer with large codebase analysis
-- [ ] **Task 4.3**: Enhance error-detective with log pattern analysis
-- [ ] **Task 4.4**: Enhance incident-responder with crisis analysis patterns
-- [ ] **Task 4.5**: Enhance architect-reviewer with architecture analysis
-- [ ] **Task 4.6**: Enhance prompt-engineer with LLM optimization patterns
-- [ ] **Task 4.7**: Enhance quant-analyst with financial modeling patterns
+#### Background
+FASE 4 implements advanced Gemini CLI integration using hybrid orchestration patterns to enable large-context analysis while maintaining zero-modification safety. The integration uses intelligent routing to determine optimal patterns:
+- **Pattern A (Subagent-Driven)**: Domain experts use Gemini CLI for specialized large-context analysis
+- **Pattern B (Validator-Driven)**: Work-validator uses Gemini CLI for comprehensive quality assessment  
+- **Hybrid Pattern**: Critical tasks use both patterns for maximum quality assurance
+
+#### Implementation Tasks:
+- [ ] **Task 4.1**: Implement safe-gemini-wrapper.py with security architecture
+- [ ] **Task 4.2**: Enhance key subagents with Pattern A (code-reviewer, security-auditor, backend-architect)
+- [ ] **Task 4.3**: Enhance work-validator with Pattern B comprehensive validation
+- [ ] **Task 4.4**: Implement primary-agent intelligence router for pattern selection
+- [ ] **Task 4.5**: Create Gemini CLI prompt templates for each use case
+- [ ] **Task 4.6**: Add safety monitoring and audit trail functionality
+- [ ] **Task 4.7**: Integration testing of all Gemini CLI patterns
 - [ ] **Task 4.8**: Git commit checkpoint - FASE 4 complete
 
 ### 🎛️ FASE 5: PRIMARY-AGENT UPDATE
-**Target**: Update orchestration with all 50 agents
+**Target**: Update orchestration with all 55 agents
 
-- [ ] **Task 5.1**: Update agent references (50 agents total)
-- [ ] **Task 5.2**: Update categorization and domain selection
-- [ ] **Task 5.3**: Update workflow delegation patterns
-- [ ] **Task 5.4**: Update agent coordination strategies  
+- [ ] **Task 5.1**: Update agent references (55 agents total: 26 converted + 29 new)
+- [ ] **Task 5.2**: Update categorization and domain selection logic
+- [ ] **Task 5.3**: Update workflow delegation patterns for new specializations
+- [ ] **Task 5.4**: Integrate Gemini CLI intelligence router from FASE 4
 - [ ] **Task 5.5**: Git commit checkpoint - FASE 5 complete
 
 ### ✅ FASE 6: TESTING & VALIDATION
@@ -164,8 +160,8 @@
 
 ## 📊 TASK STATISTICS
 
-- **Total Tasks**: 77 (updated with nomenclature cleanup tasks)
-- **Completed**: 61 (Phase 1 + Phase 2 + ALL FASE 3 phases)
+- **Total Tasks**: 72 (realigned with actual phase structure)
+- **Completed**: 56 (Phase 1 + Phase 2 + ALL FASE 3 phases)
 - **In Progress**: 0
 - **Pending**: 16 (Phases 4-6)
 
@@ -190,27 +186,25 @@
 4. **Begin FASE 5** - Primary-Agent Update with all 55 agents
 
 ### HIGH PRIORITY (Complete Next):
-5. Complete FASE 3B (21 Sonnet agents)
-6. Complete FASE 3C (7 Opus agents)
+5. Complete FASE 4 (Gemini CLI Integration with hybrid orchestration patterns)
+6. Complete FASE 5 (Primary-Agent Update with 55 agents)
 
-### MEDIUM PRIORITY (After Core Agents):
-7. FASE 4 (Gemini CLI enhancements)
-8. FASE 5 (Primary-agent update)
-9. FASE 6 (Testing & validation)
+### MEDIUM PRIORITY (Final Phase):
+7. FASE 6 (Testing & validation of complete system)
 
 ## 🔗 DEPENDENCIES
 
-- **FASE 3A-3C** depends on **FASE 2** completion *(nearly complete!)*
-- **FASE 4** depends on **FASE 3C** completion
+- **FASE 3A-3E** depends on **FASE 2** completion ✅ **COMPLETED**
+- **FASE 4** depends on **ALL FASE 3** completion ✅ **READY TO START**
 - **FASE 5** depends on **FASE 4** completion  
 - **FASE 6** depends on **FASE 5** completion
 
 ## 📈 COMPLETION TARGETS
 
-- **This Week**: Complete FASE 2 (4 remaining conversions + cleanup)
-- **Week 2**: Complete FASE 3A-3B (Haiku + Sonnet agents)
-- **Week 3**: Complete FASE 3C-4 (Opus + Gemini integration)
-- **Week 4**: Complete FASE 5-6 (Primary-agent + validation)
+- **✅ COMPLETED**: FASE 1-3 (All agent conversion and creation - 55 agents total)
+- **Next Sprint**: Complete FASE 4 (Gemini CLI Integration with hybrid patterns)
+- **Following Sprint**: Complete FASE 5 (Primary-agent update with 55 agents)
+- **Final Sprint**: Complete FASE 6 (System testing and validation)
 
 ## 🏆 ACHIEVEMENTS
 
