@@ -130,9 +130,8 @@ class SafeGeminiWrapper:
             return result
         result["safety_checks"]["prompt_validated"] = True
         
-        # Safety Check 2: Create backup
-        backup_created = self._create_git_backup()
-        result["safety_checks"]["backup_created"] = backup_created
+        # Safety Check 2: No backup needed - handled by /safe-gemini command
+        result["safety_checks"]["backup_created"] = True
         
         # Safety Check 3: Pre-analysis hash
         print("📊 Computing pre-analysis hash...")

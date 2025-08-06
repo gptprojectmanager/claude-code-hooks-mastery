@@ -1,5 +1,6 @@
 import { Database } from 'bun:sqlite';
 import type { HookEvent, FilterOptions, Theme, ThemeSearchQuery } from './types';
+import { initAnalyticsDatabase } from './analytics-db';
 
 let db: Database;
 
@@ -102,6 +103,9 @@ export function initDatabase(): void {
   db.exec('CREATE INDEX IF NOT EXISTS idx_themes_createdAt ON themes(createdAt)');
   db.exec('CREATE INDEX IF NOT EXISTS idx_theme_shares_token ON theme_shares(shareToken)');
   db.exec('CREATE INDEX IF NOT EXISTS idx_theme_ratings_theme ON theme_ratings(themeId)');
+  
+  // Initialize analytics database
+  initAnalyticsDatabase();
 }
 
 export function insertEvent(event: HookEvent): HookEvent {
@@ -316,3 +320,5 @@ export function incrementThemeDownloadCount(id: string): boolean {
   const result = stmt.run(id);
   return result.changes > 0;
 }
+
+export { db };

@@ -10,14 +10,14 @@ When invoked, you must follow these steps:
    - Understand use case and application objectives
    - Identify training/fine-tuning data needs
    - Evaluate computational constraints and budget
-   - **Use Gemini CLI for large-scale analysis**: `gemini -p "@src/** Analyze LLM integration in codebase with focus on AI system architecture, existing patterns, and integration points"`
+   - **Use Gemini CLI for large-scale analysis**: `/safe-gemini architecture src "Analyze LLM integration in codebase with focus on AI system architecture, existing patterns, and integration points"`
 
 2. **Design LLM Architecture**:
    - Select appropriate models (OpenAI, Anthropic, open source)
    - Design RAG pipeline with optimal chunking strategy
    - Implement vector database for semantic search
    - Define fallback strategies for AI service failures
-   - **For complex systems**: `gemini -p "@docs/** @config/** Extract AI system requirements and constraints from documentation"`
+   - **For complex systems**: `/safe-gemini dependencies . "Extract AI system requirements and constraints from documentation"`
 
 3. **Prompt Engineering & Optimization**:
    - Create prompt templates with variable injection
@@ -40,9 +40,9 @@ When invoked, you must follow these steps:
 
 Use these Gemini CLI patterns for large-context analysis:
 
-- **Codebase AI Integration**: `gemini -p "@src/** Analyze existing AI/ML integrations, identify patterns, and suggest optimization opportunities"`
-- **Documentation Analysis**: `gemini -p "@docs/** @README.md Extract AI system requirements, constraints, and architectural decisions"`
-- **Config & Environment**: `gemini -p "@config/** @.env* Analyze AI service configurations, API integrations, and deployment settings"`
+- **Codebase AI Integration**: `/safe-gemini architecture src "Analyze existing AI/ML integrations, identify patterns, and suggest optimization opportunities"`
+- **Documentation Analysis**: `/safe-gemini dependencies . "Extract AI system requirements, constraints, and architectural decisions"`
+- **Config & Environment**: `/safe-gemini dependencies . "Analyze AI service configurations, API integrations, and deployment settings"`
 
 ## Best Practices
 

@@ -37,10 +37,10 @@ Advanced search research and competitive intelligence specialist focused on deli
 **Gemini CLI Integration:**
 ```bash
 # Analyze collected search results across multiple sources
-gemini -p "@research_data/**/*.json Analyze these search results for emerging patterns, key themes, and competitive insights"
+/safe-gemini custom research_data "Analyze these search results for emerging patterns, key themes, and competitive insights"
 
 # Process large datasets from multiple research sources
-gemini --all_files -p "Synthesize findings from all research files and identify market opportunities"
+/safe-gemini custom . "Synthesize findings from all research files and identify market opportunities"
 ```
 
 ### Phase 3: Competitive Intelligence Gathering
@@ -61,10 +61,10 @@ gemini --all_files -p "Synthesize findings from all research files and identify 
 **Gemini CLI Commands:**
 ```bash
 # Comprehensive competitor analysis
-gemini -p "@competitor_data/company_a/**/*.md @competitor_data/company_b/**/*.md Conduct detailed SWOT analysis and identify competitive gaps"
+/safe-gemini custom competitor_data "Conduct detailed SWOT analysis and identify competitive gaps"
 
 # Market positioning analysis
-gemini -p "@market_research/*.json @competitor_analysis/*.md Analyze market positioning and identify differentiation opportunities"
+/safe-gemini custom . "Analyze market positioning and identify differentiation opportunities"
 ```
 
 ### Phase 4: Data Aggregation & Validation
@@ -84,10 +84,10 @@ gemini -p "@market_research/*.json @competitor_analysis/*.md Analyze market posi
 **Gemini CLI Processing:**
 ```bash
 # Large-scale data validation and pattern recognition
-gemini -p "@aggregated_data/**/* Validate data consistency, identify outliers, and assess information quality across all sources"
+/safe-gemini custom aggregated_data "Validate data consistency, identify outliers, and assess information quality across all sources"
 
 # Cross-reference verification
-gemini --all_files -p "Cross-validate findings across all data sources and flag potential inconsistencies or gaps"
+/safe-gemini custom . "Cross-validate findings across all data sources and flag potential inconsistencies or gaps"
 ```
 
 ### Phase 5: Gemini CLI Advanced Analysis
@@ -95,13 +95,13 @@ gemini --all_files -p "Cross-validate findings across all data sources and flag 
 **Large Dataset Processing:**
 ```bash
 # Comprehensive trend analysis
-gemini -p "@market_data/**/*.csv @competitor_intelligence/**/*.json Identify emerging trends, market shifts, and predictive indicators"
+/safe-gemini custom market_data "Identify emerging trends, market shifts, and predictive indicators"
 
 # Pattern recognition across massive datasets
-gemini --all_files -p "Analyze all collected intelligence for hidden patterns, correlations, and strategic insights"
+/safe-gemini custom . "Analyze all collected intelligence for hidden patterns, correlations, and strategic insights"
 
 # Scenario planning and forecasting
-gemini -p "@historical_data/**/* @current_intelligence/**/* Generate scenario-based forecasts and strategic recommendations"
+/safe-gemini custom . "Generate scenario-based forecasts and strategic recommendations"
 ```
 
 **Advanced Analytics:**
@@ -129,10 +129,10 @@ gemini -p "@historical_data/**/* @current_intelligence/**/* Generate scenario-ba
 **Gemini CLI Report Generation:**
 ```bash
 # Comprehensive intelligence synthesis
-gemini -p "@analysis_results/**/* @recommendations/**/* Generate executive-level intelligence report with prioritized actionable insights"
+/safe-gemini custom . "Generate executive-level intelligence report with prioritized actionable insights"
 
 # Multi-format report creation
-gemini --all_files -p "Create comprehensive intelligence report in multiple formats: executive summary, detailed analysis, and implementation roadmap"
+/safe-gemini custom . "Create comprehensive intelligence report in multiple formats: executive summary, detailed analysis, and implementation roadmap"
 ```
 
 ### Phase 7: Continuous Monitoring Setup
@@ -153,10 +153,10 @@ gemini --all_files -p "Create comprehensive intelligence report in multiple form
 **Gemini CLI Monitoring:**
 ```bash
 # Continuous intelligence updates
-gemini -p "@monitoring_feeds/**/* @baseline_intelligence/**/* Identify significant changes and update intelligence assessments"
+/safe-gemini custom . "Identify significant changes and update intelligence assessments"
 
 # Automated trend detection
-gemini --all_files -p "Compare current data against historical baselines and flag emerging trends or disruptions"
+/safe-gemini custom . "Compare current data against historical baselines and flag emerging trends or disruptions"
 ```
 
 ## Specialized Research Techniques
