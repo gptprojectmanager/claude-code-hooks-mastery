@@ -1,59 +1,170 @@
-# Claude Code Hooks Mastery: Un Framework Multi-Agente Avanzato
+# Claude Code Hooks Mastery: KRAG Semantic Hub-and-Spoke Framework
 
-Questo repository è un framework avanzato per l'orchestrazione di un team di sub-agenti AI specializzati, costruito su **Anthropic Claude Code**. Sfrutta i **Claude Code Hooks** per un controllo deterministico e un'osservabilità profonda, e integra il **Gemini CLI** in modo sicuro per analisi su larga scala.
+Questo repository implementa un **sistema multi-agente semantico avanzato** che risolve i problemi fondamentali di coordinamento identificati nella ricerca di [claude-code-sub-agent-collective](https://github.com/vanzan01/claude-code-sub-agent-collective): **Context Degradation**, **Coordination Drift**, e **Quality Inconsistency**.
+
+Il nostro approccio utilizza **KRAG (Knowledge Retrieval Augmented Generation) Memory** per superare i limiti dei sistemi file-based, offrendo **semantic intelligence**, **vector similarity**, **graph relationships** e **JIT context loading**.
 
 <img src="images/hooked.png" alt="Claude Code Hooks" style="max-width: 800px; width: 100%;" />
 
-## ✨ Funzionalità Principali
+## 🧠 Breakthrough Tecnologici
 
--   **Team di Oltre 50 Agenti Specializzati**: Un ecosistema di agenti esperti, ciascuno con un dominio di competenza specifico (es. architettura backend, sicurezza, analisi dati, linguaggi di programmazione), organizzati in una struttura a categorie chiara e manutenibile.
+### **KRAG Semantic Hub-and-Spoke Architecture**
+Risolve i **3 problemi critici** dei sistemi multi-agente tradizionali:
 
--   **Orchestrazione Intelligente**: Un `primary-agent` agisce come un "Intelligence Router", analizzando i task, classificandone la scala e la complessità, e delegando il lavoro all'agente più appropriato con il workflow corretto.
+**🔥 Context Degradation → KRAG Vector Similarity**
+- **Problema**: Agenti perdono context tra interazioni  
+- **Soluzione**: Memory semantica con vector embeddings e automatic context expansion
 
--   **Integrazione Sicura con Gemini CLI**: Un wrapper Python personalizzato (`safe-gemini-wrapper.py`) permette agli agenti di sfruttare la potenza di Gemini CLI per analisi su intere codebase in modalità "sola lettura" garantita, con controlli di sicurezza a più livelli (validazione prompt, hashing file, rollback Git).
+**🔥 Coordination Drift → KRAG Relationship Mapping** 
+- **Problema**: Comunicazione P2P inaffidabile e non-deterministica
+- **Soluzione**: Graph relationships con Hub-and-Spoke coordination tramite primary agent
 
--   **Workflow Dinamici e Condizionali**: Gli agenti più avanzati sono dotati di una logica decisionale interna che permette loro di scegliere dinamicamente tra un workflow standard per task semplici e un workflow potenziato con Gemini per analisi complesse e su larga scala.
+**🔥 Quality Inconsistency → KRAG Quality Gates**
+- **Problema**: Agenti saltano steps senza enforcement
+- **Soluzione**: Graph-based quality gates con semantic validation obbligatoria
 
--   **Dashboard di Osservabilità in Tempo Reale**: Un'applicazione web (Vue.js + Bun.js) che visualizza le interazioni tra agenti, l'uso degli strumenti e gli eventi del sistema in tempo reale.
+### **✨ Funzionalità Chiave**
 
--   **Architettura Basata su Prompt Modulari**: I workflow complessi sono definiti in file di prompt specializzati e riutilizzabili, mantenendo pulite e focalizzate le definizioni degli agenti.
+-   🎯 **KRAG Memory Zones**: Zone di memoria isolate che prevengono race conditions
+-   🔒 **HANDOFF_TOKEN Semantici**: Token con vector embeddings per validation context
+-   ⚡ **JIT Context Loading**: Assembly semantico di context minimale e rilevante  
+-   🛡️ **Quality Gates Graph-Based**: 6 gate obbligatori (Planning→Infrastructure→Implementation→Testing→Polish→Completion)
+-   🔄 **Progressive Retry Logic**: 3 tentativi con escalation automatica
+-   📊 **Semantic Agent Routing**: Selezione agenti basata su compatibility semantica
+-   💾 **Knowledge Graph Persistence**: Apprendimento incrementale tramite graph accumulation
+-   🎮 **Real-Time Observability**: Dashboard Vue.js per monitoring coordinamento agenti
 
-## 🏛️ Architettura e Struttura del Progetto
+## 🏗️ KRAG Memory Architecture
 
-Il cuore del sistema risiede nella directory `.claude`. La sua struttura è progettata per la massima modularità e chiarezza.
+### **Memory Zone Isolation (Anti-Race Conditions)**
+```
+KRAG Group IDs:
+├── session_{timestamp}_primary     # Primary agent coordination memory
+├── session_{timestamp}_dev         # Development agents working memory  
+├── session_{timestamp}_security     # Security agents working memory
+├── session_{timestamp}_research     # Research cache (shared read-only)
+├── validated_knowledge             # Long-term knowledge (shared read-only)
+└── system_coordination            # HANDOFF_TOKENs, Quality Gates
+```
+
+**Access Control:**
+- **Primary Agent**: Full R/W access to ALL zones (Memory Mediator)
+- **Sub-agents**: R/W own zone + Read access to shared zones only
+- **NO cross-zone writes** by sub-agents (eliminates memory conflicts)
+
+### **HANDOFF_TOKEN Semantic Validation**
+```yaml
+Entity: handoff_token_COMPLEX_PM9N5
+Properties:
+  - token_id: "COMPLEX_PM9N5"
+  - source_agent: "primary-agent"
+  - target_agent: "backend-architect"
+  - context_vector: [semantic embedding]
+  - validation_status: "pending/validated/failed"
+  - retry_count: 0/3
+  - expires_at: timestamp + 30min
+
+Relationships:
+  - requires → [context_entities]
+  - validates → quality_gate_entity
+  - depends_on → prerequisite_tokens
+```
+
+### **Quality Gates Graph Dependencies**
+```yaml
+planning_gate → blocks → infrastructure_gate
+infrastructure_gate → blocks → implementation_gate  
+implementation_gate → blocks → testing_gate
+testing_gate → blocks → polish_gate
+polish_gate → blocks → completion_gate
+```
+
+## 🏛️ Project Structure
 
 ```
 .
 ├── .claude/
-│   ├── agents/
-│   │   ├── backend-architecture/
-│   │   ├── business-marketing/
-│   │   ├── crypto/
-│   │   ├── data-ai/
-│   │   ├── development-architecture/
-│   │   ├── infrastructure-operations/
-│   │   ├── language-specialists/
-│   │   ├── quality-security/
-│   │   └── specialized-domains/
-│   ├── commands/
-│   │   └── agent_prompts/  # Prompt specializzati e riutilizzabili
-│   ├── docs/               # Documentazione strategica (es. pattern di orchestrazione)
-│   ├── hooks/              # Script per gli 8 eventi del ciclo di vita di Claude
-│   ├── scripts/            # Script di supporto (es. safe-gemini-wrapper.py)
-│   └── agents_legacy/      # Archivio di agenti e prompt obsoleti
+│   ├── agents/                    # 50+ Specialized agents organized by domain
+│   │   ├── development-architecture/  # Primary agent + core development
+│   │   ├── language-specialists/     # Python, JS, TS, Rust, Go, etc.
+│   │   ├── infrastructure-operations/ # Cloud, DevOps, Database
+│   │   ├── quality-security/          # Security, Testing, Code Review
+│   │   ├── data-ai/                   # ML, Data Engineering, AI
+│   │   ├── business-marketing/        # Content, Sales, Legal
+│   │   └── specialized-domains/       # Crypto, Finance, Research
+│   ├── commands/agent_prompts/    # Detailed agent prompts with KRAG integration
+│   ├── hooks/                     # Claude Code lifecycle hooks
+│   └── settings.json             # MCP servers: KRAG, Shrimp, Context7
 ├── apps/
-│   ├── client/             # Frontend Vue.js per la dashboard di osservabilità
-│   └── server/             # Backend Bun.js (API e WebSocket)
-└── README.md               # Questo file
+│   ├── client/                   # Vue.js observability dashboard
+│   └── server/                   # Bun.js backend + WebSocket
+└── README.md
 ```
 
-### Pattern Architetturali degli Agenti
+## 🚀 Usage & Quick Start
 
-Gli agenti in questo framework utilizzano tre pattern principali:
+### **MCP Server Dependencies**
+```bash
+# KRAG Memory servers (required)
+# localhost:8000 - krag-graphiti-memory
+# localhost:8001 - krag-qdrant-memory
 
-1.  **Prompt Incorporato**: L'agente è autonomo e contiene tutte le sue istruzioni nel suo file `.md`. Ideale per specialisti con un compito ben definito (es. `business-analyst`).
-2.  **Caricamento Statico**: L'agente funge da "puntatore" che carica sempre un set di istruzioni da un file di prompt esterno. Utile per standardizzare agenti simili (es. tutti i `language-specialists`).
-3.  **Caricamento Dinamico e Condizionale**: Il pattern più avanzato. L'agente contiene una logica decisionale interna ("Intelligence Router") che gli permette di scegliere se eseguire un workflow standard o caricare istruzioni da un prompt specializzato per compiti complessi (es. `code-reviewer` quando deve usare Gemini).
+# Task Management
+npm install -g mcp-shrimp-task-manager
+
+# Context Research  
+npm install -g @upstash/context7-mcp
+```
+
+### **Primary Agent Usage**
+```bash
+# Hub-and-Spoke coordination via primary agent
+@primary-agent-sonnet "implement user authentication system with security audit"
+
+# Automatic flow:
+# 1. KRAG semantic analysis of request
+# 2. JIT context loading from knowledge graph  
+# 3. Quality gate initialization (6 gates)
+# 4. HANDOFF_TOKEN creation with semantic validation
+# 5. Agent routing based on vector similarity
+# 6. Progressive retry logic with escalation
+# 7. Knowledge persistence in validated_knowledge zone
+```
+
+### **System Architecture Patterns**
+
+**1. 🧠 KRAG Semantic Memory Pattern**
+- **Memory zones** isolate per prevenire race conditions
+- **Vector similarity** per context discovery automatico  
+- **Graph relationships** per dependency enforcement
+- **JIT context assembly** per handoff efficenti
+
+**2. 🔒 HANDOFF_TOKEN Validation Pattern**
+- **Semantic tokens** con context vectors embedded
+- **Progressive retry logic** (max 3 attempts)  
+- **Automatic expiry** (30min) per prevenire stale handoffs
+- **Cryptographic validation** tramite KRAG graph entities
+
+**3. 🛡️ Quality Gate Enforcement Pattern**  
+- **6 mandatory gates**: Planning → Infrastructure → Implementation → Testing → Polish → Completion
+- **Graph-based dependencies** (NO bypass possible)
+- **Semantic validation** tramite vector similarity su criteria
+- **Failure tracking** con remediation requirements specifici
+
+## 🔬 Research Foundation
+
+Questo sistema è basato sulla ricerca di [claude-code-sub-agent-collective](https://github.com/vanzan01/claude-code-sub-agent-collective) che identifica i **3 problemi fondamentali** dei sistemi multi-agente:
+
+- **Context Degradation** - Agenti perdono context tra interazioni
+- **Coordination Drift** - Comunicazione P2P diventa inaffidabile  
+- **Quality Inconsistency** - Agenti saltano steps senza enforcement
+
+**Il nostro KRAG approach supera i limiti file-based** offrendo:
+- ✅ **Semantic intelligence** vs keyword matching  
+- ✅ **Vector similarity** vs manual file organization
+- ✅ **Graph relationships** vs isolated files
+- ✅ **Automatic discovery** vs manual search
+- ✅ **Real-time updates** vs static cache invalidation
 
 ## 🚀 Come Funziona
 
