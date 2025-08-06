@@ -33,6 +33,7 @@ Risolve i **3 problemi critici** dei sistemi multi-agente tradizionali:
 -   📊 **Semantic Agent Routing**: Selezione agenti basata su compatibility semantica
 -   💾 **Knowledge Graph Persistence**: Apprendimento incrementale tramite graph accumulation
 -   🎮 **Real-Time Observability**: Dashboard Vue.js per monitoring coordinamento agenti
+-   🚨 **Claude Monitoring Bridge**: Sistema automatico di prevenzione rate limits e recovery seamless
 
 ## 🏗️ KRAG Memory Architecture
 
@@ -98,6 +99,11 @@ polish_gate → blocks → completion_gate
 ├── apps/
 │   ├── client/                   # Vue.js observability dashboard
 │   └── server/                   # Bun.js backend + WebSocket
+├── claude-monitoring-bridge/      # 🚨 NEW: Automatic rate limit prevention system
+│   ├── bridge.py                 # Core monitoring bridge component
+│   ├── config.yaml              # Alert thresholds and recovery strategies
+│   ├── requirements.txt         # Python dependencies
+│   └── README.md                # Complete setup and usage guide
 └── README.md
 ```
 
@@ -248,6 +254,57 @@ cd apps/client && npm run dev    # Frontend su porta 5173
 # Accedi a http://localhost:5173
 ```
 
+## 🚨 Claude Monitoring Bridge - NEW!
+
+Il **Claude Monitoring Bridge** è un sistema automatico di prevenzione rate limits e recovery che monitora l'utilizzo di Claude Code e previene interruzioni delle sessioni di sviluppo.
+
+### 🎯 Problema Risolto
+Durante lo sviluppo di sistemi complessi con Claude Code, è comune raggiungere rate limits che interrompono il workflow. Il bridge risolve questo problema attraverso:
+
+- **Monitoring Proattivo**: Rileva l'avvicinamento ai limiti (token, tempo, costo)
+- **Alert Automatici**: Notifiche al raggiungimento soglie configurabili  
+- **Recovery Intelligente**: Strategie automatiche di recupero senza perdita di contesto
+- **Dashboard Unificata**: Metriche integrate tra Usage Monitor e hooks system
+
+### 🏗️ Architettura Bridge
+```
+Claude Code → Python Hooks → Bun Server :4000 → Bridge Component → Usage Monitor + Auto Recovery + Dashboard
+```
+
+**OPZIONE C - Hybrid Bridge**: Zero modifiche ai sistemi esistenti, architettura additiva.
+
+### ⚡ Quick Start Bridge
+```bash
+cd claude-monitoring-bridge/
+
+# Installa dependencies  
+pip3 install -r requirements.txt
+
+# Avvia il bridge (richiede Bun server attivo)
+python3 bridge.py
+
+# Test APIs
+curl http://localhost:8080/health
+curl http://localhost:8080/metrics
+```
+
+### 📊 API Endpoints Bridge
+- `GET /metrics` - Metriche unificate da Usage Monitor + hooks system
+- `GET /health` - Stato di salute del bridge e delle connessioni
+- `POST /alerts/{type}` - Trigger manuali alert (testing)
+- `GET /recovery/status` - Stato attuale delle strategie di recovery
+
+### 🔧 Strategie di Recovery
+- **Rate Limit**: Exponential backoff automatico (1s → 32s)
+- **Time Limit**: Session pause con resume automatico
+- **Cost Limit**: Graceful degradation della funzionalità
+- **Token Limit**: Alert proattivi all'80% di utilizzo
+
+### 🎯 Meta-Achievement
+Il bridge ha dimostrato la sua utilità durante il proprio sviluppo: abbiamo raggiunto il rate limit di Claude AI mentre implementavamo il sistema che previene esattamente questo problema! Perfect use case validation.
+
+**Documentazione Completa**: `claude-monitoring-bridge/README.md`
+
 ## 🔒 Sicurezza
 
 Il framework implementa diversi livelli di sicurezza:
@@ -278,4 +335,4 @@ Questo progetto è distribuito sotto licenza MIT. Vedi il file `LICENSE` per i d
 - La community open source per gli strumenti e le librerie utilizzate
 
 ---
-*Questo documento è stato aggiornato il: 2025-08-05 per riflettere la nuova architettura multi-agente.*
+*Questo documento è stato aggiornato il: 2025-08-06 per includere il Claude Monitoring Bridge e la nuova architettura multi-agente.*
