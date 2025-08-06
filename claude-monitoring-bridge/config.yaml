@@ -1,0 +1,50 @@
+# Claude Monitoring Bridge Configuration
+# Integration between Usage Monitor and Hooks System
+
+# Alert Thresholds
+alerts:
+  token_threshold: 0.8      # Alert at 80% token usage
+  time_threshold: 4.5       # Pause at 4.5 hours
+  cost_threshold: 50.0      # Alert at $50 cost
+  rate_limit_threshold: 0.9 # Alert at 90% rate limit
+
+# Recovery Strategies
+recovery:
+  rate_limit: "exponential_backoff"  # Strategy for rate limits
+  time_limit: "session_pause"        # Strategy for time limits
+  cost_limit: "graceful_degradation" # Strategy for cost limits
+  notification: true                 # Enable notifications
+  auto_recovery: true               # Enable automatic recovery
+
+# System Integration
+integration:
+  bun_server:
+    host: "localhost"
+    port: 4000
+    websocket_endpoint: "/stream"
+    reconnect_attempts: 5
+    reconnect_delay: 2  # seconds
+  
+  usage_monitor:
+    cli_command: "claude-monitor"
+    cli_path: "../Claude-Code-Usage-Monitor"
+    poll_interval: 30  # seconds
+    timeout: 10        # seconds
+
+# Bridge API Configuration
+api:
+  host: "localhost"
+  port: 8080
+  endpoints:
+    metrics: "/metrics"
+    health: "/health" 
+    alerts: "/alerts"
+    recovery: "/recovery"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  file: "bridge.log"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  max_size: "10MB"
+  backup_count: 5
