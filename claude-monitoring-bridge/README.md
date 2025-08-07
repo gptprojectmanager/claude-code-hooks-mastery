@@ -33,20 +33,32 @@ python3 --version
 
 # Sistema hooks attivo su :4000
 cd ../apps/server && bun run dev
-
-# Usage Monitor disponibile
-cd ../Claude-Code-Usage-Monitor && claude-monitor --help
 ```
 
-### Installazione
+### 🚀 Installazione Automatica
 ```bash
-# Installa dependencies
+# Script di avvio con auto-setup completo
+./start.sh
+
+# Include automaticamente:
+# - Installazione uv (se necessario)
+# - Installazione claude-monitor via uv
+# - Installazione dipendenze Python
+# - Verifica sistema completo
+```
+
+### 📋 Installazione Manuale (opzionale)
+```bash
+# 1. Installa uv (raccomandato)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 2. Installa claude-monitor
+uv tool install claude-monitor
+
+# 3. Installa dipendenze Python
 pip3 install -r requirements.txt
 
-# Verifica configurazione
-cat config.yaml
-
-# Avvia bridge
+# 4. Avvia bridge
 python3 bridge.py
 ```
 
@@ -203,13 +215,18 @@ tail -f bridge.log
 
 ### Usage Monitor Non Funziona
 ```bash
-# Test CLI diretto
-cd ../Claude-Code-Usage-Monitor
-claude-monitor --version
+# Test CLI diretto (dovrebbe funzionare ovunque)
+claude-monitor --help
 
-# Verifica path in config.yaml
-cd ../claude-monitoring-bridge
-grep "cli_path" config.yaml
+# Se non trovato, installa con uv
+uv tool install claude-monitor
+
+# Verifica integrazione bridge
+./check_system.sh
+
+# Test manuale command nel working dir
+cd /Users/sam/Claude-Code-Usage-Monitor
+claude-monitor --view session
 ```
 
 ### API Non Risponde
@@ -247,11 +264,14 @@ tail -f bridge.log | grep "ALERT"
 
 ## 🔄 Roadmap
 
-### ✅ Phase 1 - Core Bridge (COMPLETED)
+### ✅ Phase 1 - Core Bridge + Usage Monitor (COMPLETED)
 - WebSocket client per Bun server
-- Usage Monitor CLI integration  
-- API REST base
-- Alert system foundation
+- Usage Monitor CLI integration with **uv tool install**
+- API REST completa con root endpoint
+- Alert system con auto-recovery
+- Auto-installation scripts con uv
+- Sistema di testing completo
+- Documentazione aggiornata
 
 ### ⏸️ Phase 2 - Enhanced Monitoring (NEXT)
 - Advanced metrics correlation

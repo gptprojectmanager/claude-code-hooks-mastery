@@ -26,10 +26,10 @@ integration:
     reconnect_delay: 2  # seconds
   
   usage_monitor:
-    cli_command: "claude-monitor"
-    cli_path: "../Claude-Code-Usage-Monitor"
-    poll_interval: 30  # seconds
-    timeout: 10        # seconds
+    cli_command: "claude-monitor --view session"
+    cli_path: "/Users/sam/Claude-Code-Usage-Monitor"
+    poll_interval: 30   # seconds (more frequent for testing)
+    timeout: 15         # seconds
 
 # Bridge API Configuration
 api:

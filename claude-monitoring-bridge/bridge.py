@@ -120,7 +120,7 @@ class ClaudeMonitoringBridge:
         while True:
             try:
                 # Execute claude-monitor CLI
-                cmd = [config['cli_command'], '--json']  # Assuming JSON output option
+                cmd = config['cli_command'].split()  # Split command (no JSON option available)
                 result = subprocess.run(
                     cmd, 
                     cwd=config['cli_path'],
@@ -257,6 +257,22 @@ class ClaudeMonitoringBridge:
     
     def _setup_api_routes(self):
         """Setup FastAPI routes for REST API"""
+        
+        @self.app.get("/")
+        async def get_root():
+            """Get API information and available endpoints"""
+            return JSONResponse({
+                "service": "Claude Monitoring Bridge",
+                "version": "1.0.0",
+                "status": "running",
+                "endpoints": {
+                    "health": "/health",
+                    "metrics": "/metrics", 
+                    "alerts": "/alerts/{type}",
+                    "recovery": "/recovery/status"
+                },
+                "timestamp": datetime.now().isoformat()
+            })
         
         @self.app.get("/metrics")
         async def get_metrics():
