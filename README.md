@@ -104,8 +104,215 @@ polish_gate → blocks → completion_gate
 │   ├── config.yaml              # Alert thresholds and recovery strategies
 │   ├── requirements.txt         # Python dependencies
 │   └── README.md                # Complete setup and usage guide
+├── src/                        # 🐍 NEW: Python TDD Structure  
+│   ├── claude_code_hooks_mastery/  # Main project package
+│   └── monitoring/                 # Monitoring components (bridge.py)
+├── tests/                      # 🧪 NEW: TDD Test Structure
+│   ├── monitoring/                 # Monitoring tests
+│   ├── test_litellm_system.py     # LiteLLM integration tests
+│   ├── test_system_verification.py # System verification tests
+│   └── test_litellm_system_v2.py  # Advanced system tests
+├── pyproject.toml              # 🔧 NEW: Python project configuration
 └── README.md
 ```
+
+## 🐍 Python Development Environment - NEW!
+
+Il sistema ora include un **ambiente Python completo** con **Test-Driven Development (TDD)** following industry best practices:
+
+### 🚀 **UV Package Manager** 
+- **Blazing-fast** dependency management (10-100x faster than pip)
+- **Version resolution** automatica con lock file
+- **Virtual environment** management integrato
+
+### 🏗️ **TDD Structure**
+```bash
+src/                              # Source code (importable packages)
+├── claude_code_hooks_mastery/    # Main project package
+└── monitoring/                   # Monitoring bridge components
+    └── bridge.py                 # Moved from claude-monitoring-bridge/
+
+tests/                            # Test files (pytest discovery)
+├── monitoring/                   # Tests for monitoring components  
+├── test_litellm_system.py       # LiteLLM integration tests
+├── test_system_verification.py  # Complete system validation (8 tests)
+└── test_litellm_system_v2.py   # Advanced system tests
+```
+
+### ⚡ **Development Commands**
+```bash
+# Install dependencies
+uv install                       # Install all dependencies from pyproject.toml
+uv add requests websockets        # Add new dependencies  
+uv add --dev pytest ruff mypy    # Add development dependencies
+
+# Testing with pytest  
+uv run pytest                    # Run all tests (8 tests discovered)
+uv run pytest --cov=src         # Run with coverage report
+uv run pytest -v --collect-only # List all discoverable tests
+
+# Code quality
+uv run ruff check                # Lint with Ruff (100-char line length)
+uv run ruff format               # Auto-format code
+uv run mypy src/                 # Type checking with mypy strict mode
+
+# Build system
+uv build                         # Build wheel and source distribution
+```
+
+### 🔧 **Configuration Highlights** (`pyproject.toml`)
+```toml
+[tool.ruff]
+line-length = 100                # Best practice for modern development
+target-version = "py311"         # Python 3.11+ required
+
+[tool.pytest.ini_options]  
+testpaths = ["tests"]            # Automatic test discovery
+addopts = ["--cov=src", "--cov-report=html"]  # Coverage reports
+
+[tool.mypy]
+disallow_untyped_defs = true     # Strict type checking
+python_version = "3.11"          # Type compatibility
+```
+
+### 🔄 **Backward Compatibility**
+- **Symlink preservation**: `claude-monitoring-bridge/bridge.py` → `src/monitoring/bridge.py`
+- **Existing scripts continue working** senza modifiche
+- **Zero breaking changes** per l'infrastruttura esistente
+
+### 📊 **Test Coverage**
+- **8 test functions** automatically discovered by pytest
+- **Complete system verification** including LiteLLM, hooks, and performance tests
+- **Coverage reports** in HTML and XML formats
+- **Dependencies**: `requests`, `websockets` for integration testing
+
+## 🔐 Google Cloud Secret Manager Integration - NEW!
+
+Il sistema utilizza **Google Cloud Secret Manager** per la gestione sicura delle API keys, eliminando la necessità di hardcoded secrets o variabili d'ambiente non sicure.
+
+### 🛡️ **Enterprise-Grade Security**
+- **Zero hardcoded secrets**: Nessuna API key memorizzata nel codice
+- **Centralizzazione**: Tutti i segreti gestiti in un'unica location sicura
+- **Audit trail**: Accesso completo ai log di utilizzo dei segreti
+- **Automatic rotation**: Supporto per rotazione automatica delle chiavi
+- **IAM integration**: Controllo granulare degli accessi tramite Google IAM
+
+### 🗝️ **Secrets Configuration**
+| Secret Name | Usage | Implementation |
+|-------------|--------|----------------|
+| **`gemini-api-key`** | LiteLLM configuration | Environment variable injection in `load-secrets.sh` |
+| **`elevenlabs-api-key`** | ElevenLabs TTS hooks | Google Secret Manager client in Python script |
+| **Project**: `custom-mix-460500-g9` | Google Cloud project hosting secrets |
+
+### ⚙️ **Setup Requirements**
+```bash
+# 1. Install Google Cloud CLI
+# macOS: brew install google-cloud-sdk
+# Windows: Follow Google Cloud documentation
+
+# 2. Authenticate with Google Cloud
+gcloud auth login
+gcloud config set project custom-mix-460500-g9
+
+# 3. Verify Secret Manager access
+gcloud secrets list
+
+# 4. Test secret retrieval
+gcloud secrets versions access latest --secret="gemini-api-key"
+gcloud secrets versions access latest --secret="elevenlabs-api-key"
+```
+
+### 🔧 **Implementation Patterns**
+
+**1. LiteLLM Configuration (Environment Variable Pattern)**
+```yaml
+# /Users/sam/litellm/config.yaml
+model_list:
+  - model_name: gemini-pro
+    litellm_params:
+      api_key: "os.environ/GEMINI_API_KEY"  # Loaded by load-secrets.sh
+```
+
+**2. Python Script Integration (Client Pattern)**
+```python
+# .claude/hooks/utils/tts/elevenlabs_tts.py
+from google.cloud import secretmanager
+
+def get_elevenlabs_api_key():
+    client = secretmanager.SecretManagerServiceClient()
+    project_id = "custom-mix-460500-g9"
+    secret_name = f"projects/{project_id}/secrets/elevenlabs-api-key/versions/latest"
+    response = client.access_secret_version(request={"name": secret_name})
+    return response.payload.data.decode("UTF-8")
+```
+
+### 🚨 **Migration from Environment Variables**
+
+**Before (Deprecated):**
+```bash
+# ❌ Insecure approach
+export ELEVENLABS_API_KEY="your_key_here"
+export GEMINI_API_KEY="your_key_here"
+```
+
+**After (Current):**
+```bash
+# ✅ Secure approach
+# Secrets stored in Google Cloud Secret Manager
+# Automatic retrieval with proper authentication
+```
+
+### 🔍 **Troubleshooting**
+
+**Authentication Issues:**
+```bash
+# Check current authentication
+gcloud auth list
+
+# Re-authenticate if needed
+gcloud auth login --update-adc
+```
+
+**Permission Issues:**
+```bash
+# Verify project access
+gcloud projects describe custom-mix-460500-g9
+
+# Check Secret Manager permissions
+gcloud secrets list --project=custom-mix-460500-g9
+```
+
+**Testing Secret Access:**
+```bash
+# Test Gemini API key
+gcloud secrets versions access latest --secret="gemini-api-key" --project="custom-mix-460500-g9"
+
+# Test ElevenLabs API key
+gcloud secrets versions access latest --secret="elevenlabs-api-key" --project="custom-mix-460500-g9"
+```
+
+### 📈 **Benefits vs Environment Variables**
+| Aspect | Environment Variables | Google Secret Manager |
+|--------|----------------------|----------------------|
+| **Security** | ❌ Exposed in process list | ✅ Encrypted at rest/transit |
+| **Rotation** | ❌ Manual process | ✅ Automated rotation support |
+| **Audit** | ❌ No access logs | ✅ Complete audit trail |
+| **Centralization** | ❌ Scattered across systems | ✅ Single source of truth |
+| **IAM Integration** | ❌ No fine-grained control | ✅ Granular permission model |
+
+### 🚀 **Quick Commands**
+```bash
+# Update secret (when API key changes)
+echo -n "new_api_key_here" | gcloud secrets versions add gemini-api-key --data-file=-
+
+# List all secret versions
+gcloud secrets versions list gemini-api-key
+
+# Delete old secret version (security best practice)
+gcloud secrets versions destroy VERSION_ID --secret="gemini-api-key"
+```
+
+**🎯 Result**: Enterprise-grade secret management con zero hardcoded values e complete audit trail!
 
 ## 🚀 Usage & Quick Start
 
