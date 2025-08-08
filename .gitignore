@@ -82,6 +82,14 @@ Thumbs.db
 .env.test.local
 .env.production.local
 
+# Sensitive configuration files (if any)
+**/secrets.yaml
+**/secrets.yml
+**/.secrets.yaml
+**/.secrets.yml
+**/config.local.yaml
+**/config.local.yml
+
 # Logs
 logs/
 *.log
