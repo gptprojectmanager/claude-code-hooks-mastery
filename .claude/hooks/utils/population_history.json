@@ -1,0 +1,99 @@
+{
+  "member_reliability": {
+    "claude-opus_model_0": 0.9,
+    "claude-sonnet_model_1": 0.8500000000000001,
+    "gemini-pro_model_2": 0.8,
+    "gpt-4_model_3": 0.6,
+    "local-model_model_4": 0.7
+  },
+  "expertise_weights": {
+    "claude-opus_model_0": 1.0009751643302482,
+    "claude-sonnet_model_1": 1.0159751643302484,
+    "gemini-pro_model_2": 1.0309751643302483,
+    "gpt-4_model_3": 0.884024835669752,
+    "local-model_model_4": 1.0404358756619274
+  },
+  "population_history": [
+    {
+      "timestamp": 1754671280.670347,
+      "population_size": 5,
+      "consensus_score": 76.53409142465914,
+      "consensus_method": "diversity_weighted",
+      "confidence_level": 0.8865285614498869,
+      "diversity_index": 0.7621180696169826,
+      "outlier_count": 0,
+      "model_types": [
+        "gemini-pro",
+        "gpt-4",
+        "local-model",
+        "claude-opus",
+        "claude-sonnet"
+      ]
+    },
+    {
+      "timestamp": 1754671280.6719732,
+      "population_size": 5,
+      "consensus_score": 79.26964433416046,
+      "consensus_method": "weighted_average",
+      "confidence_level": 0.7699999999999999,
+      "diversity_index": 0.0,
+      "outlier_count": 0,
+      "model_types": [
+        "gemini-pro",
+        "gpt-4",
+        "local-model",
+        "claude-opus",
+        "claude-sonnet"
+      ]
+    },
+    {
+      "timestamp": 1754671280.673816,
+      "population_size": 5,
+      "consensus_score": 82.0,
+      "consensus_method": "median_consensus",
+      "confidence_level": 0.92,
+      "diversity_index": 0.0,
+      "outlier_count": 0,
+      "model_types": [
+        "gemini-pro",
+        "gpt-4",
+        "local-model",
+        "claude-opus",
+        "claude-sonnet"
+      ]
+    },
+    {
+      "timestamp": 1754671280.675066,
+      "population_size": 5,
+      "consensus_score": 77.57142857142857,
+      "consensus_method": "bayesian_fusion",
+      "confidence_level": 0.9746835443037974,
+      "diversity_index": 0.0,
+      "outlier_count": 0,
+      "model_types": [
+        "gemini-pro",
+        "gpt-4",
+        "local-model",
+        "claude-opus",
+        "claude-sonnet"
+      ]
+    },
+    {
+      "timestamp": 1754671280.6867368,
+      "population_size": 5,
+      "consensus_score": 75.6,
+      "consensus_method": "outlier_resistant",
+      "confidence_level": 0.92,
+      "diversity_index": 0.1,
+      "outlier_count": 0,
+      "model_types": [
+        "gemini-pro",
+        "gpt-4",
+        "local-model",
+        "claude-opus",
+        "claude-sonnet"
+      ]
+    }
+  ],
+  "last_updated": 1754671280.686869
+}

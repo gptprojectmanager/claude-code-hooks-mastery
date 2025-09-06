@@ -1,0 +1,41 @@
+# Simple LiteLLM Configuration for OpenEvolve Testing
+model_list:
+  # Gemini 2.5 Pro (Primary)
+  - model_name: gemini-2.5-pro
+    litellm_params:
+      model: gemini/gemini-2.5-pro
+      api_key: os.environ/GEMINI_API_KEY
+      max_tokens: 8192
+      temperature: 0.7
+
+  # Gemini 1.5 Flash (Fallback)
+  - model_name: gemini-1.5-flash
+    litellm_params:
+      model: gemini/gemini-1.5-flash
+      api_key: os.environ/GEMINI_API_KEY
+      max_tokens: 8192
+      temperature: 0.7
+
+# General settings
+general_settings:
+  completion_model: "gemini-2.5-pro"
+  master_key: "openevolve-simple-test"
+  set_verbose: true
+  json_logs: true
+  log_level: "INFO"
+  max_budget: 50.0
+  budget_duration: "30d"
+  request_timeout: 180
+
+# Security settings
+security_settings:
+  enforce_user_param: false
+  api_key_validation: true
+
+# LiteLLM specific settings
+litellm_settings:
+  telemetry: false
+  detailed_error: true
+  stream: false
+  num_retries: 2
+  request_timeout: 180

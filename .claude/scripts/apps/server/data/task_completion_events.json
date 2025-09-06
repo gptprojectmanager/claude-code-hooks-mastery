@@ -1,0 +1,326 @@
+[
+  {
+    "session_id": "710b2e2f-5463-46e3-a247-f7daa8901452",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/710b2e2f-5463-46e3-a247-f7daa8901452.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/scripts",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/sam/claude-code-hooks-mastery/.claude/scripts && npm install",
+      "description": "Installa dipendenze per validation script"
+    },
+    "tool_response": {
+      "stdout": "added 7 packages, and audited 8 packages in 2s\n\n2 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755218696323
+  },
+  {
+    "session_id": "710b2e2f-5463-46e3-a247-f7daa8901452",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/710b2e2f-5463-46e3-a247-f7daa8901452.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/scripts",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "/Users/sam/claude-code-hooks-mastery/.claude/scripts/fix-all-validation-issues.sh",
+      "content": "#!/bin/bash\n\n# Script per fixare tutti i problemi di validazione identificati\n\nAGENTS_DIR=\"/Users/sam/claude-code-hooks-mastery/.claude/agents\"\nCOMMANDS_DIR=\"/Users/sam/claude-code-hooks-mastery/.claude/commands\"\n\necho \"\ud83d\udd27 Fixing all validation issues...\"\n\n# 1. Fix YAML formatting issues (category senza newline)\necho \"   \ud83d\udcdd Fixing YAML formatting...\"\nfind \"$AGENTS_DIR\" -name \"*.md\" -not -name \"*.bak\" | while read -r file; do\n    if grep -q \"category: .*tools:\" \"$file\"; then\n        echo \"      \ud83d\udd27 Fixing $file\"\n        cp \"$file\" \"$file.validation.bak\"\n        sed 's/category: \\(.*\\)tools:/category: \\1\\ntools:/' \"$file.validation.bak\" > \"$file\"\n    fi\ndone\n\n# 2. Fix agenti con nomi non conformi\necho \"   \ud83c\udff7\ufe0f  Fixing agent names...\"\n\n# iOS Developer Specialist -> ios-developer-sonnet\nIOS_FILE=\"$AGENTS_DIR/language-specialists/ios-developer-sonnet.md\"\nif [ -f \"$IOS_FILE\" ]; then\n    echo \"      \ud83d\udd27 Fixing ios-developer-sonnet name\"\n    sed -i.validation.bak 's/name: \"iOS Developer Specialist\"/name: ios-developer-sonnet/' \"$IOS_FILE\"\nfi\n\n# SQL Professional Specialist -> sql-pro-sonnet  \nSQL_FILE=\"$AGENTS_DIR/language-specialists/sql-pro-sonnet.md\"\nif [ -f \"$SQL_FILE\" ]; then\n    echo \"      \ud83d\udd27 Fixing sql-pro-sonnet name\"\n    sed -i.validation.bak 's/name: \"SQL Professional Specialist\"/name: sql-pro-sonnet/' \"$SQL_FILE\"\nfi\n\n# 3. Fix primary-agent-opusplan model field\nOPUSPLAN_FILE=\"$AGENTS_DIR/specialized-domains/primary-agent-opusplan.md\"\nif [ -f \"$OPUSPLAN_FILE\" ]; then\n    echo \"      \ud83d\udd27 Adding model field to primary-agent-opusplan\"\n    if ! grep -q \"^model:\" \"$OPUSPLAN_FILE\"; then\n        sed -i.validation.bak '/^category:/a\\\nmodel: opus' \"$OPUSPLAN_FILE\"\n    fi\nfi\n\n# 4. Fix commands argument-hint arrays to strings\necho \"   \u26a1 Fixing command argument-hint fields...\"\n\nfix_command_hint() {\n    local file=\"$1\"\n    if grep -q \"argument-hint: \\[\" \"$file\"; then\n        echo \"      \ud83d\udd27 Fixing $file argument-hint\"\n        cp \"$file\" \"$file.validation.bak\"\n        sed 's/argument-hint: \\[\\([^]]*\\)\\]/argument-hint: \\1/' \"$file.validation.bak\" > \"$file\"\n    fi\n}\n\n# Fix specific commands\nfor cmd in \"architect\" \"optimize\" \"planner\" \"research\" \"validate\" \"crypto_research\" \"crypto_research_haiku\"; do\n    cmd_file=\"$COMMANDS_DIR/${cmd}.md\"\n    if [ -f \"$cmd_file\" ]; then\n        fix_command_hint \"$cmd_file\"\n    fi\ndone\n\necho \"\u2705 All validation issues fixed!\"\n\n# Test validation\necho \"\"\necho \"\ud83e\uddea Running validation test...\"\ncd \"/Users/sam/claude-code-hooks-mastery/.claude/scripts\"\nnode validate-agents.js"
+    },
+    "tool_response": {
+      "type": "create",
+      "filePath": "/Users/sam/claude-code-hooks-mastery/.claude/scripts/fix-all-validation-issues.sh",
+      "content": "#!/bin/bash\n\n# Script per fixare tutti i problemi di validazione identificati\n\nAGENTS_DIR=\"/Users/sam/claude-code-hooks-mastery/.claude/agents\"\nCOMMANDS_DIR=\"/Users/sam/claude-code-hooks-mastery/.claude/commands\"\n\necho \"\ud83d\udd27 Fixing all validation issues...\"\n\n# 1. Fix YAML formatting issues (category senza newline)\necho \"   \ud83d\udcdd Fixing YAML formatting...\"\nfind \"$AGENTS_DIR\" -name \"*.md\" -not -name \"*.bak\" | while read -r file; do\n    if grep -q \"category: .*tools:\" \"$file\"; then\n        echo \"      \ud83d\udd27 Fixing $file\"\n        cp \"$file\" \"$file.validation.bak\"\n        sed 's/category: \\(.*\\)tools:/category: \\1\\ntools:/' \"$file.validation.bak\" > \"$file\"\n    fi\ndone\n\n# 2. Fix agenti con nomi non conformi\necho \"   \ud83c\udff7\ufe0f  Fixing agent names...\"\n\n# iOS Developer Specialist -> ios-developer-sonnet\nIOS_FILE=\"$AGENTS_DIR/language-specialists/ios-developer-sonnet.md\"\nif [ -f \"$IOS_FILE\" ]; then\n    echo \"      \ud83d\udd27 Fixing ios-developer-sonnet name\"\n    sed -i.validation.bak 's/name: \"iOS Developer Specialist\"/name: ios-developer-sonnet/' \"$IOS_FILE\"\nfi\n\n# SQL Professional Specialist -> sql-pro-sonnet  \nSQL_FILE=\"$AGENTS_DIR/language-specialists/sql-pro-sonnet.md\"\nif [ -f \"$SQL_FILE\" ]; then\n    echo \"      \ud83d\udd27 Fixing sql-pro-sonnet name\"\n    sed -i.validation.bak 's/name: \"SQL Professional Specialist\"/name: sql-pro-sonnet/' \"$SQL_FILE\"\nfi\n\n# 3. Fix primary-agent-opusplan model field\nOPUSPLAN_FILE=\"$AGENTS_DIR/specialized-domains/primary-agent-opusplan.md\"\nif [ -f \"$OPUSPLAN_FILE\" ]; then\n    echo \"      \ud83d\udd27 Adding model field to primary-agent-opusplan\"\n    if ! grep -q \"^model:\" \"$OPUSPLAN_FILE\"; then\n        sed -i.validation.bak '/^category:/a\\\nmodel: opus' \"$OPUSPLAN_FILE\"\n    fi\nfi\n\n# 4. Fix commands argument-hint arrays to strings\necho \"   \u26a1 Fixing command argument-hint fields...\"\n\nfix_command_hint() {\n    local file=\"$1\"\n    if grep -q \"argument-hint: \\[\" \"$file\"; then\n        echo \"      \ud83d\udd27 Fixing $file argument-hint\"\n        cp \"$file\" \"$file.validation.bak\"\n        sed 's/argument-hint: \\[\\([^]]*\\)\\]/argument-hint: \\1/' \"$file.validation.bak\" > \"$file\"\n    fi\n}\n\n# Fix specific commands\nfor cmd in \"architect\" \"optimize\" \"planner\" \"research\" \"validate\" \"crypto_research\" \"crypto_research_haiku\"; do\n    cmd_file=\"$COMMANDS_DIR/${cmd}.md\"\n    if [ -f \"$cmd_file\" ]; then\n        fix_command_hint \"$cmd_file\"\n    fi\ndone\n\necho \"\u2705 All validation issues fixed!\"\n\n# Test validation\necho \"\"\necho \"\ud83e\uddea Running validation test...\"\ncd \"/Users/sam/claude-code-hooks-mastery/.claude/scripts\"\nnode validate-agents.js",
+      "structuredPatch": []
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755218723547
+  },
+  {
+    "session_id": "710b2e2f-5463-46e3-a247-f7daa8901452",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/710b2e2f-5463-46e3-a247-f7daa8901452.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/scripts",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/sam/claude-code-hooks-mastery/.claude/agents/specialized-domains/primary-agent-opusplan.md",
+      "limit": 10
+    },
+    "tool_response": {
+      "type": "text",
+      "file": {
+        "filePath": "/Users/sam/claude-code-hooks-mastery/.claude/agents/specialized-domains/primary-agent-opusplan.md",
+        "content": "---\nname: primary-agent-opusplan\ndescription: \"PROACTIVELY orchestrate team di sub-agenti per progetti di sviluppo completi. Trigger: richieste di sviluppo software, coordinamento team, gestione progetti. Fornisci obiettivo e requirements chiari.\"\ncategory: specialized-domains\nmodel: opusplan\ntools: Read, Write, Bash, mcp__krag-graphiti-memory__add_memory, mcp__krag-graphiti-memory__search_memory_nodes, mcp__krag-graphiti-memory__search_memory_facts, mcp__shrimp-task-manager__list_tasks, mcp__shrimp-task-manager__query_task, mcp__shrimp-task-manager__delete_task, mcp__shrimp-task-manager__verify_task\ncolor: Blue\n---\n\n# Purpose",
+        "numLines": 10,
+        "startLine": 1,
+        "totalLines": 412
+      }
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755218745029
+  },
+  {
+    "session_id": "710b2e2f-5463-46e3-a247-f7daa8901452",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/710b2e2f-5463-46e3-a247-f7daa8901452.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/scripts",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "FASE 1: Implementare slash commands enhancement (/optimize, /research, /validate, /architect, /planner)",
+          "status": "completed",
+          "id": "1"
+        },
+        {
+          "content": "FASE 1: Aggiungere category system per agenti esistenti",
+          "status": "completed",
+          "id": "2"
+        },
+        {
+          "content": "FASE 1: Implementare JSON Schema validation con GitHub Actions",
+          "status": "in_progress",
+          "id": "3"
+        },
+        {
+          "content": "FASE 2: Aggiungere agenti mancanti critici (planner-opusplan, architect-opus)",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "FASE 2: Implementare guardrails enhancement (context overflow, timeouts)",
+          "status": "pending",
+          "id": "5"
+        },
+        {
+          "content": "FASE 2: Aggiungere performance metrics collection",
+          "status": "pending",
+          "id": "6"
+        },
+        {
+          "content": "Testing e validazione delle modifiche implementate",
+          "status": "pending",
+          "id": "7"
+        },
+        {
+          "content": "Documentare tutte le modifiche nel README.md",
+          "status": "pending",
+          "id": "8"
+        }
+      ]
+    },
+    "tool_response": {
+      "oldTodos": [
+        {
+          "content": "FASE 1: Implementare slash commands enhancement (/optimize, /research, /validate, /architect, /planner)",
+          "status": "completed",
+          "id": "1"
+        },
+        {
+          "content": "FASE 1: Aggiungere category system per agenti esistenti",
+          "status": "completed",
+          "id": "2"
+        },
+        {
+          "content": "FASE 1: Implementare JSON Schema validation con GitHub Actions",
+          "status": "in_progress",
+          "id": "3"
+        },
+        {
+          "content": "FASE 2: Aggiungere agenti mancanti critici (planner-opusplan, architect-opus)",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "FASE 2: Implementare guardrails enhancement (context overflow, timeouts)",
+          "status": "pending",
+          "id": "5"
+        },
+        {
+          "content": "FASE 2: Aggiungere performance metrics collection",
+          "status": "pending",
+          "id": "6"
+        },
+        {
+          "content": "Testing e validazione delle modifiche implementate",
+          "status": "pending",
+          "id": "7"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "FASE 1: Implementare slash commands enhancement (/optimize, /research, /validate, /architect, /planner)",
+          "status": "completed",
+          "id": "1"
+        },
+        {
+          "content": "FASE 1: Aggiungere category system per agenti esistenti",
+          "status": "completed",
+          "id": "2"
+        },
+        {
+          "content": "FASE 1: Implementare JSON Schema validation con GitHub Actions",
+          "status": "in_progress",
+          "id": "3"
+        },
+        {
+          "content": "FASE 2: Aggiungere agenti mancanti critici (planner-opusplan, architect-opus)",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "FASE 2: Implementare guardrails enhancement (context overflow, timeouts)",
+          "status": "pending",
+          "id": "5"
+        },
+        {
+          "content": "FASE 2: Aggiungere performance metrics collection",
+          "status": "pending",
+          "id": "6"
+        },
+        {
+          "content": "Testing e validazione delle modifiche implementate",
+          "status": "pending",
+          "id": "7"
+        },
+        {
+          "content": "Documentare tutte le modifiche nel README.md",
+          "status": "pending",
+          "id": "8"
+        }
+      ]
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755218824938
+  },
+  {
+    "session_id": "710b2e2f-5463-46e3-a247-f7daa8901452",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/710b2e2f-5463-46e3-a247-f7daa8901452.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/scripts",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/sam/claude-code-hooks-mastery/.claude/scripts/validate-agents.js",
+      "limit": 50
+    },
+    "tool_response": {
+      "type": "text",
+      "file": {
+        "filePath": "/Users/sam/claude-code-hooks-mastery/.claude/scripts/validate-agents.js",
+        "content": "#!/usr/bin/env node\n\n/**\n * Agent Validation Script\n * Valida tutti gli agenti utilizzando JSON Schema per garantire consistenza\n * Basato sul sistema claude-code-subagents-collection\n */\n\nconst fs = require('fs');\nconst path = require('path');\nconst yaml = require('js-yaml');\nconst Ajv = require('ajv');\n\n// Colors per output console\nconst colors = {\n    red: '\\x1b[31m',\n    green: '\\x1b[32m',\n    yellow: '\\x1b[33m',\n    blue: '\\x1b[34m',\n    magenta: '\\x1b[35m',\n    cyan: '\\x1b[36m',\n    reset: '\\x1b[0m',\n    bold: '\\x1b[1m'\n};\n\n// Schema per validazione agenti\nconst agentSchema = {\n    type: 'object',\n    required: ['name', 'description', 'category'],\n    properties: {\n        name: {\n            type: 'string',\n            pattern: '^[a-z0-9-]+$',\n            minLength: 3,\n            maxLength: 50\n        },\n        description: {\n            type: 'string',\n            minLength: 10,\n            maxLength: 500\n        },\n        category: {\n            type: 'string',\n            enum: [\n                'backend-architecture',\n                'business-marketing', \n                'crypto',\n                'data-ai',\n                'development-architecture',\n                'infrastructure-operations',",
+        "numLines": 50,
+        "startLine": 1,
+        "totalLines": 294
+      }
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755218839645
+  },
+  {
+    "session_id": "710b2e2f-5463-46e3-a247-f7daa8901452",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/710b2e2f-5463-46e3-a247-f7daa8901452.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/scripts",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/sam/claude-code-hooks-mastery/.claude/scripts/validate-agents.js",
+      "offset": 50,
+      "limit": 50
+    },
+    "tool_response": {
+      "type": "text",
+      "file": {
+        "filePath": "/Users/sam/claude-code-hooks-mastery/.claude/scripts/validate-agents.js",
+        "content": "                'infrastructure-operations',\n                'language-specialists',\n                'quality-security',\n                'specialized-domains',\n                'meta-agents'\n            ]\n        },\n        model: {\n            type: 'string',\n            enum: ['haiku', 'sonnet', 'opus']\n        },\n        tools: {\n            type: 'string'\n        },\n        color: {\n            type: 'string'\n        }\n    },\n    additionalProperties: true\n};\n\n// Schema per validazione comandi slash\nconst commandSchema = {\n    type: 'object',\n    required: ['description'],\n    properties: {\n        'allowed-tools': {\n            type: 'string'\n        },\n        'argument-hint': {\n            type: 'string'\n        },\n        description: {\n            type: 'string',\n            minLength: 10,\n            maxLength: 200\n        }\n    },\n    additionalProperties: true\n};\n\nclass AgentValidator {\n    constructor() {\n        this.ajv = new Ajv({ allErrors: true });\n        this.validateAgent = this.ajv.compile(agentSchema);\n        this.validateCommand = this.ajv.compile(commandSchema);\n        this.errors = [];\n        this.warnings = [];\n        this.successes = [];\n    }",
+        "numLines": 50,
+        "startLine": 50,
+        "totalLines": 294
+      }
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755218844654
+  },
+  {
+    "session_id": "710b2e2f-5463-46e3-a247-f7daa8901452",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/710b2e2f-5463-46e3-a247-f7daa8901452.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/scripts",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/sam/claude-code-hooks-mastery/.claude/scripts/validate-agents.js",
+      "old_string": "        model: {\n            type: 'string',\n            enum: ['haiku', 'sonnet', 'opus']\n        },",
+      "new_string": "        model: {\n            type: 'string',\n            enum: ['haiku', 'sonnet', 'opus', 'opusplan']\n        },"
+    },
+    "tool_response": {
+      "filePath": "/Users/sam/claude-code-hooks-mastery/.claude/scripts/validate-agents.js",
+      "oldString": "        model: {\n            type: 'string',\n            enum: ['haiku', 'sonnet', 'opus']\n        },",
+      "newString": "        model: {\n            type: 'string',\n            enum: ['haiku', 'sonnet', 'opus', 'opusplan']\n        },",
+      "originalFile": "#!/usr/bin/env node\n\n/**\n * Agent Validation Script\n * Valida tutti gli agenti utilizzando JSON Schema per garantire consistenza\n * Basato sul sistema claude-code-subagents-collection\n */\n\nconst fs = require('fs');\nconst path = require('path');\nconst yaml = require('js-yaml');\nconst Ajv = require('ajv');\n\n// Colors per output console\nconst colors = {\n    red: '\\x1b[31m',\n    green: '\\x1b[32m',\n    yellow: '\\x1b[33m',\n    blue: '\\x1b[34m',\n    magenta: '\\x1b[35m',\n    cyan: '\\x1b[36m',\n    reset: '\\x1b[0m',\n    bold: '\\x1b[1m'\n};\n\n// Schema per validazione agenti\nconst agentSchema = {\n    type: 'object',\n    required: ['name', 'description', 'category'],\n    properties: {\n        name: {\n            type: 'string',\n            pattern: '^[a-z0-9-]+$',\n            minLength: 3,\n            maxLength: 50\n        },\n        description: {\n            type: 'string',\n            minLength: 10,\n            maxLength: 500\n        },\n        category: {\n            type: 'string',\n            enum: [\n                'backend-architecture',\n                'business-marketing', \n                'crypto',\n                'data-ai',\n                'development-architecture',\n                'infrastructure-operations',\n                'language-specialists',\n                'quality-security',\n                'specialized-domains',\n                'meta-agents'\n            ]\n        },\n        model: {\n            type: 'string',\n            enum: ['haiku', 'sonnet', 'opus']\n        },\n        tools: {\n            type: 'string'\n        },\n        color: {\n            type: 'string'\n        }\n    },\n    additionalProperties: true\n};\n\n// Schema per validazione comandi slash\nconst commandSchema = {\n    type: 'object',\n    required: ['description'],\n    properties: {\n        'allowed-tools': {\n            type: 'string'\n        },\n        'argument-hint': {\n            type: 'string'\n        },\n        description: {\n            type: 'string',\n            minLength: 10,\n            maxLength: 200\n        }\n    },\n    additionalProperties: true\n};\n\nclass AgentValidator {\n    constructor() {\n        this.ajv = new Ajv({ allErrors: true });\n        this.validateAgent = this.ajv.compile(agentSchema);\n        this.validateCommand = this.ajv.compile(commandSchema);\n        this.errors = [];\n        this.warnings = [];\n        this.successes = [];\n    }\n\n    log(message, color = 'reset') {\n        console.log(`${colors[color]}${message}${colors.reset}`);\n    }\n\n    logError(message) {\n        this.log(`\u274c ERROR: ${message}`, 'red');\n        this.errors.push(message);\n    }\n\n    logWarning(message) {\n        this.log(`\u26a0\ufe0f  WARNING: ${message}`, 'yellow');\n        this.warnings.push(message);\n    }\n\n    logSuccess(message) {\n        this.log(`\u2705 ${message}`, 'green');\n        this.successes.push(message);\n    }\n\n    parseFrontmatter(content) {\n        const frontmatterRegex = /^---\\s*\\n([\\s\\S]*?)\\n---\\s*\\n([\\s\\S]*)$/;\n        const match = content.match(frontmatterRegex);\n        \n        if (!match) {\n            throw new Error('No valid YAML frontmatter found');\n        }\n\n        const [, frontmatterStr, body] = match;\n        \n        try {\n            const frontmatter = yaml.load(frontmatterStr);\n            return { frontmatter, body };\n        } catch (error) {\n            throw new Error(`Invalid YAML frontmatter: ${error.message}`);\n        }\n    }\n\n    validateAgentFile(filePath) {\n        const fileName = path.basename(filePath, '.md');\n        \n        try {\n            const content = fs.readFileSync(filePath, 'utf8');\n            const { frontmatter, body } = this.parseFrontmatter(content);\n\n            // Validazione schema base\n            const isValid = this.validateAgent(frontmatter);\n            \n            if (!isValid) {\n                this.validateAgent.errors.forEach(error => {\n                    this.logError(`${fileName}: ${error.instancePath} ${error.message}`);\n                });\n                return false;\n            }\n\n            // Validazione naming convention\n            if (frontmatter.name !== fileName) {\n                this.logError(`${fileName}: File name must match 'name' field (${frontmatter.name})`);\n                return false;\n            }\n\n            // Validazione contenuto\n            if (!body.trim().startsWith('# Purpose') && !body.trim().startsWith('#')) {\n                this.logWarning(`${fileName}: Missing '# Purpose' section`);\n            }\n\n            if (body.length < 100) {\n                this.logWarning(`${fileName}: Agent content seems too short (${body.length} chars)`);\n            }\n\n            // Validazione description length\n            if (frontmatter.description && frontmatter.description.length > 300) {\n                this.logWarning(`${fileName}: Description is quite long (${frontmatter.description.length} chars)`);\n            }\n\n            this.logSuccess(`${fileName}: Valid agent`);\n            return true;\n\n        } catch (error) {\n            this.logError(`${fileName}: ${error.message}`);\n            return false;\n        }\n    }\n\n    validateCommandFile(filePath) {\n        const fileName = path.basename(filePath, '.md');\n        \n        try {\n            const content = fs.readFileSync(filePath, 'utf8');\n            const { frontmatter, body } = this.parseFrontmatter(content);\n\n            // Validazione schema comando\n            const isValid = this.validateCommand(frontmatter);\n            \n            if (!isValid) {\n                this.validateCommand.errors.forEach(error => {\n                    this.logError(`${fileName}: ${error.instancePath} ${error.message}`);\n                });\n                return false;\n            }\n\n            // Validazione contenuto comando\n            if (body.length < 50) {\n                this.logWarning(`${fileName}: Command content seems too short`);\n            }\n\n            this.logSuccess(`${fileName}: Valid command`);\n            return true;\n\n        } catch (error) {\n            this.logError(`${fileName}: ${error.message}`);\n            return false;\n        }\n    }\n\n    findFiles(directory, extension = '.md') {\n        const files = [];\n        \n        function walkDir(dir) {\n            const entries = fs.readdirSync(dir, { withFileTypes: true });\n            \n            for (const entry of entries) {\n                const fullPath = path.join(dir, entry.name);\n                \n                if (entry.isDirectory()) {\n                    walkDir(fullPath);\n                } else if (entry.isFile() && entry.name.endsWith(extension) && !entry.name.includes('.bak')) {\n                    files.push(fullPath);\n                }\n            }\n        }\n        \n        if (fs.existsSync(directory)) {\n            walkDir(directory);\n        }\n        \n        return files;\n    }\n\n    validateAll() {\n        this.log('\\n\ud83d\udd0d Starting Agent Validation...', 'bold');\n        \n        const agentsDir = '/Users/sam/claude-code-hooks-mastery/.claude/agents';\n        const commandsDir = '/Users/sam/claude-code-hooks-mastery/.claude/commands';\n        \n        // Valida agenti\n        this.log('\\n\ud83d\udccb Validating Agents...', 'cyan');\n        const agentFiles = this.findFiles(agentsDir);\n        let validAgents = 0;\n        \n        agentFiles.forEach(file => {\n            if (this.validateAgentFile(file)) {\n                validAgents++;\n            }\n        });\n\n        // Valida comandi (solo quelli con frontmatter)\n        this.log('\\n\u26a1 Validating Commands...', 'cyan');\n        const commandFiles = this.findFiles(commandsDir).filter(file => {\n            const content = fs.readFileSync(file, 'utf8');\n            return content.startsWith('---');\n        });\n        \n        let validCommands = 0;\n        commandFiles.forEach(file => {\n            if (this.validateCommandFile(file)) {\n                validCommands++;\n            }\n        });\n\n        // Report finale\n        this.log('\\n\ud83d\udcca Validation Summary:', 'bold');\n        this.log(`   Agents: ${validAgents}/${agentFiles.length} valid`, validAgents === agentFiles.length ? 'green' : 'yellow');\n        this.log(`   Commands: ${validCommands}/${commandFiles.length} valid`, validCommands === commandFiles.length ? 'green' : 'yellow');\n        this.log(`   Errors: ${this.errors.length}`, this.errors.length === 0 ? 'green' : 'red');\n        this.log(`   Warnings: ${this.warnings.length}`, this.warnings.length === 0 ? 'green' : 'yellow');\n\n        if (this.errors.length === 0) {\n            this.log('\\n\ud83c\udf89 All validations passed!', 'green');\n            return true;\n        } else {\n            this.log('\\n\ud83d\udca5 Validation failed with errors', 'red');\n            return false;\n        }\n    }\n}\n\n// Execute validation\nif (require.main === module) {\n    const validator = new AgentValidator();\n    const success = validator.validateAll();\n    process.exit(success ? 0 : 1);\n}\n\nmodule.exports = AgentValidator;",
+      "structuredPatch": [
+        {
+          "oldStart": 56,
+          "oldLines": 7,
+          "newStart": 56,
+          "newLines": 7,
+          "lines": [
+            "         },",
+            "         model: {",
+            "             type: 'string',",
+            "-            enum: ['haiku', 'sonnet', 'opus']",
+            "+            enum: ['haiku', 'sonnet', 'opus', 'opusplan']",
+            "         },",
+            "         tools: {",
+            "             type: 'string'"
+          ]
+        }
+      ],
+      "userModified": false,
+      "replaceAll": false
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755218851602
+  }
+]

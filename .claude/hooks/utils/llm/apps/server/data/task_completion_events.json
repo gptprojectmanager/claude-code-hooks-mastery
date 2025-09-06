@@ -1,0 +1,52 @@
+[
+  {
+    "session_id": "f45cae10-dd78-4596-8584-bc9ad6faf94b",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/f45cae10-dd78-4596-8584-bc9ad6faf94b.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils/llm",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/sam/claude-code-hooks-mastery/.claude/hooks/utils/llm && uv run gemini.py --completion",
+      "description": "Test Gemini completion message generation"
+    },
+    "tool_response": {
+      "stdout": "Code ready!\nInstalled 2 packages in 35ms",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755079898570
+  },
+  {
+    "session_id": "f45cae10-dd78-4596-8584-bc9ad6faf94b",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/f45cae10-dd78-4596-8584-bc9ad6faf94b.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils/llm",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "uv run gemini.py \"Test message: say hello\"",
+      "description": "Test Gemini direct prompt functionality"
+    },
+    "tool_response": {
+      "stdout": "Hello!",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755079912206
+  }
+]

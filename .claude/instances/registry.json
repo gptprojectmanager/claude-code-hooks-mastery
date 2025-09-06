@@ -1,0 +1,384 @@
+{
+  "claude_python_f58b9194_1755097192": {
+    "instance_id": "claude_python_f58b9194_1755097192",
+    "process_id": 37083,
+    "worktree_path": "/Users/sam/claude-code-hooks-mastery",
+    "started_at": "2025-08-13T15:59:52.568699",
+    "status": "running",
+    "optimization_context": {
+      "metadata": {
+        "created_at": "2025-08-13T15:59:52.561807",
+        "language": "python",
+        "complexity_level": "medium",
+        "code_length_lines": 20,
+        "worktree_path": "/Users/sam/claude-code-hooks-mastery",
+        "version": "2.0",
+        "claude_code_integration": true
+      },
+      "code": {
+        "content": "def fibonacci(n):\n    '''Recursive Fibonacci - needs optimization'''\n    if n <= 1:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)\n\ndef find_duplicates(data):\n    '''O(n\u00b2) duplicate finder'''\n    duplicates = []\n    for i in range(len(data)):\n        for j in range(i + 1, len(data)):\n            if data[i] == data[j] and data[i] not in duplicates:\n                duplicates.append(data[i])\n    return duplicates\n\n# Performance test\nimport time\nstart = time.time()\nresult = fibonacci(30)\nprint(f\"Fib(30) = {result} in {time.time()-start:.2f}s\")",
+        "language": "python",
+        "analysis_hints": {
+          "focus_areas": [
+            "loop_optimization",
+            "algorithmic_complexity",
+            "functional_optimization"
+          ],
+          "complexity_indicators": {
+            "line_count": 17,
+            "nested_loops": 2,
+            "function_count": 2,
+            "class_count": 0,
+            "import_count": 1,
+            "complexity_score": 28.5,
+            "cognitive_complexity": 16
+          },
+          "optimization_potential": {
+            "score": 45,
+            "confidence": 0.8,
+            "primary_opportunities": [
+              "algorithmic_improvement",
+              "data_structure_optimization",
+              "code_clarity",
+              "performance_enhancement"
+            ],
+            "estimated_improvement_range": "11-45%",
+            "optimization_difficulty": "medium"
+          }
+        }
+      },
+      "optimization_parameters": {
+        "target_metrics": [
+          "execution_time",
+          "algorithmic_complexity"
+        ],
+        "constraints": {
+          "maintain_functionality": true
+        },
+        "iterations": 10,
+        "timeout_minutes": 5,
+        "preserve_functionality": true,
+        "require_tests": false
+      },
+      "execution_context": {
+        "instance_type": "claude_code_optimization",
+        "parallel_execution": true,
+        "background_mode": true,
+        "krag_namespace": "openevolve_optimization_1755097192",
+        "claude_md_driven": true,
+        "official_workflow": true
+      },
+      "expected_outputs": {
+        "optimization_results_file": ".claude/optimization_results.json",
+        "performance_comparison": true,
+        "test_validation": true,
+        "optimization_summary": true
+      }
+    },
+    "log_file": "/Users/sam/claude-code-hooks-mastery/.claude/instances/claude_python_f58b9194_1755097192.log",
+    "claude_md_path": "/Users/sam/claude-code-hooks-mastery/CLAUDE.md",
+    "last_heartbeat": "2025-08-13T15:59:53.572152",
+    "completion_data": null,
+    "config": {
+      "instance_id": "claude_python_f58b9194_1755097192",
+      "worktree_path": "/Users/sam/claude-code-hooks-mastery",
+      "claude_md_file": "/Users/sam/claude-code-hooks-mastery/CLAUDE.md",
+      "optimization_context_file": "/Users/sam/claude-code-hooks-mastery/.claude/optimization_context.json",
+      "command_args": [
+        "claude",
+        "--print",
+        "I am now in the optimization worktree. I will read my CLAUDE.md file to understand my mission and begin the optimization process immediately.\n\nOPTIMIZATION CONTEXT:\n- Instance ID: claude_python_f58b9194_1755097192\n- Language: python\n- Working Directory: /Users/sam/claude-code-hooks-mastery\n- Context File: /Users/sam/claude-code-hooks-mastery/.claude/optimization_context.json\n- Expected Results File: .claude/optimization_results.json\n\nMy mission is to optimize the code provided in the context file using evolutionary techniques, following the instructions in my CLAUDE.md file."
+      ],
+      "environment": {
+        "__CFBundleIdentifier": "com.apple.Terminal",
+        "TMPDIR": "/var/folders/q5/dfpmz2nd3zs6xqqfkgjqmpnw0000gn/T/",
+        "XPC_FLAGS": "0x0",
+        "TERM": "xterm-256color",
+        "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.QZEKyl8w2h/Listeners",
+        "XPC_SERVICE_NAME": "0",
+        "TERM_PROGRAM": "Apple_Terminal",
+        "TERM_PROGRAM_VERSION": "445.1",
+        "TERM_SESSION_ID": "E8745385-650E-4B35-BD07-42A05F001FFC",
+        "SHELL": "/bin/zsh",
+        "HOME": "/Users/sam",
+        "LOGNAME": "sam",
+        "USER": "sam",
+        "PATH": "/Library/Frameworks/Python.framework/Versions/3.12/bin:/opt/local/bin:/Users/sam/.local/bin:/Users/sam/.local/bin:/Users/sam/google-cloud-sdk/bin:/Users/sam/.npm-global/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "SHLVL": "2",
+        "PWD": "/Users/sam/claude-code-hooks-mastery",
+        "OLDPWD": "/Users/sam/claude-code-hooks-mastery",
+        "NPM_CONFIG_PREFIX": "/Users/sam/.npm-global",
+        "LC_CTYPE": "UTF-8",
+        "__CF_USER_TEXT_ENCODING": "0x1F5:0x0:0x0",
+        "COREPACK_ENABLE_AUTO_PIN": "0",
+        "CLAUDE_CODE_ENTRYPOINT": "cli",
+        "OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE": "delta",
+        "GIT_EDITOR": "true",
+        "CLAUDECODE": "1",
+        "_": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3",
+        "CLAUDE_OPTIMIZATION_CONTEXT": "/Users/sam/claude-code-hooks-mastery/.claude/optimization_context.json",
+        "CLAUDE_INSTANCE_ID": "claude_python_f58b9194_1755097192",
+        "CLAUDE_LANGUAGE": "python",
+        "CLAUDE_WORKTREE": "/Users/sam/claude-code-hooks-mastery",
+        "CLAUDE_BACKGROUND_MODE": "true",
+        "OPENEVOLVE_MODE": "true"
+      },
+      "background_mode": true,
+      "timeout_minutes": 5
+    }
+  },
+  "claude_python_ec26acc0_1755097325": {
+    "instance_id": "claude_python_ec26acc0_1755097325",
+    "process_id": 38736,
+    "worktree_path": "/Users/sam/openevolve_workspaces/workspace_fibonacci_optimization_1755097323",
+    "started_at": "2025-08-13T16:02:05.270276",
+    "status": "running",
+    "optimization_context": {
+      "metadata": {
+        "created_at": "2025-08-13T16:02:05.265784",
+        "language": "python",
+        "complexity_level": "medium",
+        "code_length_lines": 8,
+        "worktree_path": "/Users/sam/openevolve_workspaces/workspace_fibonacci_optimization_1755097323",
+        "version": "2.0",
+        "claude_code_integration": true
+      },
+      "code": {
+        "content": "def fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)\n\n# Test with large value\nresult = fibonacci(35)\nprint(f\"Fibonacci(35) = {result}\")",
+        "language": "python",
+        "analysis_hints": {
+          "focus_areas": [
+            "functional_optimization"
+          ],
+          "complexity_indicators": {
+            "line_count": 6,
+            "nested_loops": 0,
+            "function_count": 1,
+            "class_count": 0,
+            "import_count": 0,
+            "complexity_score": 3.0,
+            "cognitive_complexity": 2
+          },
+          "optimization_potential": {
+            "score": 10,
+            "confidence": 0.8,
+            "primary_opportunities": [
+              "algorithmic_improvement",
+              "data_structure_optimization",
+              "code_clarity",
+              "performance_enhancement"
+            ],
+            "estimated_improvement_range": "10-10%",
+            "optimization_difficulty": "medium"
+          }
+        }
+      },
+      "optimization_parameters": {
+        "target_metrics": [
+          "execution_time",
+          "algorithmic_complexity"
+        ],
+        "constraints": {
+          "maintain_functionality": true
+        },
+        "iterations": 5,
+        "timeout_minutes": 3,
+        "preserve_functionality": true,
+        "require_tests": false
+      },
+      "execution_context": {
+        "instance_type": "claude_code_optimization",
+        "parallel_execution": true,
+        "background_mode": true,
+        "krag_namespace": "openevolve_optimization_1755097325",
+        "claude_md_driven": true,
+        "official_workflow": true
+      },
+      "expected_outputs": {
+        "optimization_results_file": ".claude/optimization_results.json",
+        "performance_comparison": true,
+        "test_validation": true,
+        "optimization_summary": true
+      }
+    },
+    "log_file": "/Users/sam/claude-code-hooks-mastery/.claude/instances/claude_python_ec26acc0_1755097325.log",
+    "claude_md_path": "/Users/sam/openevolve_workspaces/workspace_fibonacci_optimization_1755097323/CLAUDE.md",
+    "last_heartbeat": "2025-08-13T16:02:06.298388",
+    "completion_data": null,
+    "config": {
+      "instance_id": "claude_python_ec26acc0_1755097325",
+      "worktree_path": "/Users/sam/openevolve_workspaces/workspace_fibonacci_optimization_1755097323",
+      "claude_md_file": "/Users/sam/openevolve_workspaces/workspace_fibonacci_optimization_1755097323/CLAUDE.md",
+      "optimization_context_file": "/Users/sam/openevolve_workspaces/workspace_fibonacci_optimization_1755097323/.claude/optimization_context.json",
+      "command_args": [
+        "claude",
+        "--print",
+        "I am now in the optimization worktree. I will read my CLAUDE.md file to understand my mission and begin the optimization process immediately.\n\nOPTIMIZATION CONTEXT:\n- Instance ID: claude_python_ec26acc0_1755097325\n- Language: python\n- Working Directory: /Users/sam/openevolve_workspaces/workspace_fibonacci_optimization_1755097323\n- Context File: /Users/sam/openevolve_workspaces/workspace_fibonacci_optimization_1755097323/.claude/optimization_context.json\n- Expected Results File: .claude/optimization_results.json\n\nMy mission is to optimize the code provided in the context file using evolutionary techniques, following the instructions in my CLAUDE.md file."
+      ],
+      "environment": {
+        "__CFBundleIdentifier": "com.apple.Terminal",
+        "TMPDIR": "/var/folders/q5/dfpmz2nd3zs6xqqfkgjqmpnw0000gn/T/",
+        "XPC_FLAGS": "0x0",
+        "TERM": "xterm-256color",
+        "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.QZEKyl8w2h/Listeners",
+        "XPC_SERVICE_NAME": "0",
+        "TERM_PROGRAM": "Apple_Terminal",
+        "TERM_PROGRAM_VERSION": "445.1",
+        "TERM_SESSION_ID": "E8745385-650E-4B35-BD07-42A05F001FFC",
+        "SHELL": "/bin/zsh",
+        "HOME": "/Users/sam",
+        "LOGNAME": "sam",
+        "USER": "sam",
+        "PATH": "/Library/Frameworks/Python.framework/Versions/3.12/bin:/opt/local/bin:/Users/sam/.local/bin:/Users/sam/.local/bin:/Users/sam/google-cloud-sdk/bin:/Users/sam/.npm-global/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "SHLVL": "2",
+        "PWD": "/Users/sam/claude-code-hooks-mastery",
+        "OLDPWD": "/Users/sam/claude-code-hooks-mastery",
+        "NPM_CONFIG_PREFIX": "/Users/sam/.npm-global",
+        "LC_CTYPE": "UTF-8",
+        "__CF_USER_TEXT_ENCODING": "0x1F5:0x0:0x0",
+        "COREPACK_ENABLE_AUTO_PIN": "0",
+        "CLAUDE_CODE_ENTRYPOINT": "cli",
+        "OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE": "delta",
+        "GIT_EDITOR": "true",
+        "CLAUDECODE": "1",
+        "_": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3",
+        "CLAUDE_OPTIMIZATION_CONTEXT": "/Users/sam/openevolve_workspaces/workspace_fibonacci_optimization_1755097323/.claude/optimization_context.json",
+        "CLAUDE_INSTANCE_ID": "claude_python_ec26acc0_1755097325",
+        "CLAUDE_LANGUAGE": "python",
+        "CLAUDE_WORKTREE": "/Users/sam/openevolve_workspaces/workspace_fibonacci_optimization_1755097323",
+        "CLAUDE_BACKGROUND_MODE": "true",
+        "OPENEVOLVE_MODE": "true"
+      },
+      "background_mode": true,
+      "timeout_minutes": 3
+    }
+  },
+  "claude_python_1cbe9b7a_1755097328": {
+    "instance_id": "claude_python_1cbe9b7a_1755097328",
+    "process_id": 38778,
+    "worktree_path": "/Users/sam/openevolve_workspaces/workspace_sorting_optimization_1755097326",
+    "started_at": "2025-08-13T16:02:08.320081",
+    "status": "running",
+    "optimization_context": {
+      "metadata": {
+        "created_at": "2025-08-13T16:02:08.307716",
+        "language": "python",
+        "complexity_level": "medium",
+        "code_length_lines": 12,
+        "worktree_path": "/Users/sam/openevolve_workspaces/workspace_sorting_optimization_1755097326",
+        "version": "2.0",
+        "claude_code_integration": true
+      },
+      "code": {
+        "content": "def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n-i-1):\n            if arr[j] > arr[j+1]:\n                arr[j], arr[j+1] = arr[j+1], arr[j]\n    return arr\n\n# Test with random data\nimport random\ndata = [random.randint(1, 1000) for _ in range(100)]\nsorted_data = bubble_sort(data.copy())",
+        "language": "python",
+        "analysis_hints": {
+          "focus_areas": [
+            "loop_optimization",
+            "algorithmic_complexity",
+            "functional_optimization"
+          ],
+          "complexity_indicators": {
+            "line_count": 10,
+            "nested_loops": 3,
+            "function_count": 1,
+            "class_count": 0,
+            "import_count": 1,
+            "complexity_score": 35.0,
+            "cognitive_complexity": 17
+          },
+          "optimization_potential": {
+            "score": 45,
+            "confidence": 0.8,
+            "primary_opportunities": [
+              "algorithmic_improvement",
+              "data_structure_optimization",
+              "code_clarity",
+              "performance_enhancement"
+            ],
+            "estimated_improvement_range": "11-45%",
+            "optimization_difficulty": "medium"
+          }
+        }
+      },
+      "optimization_parameters": {
+        "target_metrics": [
+          "execution_time",
+          "algorithmic_complexity"
+        ],
+        "constraints": {
+          "maintain_functionality": true
+        },
+        "iterations": 5,
+        "timeout_minutes": 3,
+        "preserve_functionality": true,
+        "require_tests": false
+      },
+      "execution_context": {
+        "instance_type": "claude_code_optimization",
+        "parallel_execution": true,
+        "background_mode": true,
+        "krag_namespace": "openevolve_optimization_1755097328",
+        "claude_md_driven": true,
+        "official_workflow": true
+      },
+      "expected_outputs": {
+        "optimization_results_file": ".claude/optimization_results.json",
+        "performance_comparison": true,
+        "test_validation": true,
+        "optimization_summary": true
+      }
+    },
+    "log_file": "/Users/sam/claude-code-hooks-mastery/.claude/instances/claude_python_1cbe9b7a_1755097328.log",
+    "claude_md_path": "/Users/sam/openevolve_workspaces/workspace_sorting_optimization_1755097326/CLAUDE.md",
+    "last_heartbeat": "2025-08-13T16:02:09.324714",
+    "completion_data": null,
+    "config": {
+      "instance_id": "claude_python_1cbe9b7a_1755097328",
+      "worktree_path": "/Users/sam/openevolve_workspaces/workspace_sorting_optimization_1755097326",
+      "claude_md_file": "/Users/sam/openevolve_workspaces/workspace_sorting_optimization_1755097326/CLAUDE.md",
+      "optimization_context_file": "/Users/sam/openevolve_workspaces/workspace_sorting_optimization_1755097326/.claude/optimization_context.json",
+      "command_args": [
+        "claude",
+        "--print",
+        "I am now in the optimization worktree. I will read my CLAUDE.md file to understand my mission and begin the optimization process immediately.\n\nOPTIMIZATION CONTEXT:\n- Instance ID: claude_python_1cbe9b7a_1755097328\n- Language: python\n- Working Directory: /Users/sam/openevolve_workspaces/workspace_sorting_optimization_1755097326\n- Context File: /Users/sam/openevolve_workspaces/workspace_sorting_optimization_1755097326/.claude/optimization_context.json\n- Expected Results File: .claude/optimization_results.json\n\nMy mission is to optimize the code provided in the context file using evolutionary techniques, following the instructions in my CLAUDE.md file."
+      ],
+      "environment": {
+        "__CFBundleIdentifier": "com.apple.Terminal",
+        "TMPDIR": "/var/folders/q5/dfpmz2nd3zs6xqqfkgjqmpnw0000gn/T/",
+        "XPC_FLAGS": "0x0",
+        "TERM": "xterm-256color",
+        "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.QZEKyl8w2h/Listeners",
+        "XPC_SERVICE_NAME": "0",
+        "TERM_PROGRAM": "Apple_Terminal",
+        "TERM_PROGRAM_VERSION": "445.1",
+        "TERM_SESSION_ID": "E8745385-650E-4B35-BD07-42A05F001FFC",
+        "SHELL": "/bin/zsh",
+        "HOME": "/Users/sam",
+        "LOGNAME": "sam",
+        "USER": "sam",
+        "PATH": "/Library/Frameworks/Python.framework/Versions/3.12/bin:/opt/local/bin:/Users/sam/.local/bin:/Users/sam/.local/bin:/Users/sam/google-cloud-sdk/bin:/Users/sam/.npm-global/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "SHLVL": "2",
+        "PWD": "/Users/sam/claude-code-hooks-mastery",
+        "OLDPWD": "/Users/sam/claude-code-hooks-mastery",
+        "NPM_CONFIG_PREFIX": "/Users/sam/.npm-global",
+        "LC_CTYPE": "UTF-8",
+        "__CF_USER_TEXT_ENCODING": "0x1F5:0x0:0x0",
+        "COREPACK_ENABLE_AUTO_PIN": "0",
+        "CLAUDE_CODE_ENTRYPOINT": "cli",
+        "OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE": "delta",
+        "GIT_EDITOR": "true",
+        "CLAUDECODE": "1",
+        "_": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3",
+        "CLAUDE_OPTIMIZATION_CONTEXT": "/Users/sam/openevolve_workspaces/workspace_sorting_optimization_1755097326/.claude/optimization_context.json",
+        "CLAUDE_INSTANCE_ID": "claude_python_1cbe9b7a_1755097328",
+        "CLAUDE_LANGUAGE": "python",
+        "CLAUDE_WORKTREE": "/Users/sam/openevolve_workspaces/workspace_sorting_optimization_1755097326",
+        "CLAUDE_BACKGROUND_MODE": "true",
+        "OPENEVOLVE_MODE": "true"
+      },
+      "background_mode": true,
+      "timeout_minutes": 3
+    }
+  }
+}

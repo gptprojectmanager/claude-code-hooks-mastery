@@ -1,0 +1,73 @@
+name: Validate Agents and Commands
+
+on:
+  push:
+    paths:
+      - '.claude/agents/**/*.md'
+      - '.claude/commands/**/*.md'
+      - '.claude/scripts/validate-agents.js'
+  pull_request:
+    paths:
+      - '.claude/agents/**/*.md'
+      - '.claude/commands/**/*.md'
+      - '.claude/scripts/validate-agents.js'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: '.claude/scripts/package.json'
+        
+    - name: Install dependencies
+      run: |
+        cd .claude/scripts
+        npm install
+        
+    - name: Make validation script executable
+      run: chmod +x .claude/scripts/validate-agents.js
+      
+    - name: Validate agents and commands
+      run: |
+        cd .claude/scripts
+        node validate-agents.js
+        
+    - name: Upload validation report
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: validation-report
+        path: .claude/scripts/validation-report.json
+        retention-days: 7
+
+    - name: Comment on PR (if validation fails)
+      if: failure() && github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '❌ Agent validation failed! Please check the logs for details and fix any schema violations.'
+          })
+
+    - name: Comment on PR (if validation succeeds)
+      if: success() && github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '✅ All agents and commands passed validation!'
+          })

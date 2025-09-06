@@ -1,0 +1,83 @@
+{
+  "summary": {
+    "total_tests": 12,
+    "passed_tests": 12,
+    "failed_tests": 0,
+    "success_rate": 100.0
+  },
+  "test_results": [
+    {
+      "test": "Rate Limit Parser Init",
+      "success": true,
+      "details": "Parser initialized successfully",
+      "timestamp": 1755801208.7049322
+    },
+    {
+      "test": "Smart Router Init",
+      "success": true,
+      "details": "Router initialized successfully",
+      "timestamp": 1755801208.707552
+    },
+    {
+      "test": "Basic Routing Decision",
+      "success": true,
+      "details": "Strategy: primary, Provider: anthropic",
+      "timestamp": 1755801208.711379
+    },
+    {
+      "test": "Rate Limit Integration",
+      "success": true,
+      "details": "Fallback triggered, recommended: litellm_proxy",
+      "timestamp": 1755801208.717095
+    },
+    {
+      "test": "Fallback Routing",
+      "success": true,
+      "details": "Strategy: fallback, Reason: Primary anthropic rate limited, using litellm_proxy",
+      "timestamp": 1755801208.7207282
+    },
+    {
+      "test": "Queue Management",
+      "success": true,
+      "details": "Request queued successfully, queue size: 2",
+      "timestamp": 1755801208.723567
+    },
+    {
+      "test": "Request Execution",
+      "success": true,
+      "details": "Provider: litellm_proxy, Success: True",
+      "timestamp": 1755801208.88093
+    },
+    {
+      "test": "Routing Status",
+      "success": true,
+      "details": "Status fields present: ['timestamp', 'primary_provider', 'fallback_provider', 'current_rate_limits', 'queue_status', 'routing_stats', 'recommendations', 'should_queue', 'health_status']",
+      "timestamp": 1755801208.886145
+    },
+    {
+      "test": "Configuration Management",
+      "success": true,
+      "details": "Primary: anthropic, Fallback: litellm_proxy",
+      "timestamp": 1755801208.891681
+    },
+    {
+      "test": "Error Handling",
+      "success": true,
+      "details": "Graceful error handling: Invalid request data: request_data is None...",
+      "timestamp": 1755801208.891715
+    },
+    {
+      "test": "Database Integration",
+      "success": true,
+      "details": "Records: 8 -> 9",
+      "timestamp": 1755801208.895832
+    },
+    {
+      "test": "Observability Data Format",
+      "success": true,
+      "details": "JSON serialization successful, size: 1677 chars",
+      "timestamp": 1755801208.899843
+    }
+  ],
+  "timestamp": 1755801208.900044
+}

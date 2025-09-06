@@ -1,0 +1,239 @@
+# Enhanced LiteLLM Configuration for OpenEvolve + Gemini Integration
+# Optimized for evolutionary code optimization workflows
+
+model_list:
+  # Gemini 2.5 Pro (Primary - Most intelligent)
+  - model_name: gemini-2.5-pro
+    litellm_params:
+      model: gemini/gemini-2.5-pro
+      api_key: os.environ/GEMINI_API_KEY
+      max_tokens: 8192
+      temperature: 0.7
+      top_p: 0.9
+      top_k: 32
+    model_info:
+      mode: chat
+      supports_function_calling: true
+      supports_vision: true
+      supports_tool_use: true
+      input_cost_per_token: 0.000125
+      output_cost_per_token: 0.000375
+      max_tokens: 2097152  # 2M tokens context
+      max_output_tokens: 8192
+      
+  # Gemini 2.5 Flash (Fast alternative)
+  - model_name: gemini-2.5-flash
+    litellm_params:
+      model: gemini/gemini-2.5-flash
+      api_key: os.environ/GEMINI_API_KEY
+      max_tokens: 8192
+      temperature: 0.7
+      top_p: 0.9
+      top_k: 32
+    model_info:
+      mode: chat
+      supports_function_calling: true
+      supports_vision: true
+      supports_tool_use: true
+      input_cost_per_token: 0.000075
+      output_cost_per_token: 0.0003
+      max_tokens: 1048576  # 1M tokens context
+      max_output_tokens: 8192
+    
+  # Gemini 1.5 Pro (High quality, larger context)
+  - model_name: gemini-1.5-pro
+    litellm_params:
+      model: gemini/gemini-1.5-pro
+      api_key: os.environ/GEMINI_API_KEY
+      max_tokens: 8192
+      temperature: 0.7
+      top_p: 0.9
+      top_k: 32
+    model_info:
+      mode: chat
+      supports_function_calling: true
+      supports_vision: true
+      supports_tool_use: true
+      input_cost_per_token: 0.000125
+      output_cost_per_token: 0.000375
+      max_tokens: 2097152  # 2M tokens context
+      max_output_tokens: 8192
+      
+  # Gemini 1.5 Flash (Balanced speed/quality)
+  - model_name: gemini-1.5-flash
+    litellm_params:
+      model: gemini/gemini-1.5-flash
+      api_key: os.environ/GEMINI_API_KEY
+      max_tokens: 8192
+      temperature: 0.7
+      top_p: 0.9
+      top_k: 32
+    model_info:
+      mode: chat
+      supports_function_calling: true
+      supports_vision: true
+      supports_tool_use: true
+      input_cost_per_token: 0.000075
+      output_cost_per_token: 0.0003
+      max_tokens: 1048576  # 1M tokens context
+      max_output_tokens: 8192
+
+  # Gemini Pro (Legacy fallback)
+  - model_name: gemini-pro
+    litellm_params:
+      model: gemini/gemini-pro
+      api_key: os.environ/GEMINI_API_KEY
+      max_tokens: 8192
+      temperature: 0.7
+    model_info:
+      mode: chat
+      supports_function_calling: true
+      supports_vision: false
+      input_cost_per_token: 0.000125
+      output_cost_per_token: 0.000375
+      max_tokens: 30720
+      max_output_tokens: 8192
+
+# Router configuration for intelligent model selection
+router_settings:
+  routing_strategy: "simple-shuffle"  # Simple routing for now
+  allowed_fails: 2
+  cooldown_time: 30  # 30 seconds cooldown
+  timeout: 300  # 5 minutes per request
+
+# General settings optimized for OpenEvolve
+general_settings:
+  completion_model: "gemini-2.5-pro"  # Default to most intelligent model
+  
+  # Master key for API access
+  master_key: "openevolve-gemini-integration-2025"
+  
+  # Logging for development
+  set_verbose: true
+  json_logs: true
+  log_level: "INFO"
+  
+  # Budget management (important for credit optimization)
+  max_budget: 500.0  # USD per month - adjust based on user's credits
+  budget_duration: "30d"
+  track_cost_per_request: true
+  
+  # Timeout settings for evolutionary workflows
+  request_timeout: 300  # 5 minutes per evolution request
+  api_request_timeout: 180  # 3 minutes per API call
+  
+  # Health checks
+  health_check_interval: 30
+  
+  # Performance optimizations
+  max_parallel_requests: 4  # Limit concurrent requests
+  queue_timeout: 600  # 10 minutes queue timeout
+  
+  # Error handling
+  max_retries: 3
+  retry_delay: 2  # exponential backoff starting at 2 seconds
+
+# LiteLLM specific settings
+litellm_settings:
+  # Privacy and telemetry
+  telemetry: false
+  disable_spend_logs: false  # Keep spend tracking for credit optimization
+  
+  # API optimization
+  api_base: null  # Will be set per model
+  custom_llm_provider: "gemini"
+  
+  # Request optimization for code evolution
+  stream: false  # Disable streaming for batch processing
+  num_retries: 3
+  request_timeout: 300
+  
+  # Error handling
+  detailed_error: true
+  exception_mapping: true
+  
+  # Model routing optimization
+  model_fallbacks: true
+  context_window_fallbacks: true
+
+# Security settings
+security_settings:
+  # Authentication
+  enforce_user_param: false  # Simplified for development
+  api_key_validation: true
+  
+  # CORS for OpenEvolve service integration
+  allow_origins: ["http://localhost:8000", "http://127.0.0.1:8000", "http://0.0.0.0:8000"]
+  allow_credentials: true
+  allow_methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+  allow_headers: ["*"]
+
+# Caching configuration for performance
+cache_settings:
+  # In-memory cache for repeated requests
+  type: "simple"
+  ttl: 300  # 5 minutes cache
+  max_size: 1000  # Max cached items
+  
+  # Cache optimization for code evolution patterns
+  cache_responses: true
+  cache_kwargs: 
+    - "model"
+    - "temperature"
+    - "max_tokens"
+
+# Prometheus metrics for monitoring credit usage
+prometheus_settings:
+  enabled: true
+  port: 9090
+  path: "/metrics"
+  collect_model_metrics: true
+  collect_cost_metrics: true
+
+# Database settings for request/response logging
+database_settings:
+  database_type: "sqlite"
+  database_url: "sqlite:///./openevolve_litellm.db"
+  store_model_in_db: true
+  log_only_error_responses: false
+
+# Cost tracking and optimization
+cost_tracking:
+  enabled: true
+  track_cost_per_request: true
+  track_cost_per_token: true
+  cost_per_token_model_mapping: true
+  
+  # Alert thresholds for credit management
+  daily_spend_limit: 50.0  # USD per day
+  monthly_spend_limit: 500.0  # USD per month
+  
+  # Cost optimization strategies
+  prefer_cheaper_models: false  # Prioritize quality for code evolution
+  automatic_fallback_on_budget: true
+
+# OpenEvolve-specific optimizations
+openevolve_settings:
+  # Model selection strategy for different evolution phases
+  model_strategy:
+    initial_generation: "gemini-2.5-pro"  # Most intelligent for exploration
+    refinement: "gemini-2.5-pro"  # Highest quality for polish
+    validation: "gemini-2.5-pro"  # Most intelligent for validation
+    
+  # Context window management for large codebases
+  context_management:
+    max_context_utilization: 0.8  # Use 80% of context window
+    chunk_overlap: 0.1  # 10% overlap for continuity
+    
+  # Request batching for efficiency
+  batch_settings:
+    enable_batching: true
+    batch_size: 3  # Process 3 evolution requests together
+    batch_timeout: 60  # Max 1 minute wait for batch
+
+# Environment variable documentation
+environment_variables:
+  GEMINI_API_KEY: "Required - Your Google AI API key for Gemini access (retrieved from Secret Manager)"
+  LITELLM_LOG_LEVEL: "Optional - Logging level (default: INFO)"
+  LITELLM_PORT: "Optional - Port for LiteLLM proxy (default: 4001)"
+  OPENEVOLVE_MAX_BUDGET: "Optional - Override max budget limit"

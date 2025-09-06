@@ -1,0 +1,708 @@
+[
+  {
+    "session_id": "9bfc8bd5-9b5c-4a75-865f-1939503210e5",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/9bfc8bd5-9b5c-4a75-865f-1939503210e5.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /Users/sam/claude-code-hooks-mastery/.claude/hooks/utils && python3 agent_detector.py",
+      "description": "Test agent detector functionality"
+    },
+    "tool_response": {
+      "stdout": "{\n  \"agent_name\": \"primary-agent\",\n  \"agent_role\": \"orchestrator\",\n  \"agent_category\": \"core_development\",\n  \"delegation_chain\": \"primary-agent\",\n  \"timestamp\": null\n}",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755306615085
+  },
+  {
+    "session_id": "9bfc8bd5-9b5c-4a75-865f-1939503210e5",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/9bfc8bd5-9b5c-4a75-865f-1939503210e5.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/sam/claude-code-hooks-mastery/apps/server/src/index.ts",
+      "limit": 100
+    },
+    "tool_response": {
+      "type": "text",
+      "file": {
+        "filePath": "/Users/sam/claude-code-hooks-mastery/apps/server/src/index.ts",
+        "content": "import { initDatabase, insertEvent, getFilterOptions, getRecentEvents } from './db';\nimport type { HookEvent } from './types';\nimport { \n  createTheme, \n  updateThemeById, \n  getThemeById, \n  searchThemes, \n  deleteThemeById, \n  exportThemeById, \n  importTheme,\n  getThemeStats \n} from './theme';\n\n// Initialize database\ninitDatabase();\n\n// Store WebSocket clients\nconst wsClients = new Set<any>();\n\n// Create Bun server with HTTP and WebSocket support\nconst server = Bun.serve({\n  port: 4000,\n  \n  async fetch(req: Request) {\n    const url = new URL(req.url);\n    \n    // Handle CORS\n    const headers = {\n      'Access-Control-Allow-Origin': '*',\n      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',\n      'Access-Control-Allow-Headers': 'Content-Type',\n    };\n    \n    // Handle preflight\n    if (req.method === 'OPTIONS') {\n      return new Response(null, { headers });\n    }\n    \n    // GET /health - Health check endpoint\n    if (url.pathname === '/health' && req.method === 'GET') {\n      const healthData = {\n        status: 'healthy',\n        timestamp: new Date().toISOString(),\n        version: '1.0.0',\n        services: {\n          database: 'ok',\n          websocket: 'ok'\n        },\n        metrics: {\n          activeConnections: wsClients.size,\n          uptime: process.uptime(),\n          memoryUsage: process.memoryUsage()\n        }\n      };\n      \n      return new Response(JSON.stringify(healthData), {\n        headers: { ...headers, 'Content-Type': 'application/json' }\n      });\n    }\n    \n    // POST /events - Receive new events (Simplified)\n    if (url.pathname === '/events' && req.method === 'POST') {\n      try {\n        const event: HookEvent = await req.json();\n        \n        // Validate required fields\n        if (!event.source_app || !event.session_id || !event.hook_event_type || !event.payload) {\n          return new Response(JSON.stringify({ error: 'Missing required fields' }), {\n            status: 400,\n            headers: { ...headers, 'Content-Type': 'application/json' }\n          });\n        }\n        \n        // Insert event into database\n        const savedEvent = insertEvent(event);\n        \n        // Broadcast to all WebSocket clients (simplified)\n        const message = JSON.stringify({ \n          type: 'event', \n          data: savedEvent\n        });\n        \n        wsClients.forEach(client => {\n          try {\n            client.send(message);\n          } catch (err) {\n            // Client disconnected, remove from set\n            wsClients.delete(client);\n          }\n        });\n        \n        return new Response(JSON.stringify(savedEvent), {\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });\n      } catch (error) {\n        console.error('Error processing event:', error);\n        return new Response(JSON.stringify({ error: 'Invalid request' }), {\n          status: 400,\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });",
+        "numLines": 100,
+        "startLine": 1,
+        "totalLines": 350
+      }
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755306625538
+  },
+  {
+    "session_id": "9bfc8bd5-9b5c-4a75-865f-1939503210e5",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/9bfc8bd5-9b5c-4a75-865f-1939503210e5.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Correggere bug timestamp in agent_detector.py",
+          "status": "pending",
+          "id": "1"
+        },
+        {
+          "content": "Aggiungere supporto WebSocket al server",
+          "status": "pending",
+          "id": "2"
+        },
+        {
+          "content": "Correggere porta WebSocket nel post_tool_use.py (3001\u21924000)",
+          "status": "pending",
+          "id": "3"
+        },
+        {
+          "content": "Verificare che eventi con agent_context arrivino al database",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "Testare dashboard con eventi ricchi ripristinati",
+          "status": "pending",
+          "id": "5"
+        }
+      ]
+    },
+    "tool_response": {
+      "oldTodos": [
+        {
+          "content": "Analizzare cosa manca nella visualizzazione eventi",
+          "status": "completed",
+          "id": "1"
+        },
+        {
+          "content": "Confrontare evento attuale vs formato atteso ieri",
+          "status": "completed",
+          "id": "2"
+        },
+        {
+          "content": "Verificare visualizzazione tool_name e modello",
+          "status": "completed",
+          "id": "3"
+        },
+        {
+          "content": "Aggiustare EventRow.vue per mostrare dettagli corretti",
+          "status": "completed",
+          "id": "4"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Correggere bug timestamp in agent_detector.py",
+          "status": "pending",
+          "id": "1"
+        },
+        {
+          "content": "Aggiungere supporto WebSocket al server",
+          "status": "pending",
+          "id": "2"
+        },
+        {
+          "content": "Correggere porta WebSocket nel post_tool_use.py (3001\u21924000)",
+          "status": "pending",
+          "id": "3"
+        },
+        {
+          "content": "Verificare che eventi con agent_context arrivino al database",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "Testare dashboard con eventi ricchi ripristinati",
+          "status": "pending",
+          "id": "5"
+        }
+      ]
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755306641352
+  },
+  {
+    "session_id": "9bfc8bd5-9b5c-4a75-865f-1939503210e5",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/9bfc8bd5-9b5c-4a75-865f-1939503210e5.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Correggere bug timestamp in agent_detector.py",
+          "status": "in_progress",
+          "id": "1"
+        },
+        {
+          "content": "Aggiungere supporto WebSocket al server",
+          "status": "pending",
+          "id": "2"
+        },
+        {
+          "content": "Correggere porta WebSocket nel post_tool_use.py (3001\u21924000)",
+          "status": "pending",
+          "id": "3"
+        },
+        {
+          "content": "Verificare che eventi con agent_context arrivino al database",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "Testare dashboard con eventi ricchi ripristinati",
+          "status": "pending",
+          "id": "5"
+        }
+      ]
+    },
+    "tool_response": {
+      "oldTodos": [
+        {
+          "content": "Correggere bug timestamp in agent_detector.py",
+          "status": "pending",
+          "id": "1"
+        },
+        {
+          "content": "Aggiungere supporto WebSocket al server",
+          "status": "pending",
+          "id": "2"
+        },
+        {
+          "content": "Correggere porta WebSocket nel post_tool_use.py (3001\u21924000)",
+          "status": "pending",
+          "id": "3"
+        },
+        {
+          "content": "Verificare che eventi con agent_context arrivino al database",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "Testare dashboard con eventi ricchi ripristinati",
+          "status": "pending",
+          "id": "5"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Correggere bug timestamp in agent_detector.py",
+          "status": "in_progress",
+          "id": "1"
+        },
+        {
+          "content": "Aggiungere supporto WebSocket al server",
+          "status": "pending",
+          "id": "2"
+        },
+        {
+          "content": "Correggere porta WebSocket nel post_tool_use.py (3001\u21924000)",
+          "status": "pending",
+          "id": "3"
+        },
+        {
+          "content": "Verificare che eventi con agent_context arrivino al database",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "Testare dashboard con eventi ricchi ripristinati",
+          "status": "pending",
+          "id": "5"
+        }
+      ]
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755306649871
+  },
+  {
+    "session_id": "9bfc8bd5-9b5c-4a75-865f-1939503210e5",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/9bfc8bd5-9b5c-4a75-865f-1939503210e5.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils/agent_detector.py",
+      "old_string": "import os\nimport re\nimport yaml\nfrom pathlib import Path\nfrom typing import Dict, Optional, List",
+      "new_string": "import os\nimport re\nimport time\nimport yaml\nfrom pathlib import Path\nfrom typing import Dict, Optional, List"
+    },
+    "tool_response": {
+      "filePath": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils/agent_detector.py",
+      "oldString": "import os\nimport re\nimport yaml\nfrom pathlib import Path\nfrom typing import Dict, Optional, List",
+      "newString": "import os\nimport re\nimport time\nimport yaml\nfrom pathlib import Path\nfrom typing import Dict, Optional, List",
+      "originalFile": "#!/usr/bin/env -S uv run --script\n# /// script\n# requires-python = \">=3.11\"\n# dependencies = [\n#     \"pyyaml\",\n# ]\n# ///\n\n\"\"\"\nAgent Detection Utility for Multi-Agent Observability\n\nDetects which Claude Code sub-agent is currently active and extracts\nmetadata for observability tracking.\n\"\"\"\n\nimport os\nimport re\nimport yaml\nfrom pathlib import Path\nfrom typing import Dict, Optional, List\n\n\n# Agent Role Categories for Observability\nAGENT_CATEGORIES = {\n    'core_development': [\n        'primary-agent', 'planner', 'coder', 'code-reviewer', \n        'tester-debugger', 'optimizer', 'system-admin', 'researcher'\n    ],\n    'quality_assurance': [\n        'code-reviewer', 'tester-debugger', 'cleanup-validator',\n        'github-copilot-reviewer'\n    ],\n    'security': [\n        'security-specialist', 'code-reviewer'\n    ],\n    'design_architecture': [\n        'database-architect', 'ui-ux-designer', 'optimizer'\n    ],\n    'domain_specialists': [\n        'mathematician', 'researcher', 'security-specialist',\n        'database-architect', 'ui-ux-designer'\n    ]\n}\n\n# Agent Role Mapping\nAGENT_ROLES = {\n    'primary-agent': 'orchestrator',\n    'planner': 'planning',\n    'coder': 'development',\n    'code-reviewer': 'quality',\n    'tester-debugger': 'testing',\n    'optimizer': 'performance',\n    'system-admin': 'devops',\n    'researcher': 'research',\n    'mathematician': 'computation',\n    'database-architect': 'architecture',\n    'security-specialist': 'security',\n    'ui-ux-designer': 'design',\n    'github-copilot-reviewer': 'automation',\n    'cleanup-validator': 'validation'\n}\n\n\ndef get_current_agent_context() -> Dict[str, Optional[str]]:\n    \"\"\"\n    Detect current Claude Code sub-agent from environment and context.\n    \n    Returns:\n        Dict containing agent_name, agent_role, agent_category, and delegation_chain\n    \"\"\"\n    \n    # Method 1: Check environment variables (Claude Code sets these)\n    agent_name = os.getenv('CLAUDE_AGENT_NAME')\n    if agent_name:\n        return build_agent_metadata(agent_name)\n    \n    # Method 2: Parse from current session/process title\n    session_info = get_session_agent_info()\n    if session_info.get('agent_name'):\n        return build_agent_metadata(session_info['agent_name'])\n    \n    # Method 3: Analyze recent log files for agent patterns\n    log_agent = detect_agent_from_logs()\n    if log_agent:\n        return build_agent_metadata(log_agent)\n    \n    # Default: Primary Agent (fallback)\n    return build_agent_metadata('primary-agent')\n\n\ndef build_agent_metadata(agent_name: str) -> Dict[str, Optional[str]]:\n    \"\"\"Build complete metadata for an agent.\"\"\"\n    \n    agent_role = AGENT_ROLES.get(agent_name, 'unknown')\n    agent_category = get_agent_category(agent_name)\n    \n    # Build delegation chain (Primary \u2192 Specialist pattern)\n    delegation_chain = 'primary-agent'\n    if agent_name != 'primary-agent':\n        delegation_chain = f'primary-agent \u2192 {agent_name}'\n    \n    return {\n        'agent_name': agent_name,\n        'agent_role': agent_role,\n        'agent_category': agent_category,\n        'delegation_chain': delegation_chain,\n        'timestamp': int(os.time.time() * 1000) if hasattr(os, 'time') else None\n    }\n\n\ndef get_agent_category(agent_name: str) -> str:\n    \"\"\"Determine agent category for UI grouping.\"\"\"\n    for category, agents in AGENT_CATEGORIES.items():\n        if agent_name in agents:\n            return category\n    return 'other'\n\n\ndef get_session_agent_info() -> Dict[str, Optional[str]]:\n    \"\"\"Extract agent info from current session context.\"\"\"\n    \n    # Check if we're in a Claude Code sub-agent session\n    try:\n        # Parse process information for agent indicators\n        import psutil\n        current_process = psutil.Process()\n        \n        # Check command line arguments for agent indicators\n        cmdline = ' '.join(current_process.cmdline())\n        \n        # Look for agent patterns in command line\n        agent_patterns = [\n            r'--agent[=\\s]+([a-z-]+)',\n            r'claude[_\\s]+agent[_\\s]+([a-z-]+)',\n            r'subagent[_\\s]+([a-z-]+)'\n        ]\n        \n        for pattern in agent_patterns:\n            match = re.search(pattern, cmdline, re.IGNORECASE)\n            if match:\n                return {'agent_name': match.group(1)}\n                \n    except ImportError:\n        pass\n    \n    return {}\n\n\ndef detect_agent_from_logs() -> Optional[str]:\n    \"\"\"Detect agent from recent log entries.\"\"\"\n    \n    try:\n        log_dir = Path.cwd() / 'logs'\n        if not log_dir.exists():\n            return None\n        \n        # Check recent subagent_stop.json for last active agent\n        subagent_log = log_dir / 'subagent_stop.json'\n        if subagent_log.exists():\n            with open(subagent_log, 'r') as f:\n                import json\n                log_data = json.load(f)\n                \n                if log_data and isinstance(log_data, list) and len(log_data) > 0:\n                    latest_entry = log_data[-1]\n                    \n                    # Extract agent name from session_id or payload\n                    session_id = latest_entry.get('session_id', '')\n                    if any(agent in session_id.lower() for agent in AGENT_ROLES.keys()):\n                        for agent in AGENT_ROLES.keys():\n                            if agent in session_id.lower():\n                                return agent\n    \n    except Exception:\n        pass\n    \n    return None\n\n\ndef get_agent_list() -> List[Dict[str, str]]:\n    \"\"\"Get list of all configured Claude Code agents.\"\"\"\n    \n    agents_dir = Path.cwd() / '.claude' / 'agents'\n    if not agents_dir.exists():\n        return []\n    \n    agents = []\n    for agent_file in agents_dir.glob('*.md'):\n        agent_name = agent_file.stem\n        if agent_name in AGENT_ROLES:\n            agents.append({\n                'name': agent_name,\n                'role': AGENT_ROLES[agent_name],\n                'category': get_agent_category(agent_name),\n                'file_path': str(agent_file)\n            })\n    \n    return sorted(agents, key=lambda x: x['name'])\n\n\ndef validate_agent_config(agent_name: str) -> bool:\n    \"\"\"Validate that an agent configuration exists and is properly formatted.\"\"\"\n    \n    agents_dir = Path.cwd() / '.claude' / 'agents'\n    agent_file = agents_dir / f'{agent_name}.md'\n    \n    if not agent_file.exists():\n        return False\n    \n    try:\n        with open(agent_file, 'r') as f:\n            content = f.read()\n            \n        # Check for YAML frontmatter\n        if not content.startswith('---'):\n            return False\n        \n        # Extract YAML frontmatter\n        parts = content.split('---', 2)\n        if len(parts) < 3:\n            return False\n        \n        yaml_content = parts[1]\n        metadata = yaml.safe_load(yaml_content)\n        \n        # Validate required fields\n        required_fields = ['name', 'description']\n        return all(field in metadata for field in required_fields)\n        \n    except Exception:\n        return False\n\n\nif __name__ == '__main__':\n    import json\n    \n    # Output current agent metadata as JSON\n    metadata = get_current_agent_context()\n    print(json.dumps(metadata, indent=2))",
+      "structuredPatch": [
+        {
+          "oldStart": 15,
+          "oldLines": 6,
+          "newStart": 15,
+          "newLines": 7,
+          "lines": [
+            " ",
+            " import os",
+            " import re",
+            "+import time",
+            " import yaml",
+            " from pathlib import Path",
+            " from typing import Dict, Optional, List"
+          ]
+        }
+      ],
+      "userModified": false,
+      "replaceAll": false
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": null
+    },
+    "enhanced_timestamp": 1755306658168
+  },
+  {
+    "session_id": "9bfc8bd5-9b5c-4a75-865f-1939503210e5",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/9bfc8bd5-9b5c-4a75-865f-1939503210e5.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils/agent_detector.py",
+      "old_string": "        'timestamp': int(os.time.time() * 1000) if hasattr(os, 'time') else None",
+      "new_string": "        'timestamp': int(time.time() * 1000)"
+    },
+    "tool_response": {
+      "filePath": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils/agent_detector.py",
+      "oldString": "        'timestamp': int(os.time.time() * 1000) if hasattr(os, 'time') else None",
+      "newString": "        'timestamp': int(time.time() * 1000)",
+      "originalFile": "#!/usr/bin/env -S uv run --script\n# /// script\n# requires-python = \">=3.11\"\n# dependencies = [\n#     \"pyyaml\",\n# ]\n# ///\n\n\"\"\"\nAgent Detection Utility for Multi-Agent Observability\n\nDetects which Claude Code sub-agent is currently active and extracts\nmetadata for observability tracking.\n\"\"\"\n\nimport os\nimport re\nimport time\nimport yaml\nfrom pathlib import Path\nfrom typing import Dict, Optional, List\n\n\n# Agent Role Categories for Observability\nAGENT_CATEGORIES = {\n    'core_development': [\n        'primary-agent', 'planner', 'coder', 'code-reviewer', \n        'tester-debugger', 'optimizer', 'system-admin', 'researcher'\n    ],\n    'quality_assurance': [\n        'code-reviewer', 'tester-debugger', 'cleanup-validator',\n        'github-copilot-reviewer'\n    ],\n    'security': [\n        'security-specialist', 'code-reviewer'\n    ],\n    'design_architecture': [\n        'database-architect', 'ui-ux-designer', 'optimizer'\n    ],\n    'domain_specialists': [\n        'mathematician', 'researcher', 'security-specialist',\n        'database-architect', 'ui-ux-designer'\n    ]\n}\n\n# Agent Role Mapping\nAGENT_ROLES = {\n    'primary-agent': 'orchestrator',\n    'planner': 'planning',\n    'coder': 'development',\n    'code-reviewer': 'quality',\n    'tester-debugger': 'testing',\n    'optimizer': 'performance',\n    'system-admin': 'devops',\n    'researcher': 'research',\n    'mathematician': 'computation',\n    'database-architect': 'architecture',\n    'security-specialist': 'security',\n    'ui-ux-designer': 'design',\n    'github-copilot-reviewer': 'automation',\n    'cleanup-validator': 'validation'\n}\n\n\ndef get_current_agent_context() -> Dict[str, Optional[str]]:\n    \"\"\"\n    Detect current Claude Code sub-agent from environment and context.\n    \n    Returns:\n        Dict containing agent_name, agent_role, agent_category, and delegation_chain\n    \"\"\"\n    \n    # Method 1: Check environment variables (Claude Code sets these)\n    agent_name = os.getenv('CLAUDE_AGENT_NAME')\n    if agent_name:\n        return build_agent_metadata(agent_name)\n    \n    # Method 2: Parse from current session/process title\n    session_info = get_session_agent_info()\n    if session_info.get('agent_name'):\n        return build_agent_metadata(session_info['agent_name'])\n    \n    # Method 3: Analyze recent log files for agent patterns\n    log_agent = detect_agent_from_logs()\n    if log_agent:\n        return build_agent_metadata(log_agent)\n    \n    # Default: Primary Agent (fallback)\n    return build_agent_metadata('primary-agent')\n\n\ndef build_agent_metadata(agent_name: str) -> Dict[str, Optional[str]]:\n    \"\"\"Build complete metadata for an agent.\"\"\"\n    \n    agent_role = AGENT_ROLES.get(agent_name, 'unknown')\n    agent_category = get_agent_category(agent_name)\n    \n    # Build delegation chain (Primary \u2192 Specialist pattern)\n    delegation_chain = 'primary-agent'\n    if agent_name != 'primary-agent':\n        delegation_chain = f'primary-agent \u2192 {agent_name}'\n    \n    return {\n        'agent_name': agent_name,\n        'agent_role': agent_role,\n        'agent_category': agent_category,\n        'delegation_chain': delegation_chain,\n        'timestamp': int(os.time.time() * 1000) if hasattr(os, 'time') else None\n    }\n\n\ndef get_agent_category(agent_name: str) -> str:\n    \"\"\"Determine agent category for UI grouping.\"\"\"\n    for category, agents in AGENT_CATEGORIES.items():\n        if agent_name in agents:\n            return category\n    return 'other'\n\n\ndef get_session_agent_info() -> Dict[str, Optional[str]]:\n    \"\"\"Extract agent info from current session context.\"\"\"\n    \n    # Check if we're in a Claude Code sub-agent session\n    try:\n        # Parse process information for agent indicators\n        import psutil\n        current_process = psutil.Process()\n        \n        # Check command line arguments for agent indicators\n        cmdline = ' '.join(current_process.cmdline())\n        \n        # Look for agent patterns in command line\n        agent_patterns = [\n            r'--agent[=\\s]+([a-z-]+)',\n            r'claude[_\\s]+agent[_\\s]+([a-z-]+)',\n            r'subagent[_\\s]+([a-z-]+)'\n        ]\n        \n        for pattern in agent_patterns:\n            match = re.search(pattern, cmdline, re.IGNORECASE)\n            if match:\n                return {'agent_name': match.group(1)}\n                \n    except ImportError:\n        pass\n    \n    return {}\n\n\ndef detect_agent_from_logs() -> Optional[str]:\n    \"\"\"Detect agent from recent log entries.\"\"\"\n    \n    try:\n        log_dir = Path.cwd() / 'logs'\n        if not log_dir.exists():\n            return None\n        \n        # Check recent subagent_stop.json for last active agent\n        subagent_log = log_dir / 'subagent_stop.json'\n        if subagent_log.exists():\n            with open(subagent_log, 'r') as f:\n                import json\n                log_data = json.load(f)\n                \n                if log_data and isinstance(log_data, list) and len(log_data) > 0:\n                    latest_entry = log_data[-1]\n                    \n                    # Extract agent name from session_id or payload\n                    session_id = latest_entry.get('session_id', '')\n                    if any(agent in session_id.lower() for agent in AGENT_ROLES.keys()):\n                        for agent in AGENT_ROLES.keys():\n                            if agent in session_id.lower():\n                                return agent\n    \n    except Exception:\n        pass\n    \n    return None\n\n\ndef get_agent_list() -> List[Dict[str, str]]:\n    \"\"\"Get list of all configured Claude Code agents.\"\"\"\n    \n    agents_dir = Path.cwd() / '.claude' / 'agents'\n    if not agents_dir.exists():\n        return []\n    \n    agents = []\n    for agent_file in agents_dir.glob('*.md'):\n        agent_name = agent_file.stem\n        if agent_name in AGENT_ROLES:\n            agents.append({\n                'name': agent_name,\n                'role': AGENT_ROLES[agent_name],\n                'category': get_agent_category(agent_name),\n                'file_path': str(agent_file)\n            })\n    \n    return sorted(agents, key=lambda x: x['name'])\n\n\ndef validate_agent_config(agent_name: str) -> bool:\n    \"\"\"Validate that an agent configuration exists and is properly formatted.\"\"\"\n    \n    agents_dir = Path.cwd() / '.claude' / 'agents'\n    agent_file = agents_dir / f'{agent_name}.md'\n    \n    if not agent_file.exists():\n        return False\n    \n    try:\n        with open(agent_file, 'r') as f:\n            content = f.read()\n            \n        # Check for YAML frontmatter\n        if not content.startswith('---'):\n            return False\n        \n        # Extract YAML frontmatter\n        parts = content.split('---', 2)\n        if len(parts) < 3:\n            return False\n        \n        yaml_content = parts[1]\n        metadata = yaml.safe_load(yaml_content)\n        \n        # Validate required fields\n        required_fields = ['name', 'description']\n        return all(field in metadata for field in required_fields)\n        \n    except Exception:\n        return False\n\n\nif __name__ == '__main__':\n    import json\n    \n    # Output current agent metadata as JSON\n    metadata = get_current_agent_context()\n    print(json.dumps(metadata, indent=2))",
+      "structuredPatch": [
+        {
+          "oldStart": 105,
+          "oldLines": 7,
+          "newStart": 105,
+          "newLines": 7,
+          "lines": [
+            "         'agent_role': agent_role,",
+            "         'agent_category': agent_category,",
+            "         'delegation_chain': delegation_chain,",
+            "-        'timestamp': int(os.time.time() * 1000) if hasattr(os, 'time') else None",
+            "+        'timestamp': int(time.time() * 1000)",
+            "     }",
+            " ",
+            " "
+          ]
+        }
+      ],
+      "userModified": false,
+      "replaceAll": false
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": 1755306667926
+    },
+    "enhanced_timestamp": 1755306667926
+  },
+  {
+    "session_id": "9bfc8bd5-9b5c-4a75-865f-1939503210e5",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/9bfc8bd5-9b5c-4a75-865f-1939503210e5.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "python3 agent_detector.py",
+      "description": "Test fixed agent detector"
+    },
+    "tool_response": {
+      "stdout": "{\n  \"agent_name\": \"primary-agent\",\n  \"agent_role\": \"orchestrator\",\n  \"agent_category\": \"core_development\",\n  \"delegation_chain\": \"primary-agent\",\n  \"timestamp\": 1755306674866\n}",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": 1755306676195
+    },
+    "enhanced_timestamp": 1755306676195
+  },
+  {
+    "session_id": "9bfc8bd5-9b5c-4a75-865f-1939503210e5",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/9bfc8bd5-9b5c-4a75-865f-1939503210e5.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Correggere bug timestamp in agent_detector.py",
+          "status": "completed",
+          "id": "1"
+        },
+        {
+          "content": "Aggiungere supporto WebSocket al server",
+          "status": "in_progress",
+          "id": "2"
+        },
+        {
+          "content": "Correggere porta WebSocket nel post_tool_use.py (3001\u21924000)",
+          "status": "pending",
+          "id": "3"
+        },
+        {
+          "content": "Verificare che eventi con agent_context arrivino al database",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "Testare dashboard con eventi ricchi ripristinati",
+          "status": "pending",
+          "id": "5"
+        }
+      ]
+    },
+    "tool_response": {
+      "oldTodos": [
+        {
+          "content": "Correggere bug timestamp in agent_detector.py",
+          "status": "in_progress",
+          "id": "1"
+        },
+        {
+          "content": "Aggiungere supporto WebSocket al server",
+          "status": "pending",
+          "id": "2"
+        },
+        {
+          "content": "Correggere porta WebSocket nel post_tool_use.py (3001\u21924000)",
+          "status": "pending",
+          "id": "3"
+        },
+        {
+          "content": "Verificare che eventi con agent_context arrivino al database",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "Testare dashboard con eventi ricchi ripristinati",
+          "status": "pending",
+          "id": "5"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Correggere bug timestamp in agent_detector.py",
+          "status": "completed",
+          "id": "1"
+        },
+        {
+          "content": "Aggiungere supporto WebSocket al server",
+          "status": "in_progress",
+          "id": "2"
+        },
+        {
+          "content": "Correggere porta WebSocket nel post_tool_use.py (3001\u21924000)",
+          "status": "pending",
+          "id": "3"
+        },
+        {
+          "content": "Verificare che eventi con agent_context arrivino al database",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "Testare dashboard con eventi ricchi ripristinati",
+          "status": "pending",
+          "id": "5"
+        }
+      ]
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": 1755306685075
+    },
+    "enhanced_timestamp": 1755306685075
+  },
+  {
+    "session_id": "9bfc8bd5-9b5c-4a75-865f-1939503210e5",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/9bfc8bd5-9b5c-4a75-865f-1939503210e5.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/sam/claude-code-hooks-mastery/apps/server/src/index.ts",
+      "old_string": "// Create Bun server with HTTP and WebSocket support\nconst server = Bun.serve({\n  port: 4000,\n  \n  async fetch(req: Request) {",
+      "new_string": "// Create Bun server with HTTP and WebSocket support\nconst server = Bun.serve({\n  port: 4000,\n  \n  // WebSocket configuration for real-time events\n  websocket: {\n    open(ws) {\n      console.log('WebSocket client connected');\n      wsClients.add(ws);\n    },\n    \n    message(ws, message) {\n      try {\n        const data = JSON.parse(message as string);\n        \n        // Handle different message types\n        if (data.type === 'task_completion_event' && data.data) {\n          // Insert event into database\n          const event: HookEvent = {\n            source_app: data.data.source_app || 'cc-hook-multi-agent-obvs',\n            session_id: data.data.session_id || 'unknown',\n            hook_event_type: data.data.hook_event_name || 'PostToolUse',\n            payload: JSON.stringify(data.data),\n            timestamp: data.timestamp || Date.now()\n          };\n          \n          const savedEvent = insertEvent(event);\n          \n          // Broadcast to all clients\n          const broadcastMessage = JSON.stringify({ \n            type: 'event', \n            data: savedEvent\n          });\n          \n          wsClients.forEach(client => {\n            try {\n              client.send(broadcastMessage);\n            } catch (err) {\n              wsClients.delete(client);\n            }\n          });\n        }\n      } catch (error) {\n        console.error('WebSocket message error:', error);\n      }\n    },\n    \n    close(ws) {\n      console.log('WebSocket client disconnected');\n      wsClients.delete(ws);\n    }\n  },\n  \n  async fetch(req: Request) {"
+    },
+    "tool_response": {
+      "filePath": "/Users/sam/claude-code-hooks-mastery/apps/server/src/index.ts",
+      "oldString": "// Create Bun server with HTTP and WebSocket support\nconst server = Bun.serve({\n  port: 4000,\n  \n  async fetch(req: Request) {",
+      "newString": "// Create Bun server with HTTP and WebSocket support\nconst server = Bun.serve({\n  port: 4000,\n  \n  // WebSocket configuration for real-time events\n  websocket: {\n    open(ws) {\n      console.log('WebSocket client connected');\n      wsClients.add(ws);\n    },\n    \n    message(ws, message) {\n      try {\n        const data = JSON.parse(message as string);\n        \n        // Handle different message types\n        if (data.type === 'task_completion_event' && data.data) {\n          // Insert event into database\n          const event: HookEvent = {\n            source_app: data.data.source_app || 'cc-hook-multi-agent-obvs',\n            session_id: data.data.session_id || 'unknown',\n            hook_event_type: data.data.hook_event_name || 'PostToolUse',\n            payload: JSON.stringify(data.data),\n            timestamp: data.timestamp || Date.now()\n          };\n          \n          const savedEvent = insertEvent(event);\n          \n          // Broadcast to all clients\n          const broadcastMessage = JSON.stringify({ \n            type: 'event', \n            data: savedEvent\n          });\n          \n          wsClients.forEach(client => {\n            try {\n              client.send(broadcastMessage);\n            } catch (err) {\n              wsClients.delete(client);\n            }\n          });\n        }\n      } catch (error) {\n        console.error('WebSocket message error:', error);\n      }\n    },\n    \n    close(ws) {\n      console.log('WebSocket client disconnected');\n      wsClients.delete(ws);\n    }\n  },\n  \n  async fetch(req: Request) {",
+      "originalFile": "import { initDatabase, insertEvent, getFilterOptions, getRecentEvents } from './db';\nimport type { HookEvent } from './types';\nimport { \n  createTheme, \n  updateThemeById, \n  getThemeById, \n  searchThemes, \n  deleteThemeById, \n  exportThemeById, \n  importTheme,\n  getThemeStats \n} from './theme';\n\n// Initialize database\ninitDatabase();\n\n// Store WebSocket clients\nconst wsClients = new Set<any>();\n\n// Create Bun server with HTTP and WebSocket support\nconst server = Bun.serve({\n  port: 4000,\n  \n  async fetch(req: Request) {\n    const url = new URL(req.url);\n    \n    // Handle CORS\n    const headers = {\n      'Access-Control-Allow-Origin': '*',\n      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',\n      'Access-Control-Allow-Headers': 'Content-Type',\n    };\n    \n    // Handle preflight\n    if (req.method === 'OPTIONS') {\n      return new Response(null, { headers });\n    }\n    \n    // GET /health - Health check endpoint\n    if (url.pathname === '/health' && req.method === 'GET') {\n      const healthData = {\n        status: 'healthy',\n        timestamp: new Date().toISOString(),\n        version: '1.0.0',\n        services: {\n          database: 'ok',\n          websocket: 'ok'\n        },\n        metrics: {\n          activeConnections: wsClients.size,\n          uptime: process.uptime(),\n          memoryUsage: process.memoryUsage()\n        }\n      };\n      \n      return new Response(JSON.stringify(healthData), {\n        headers: { ...headers, 'Content-Type': 'application/json' }\n      });\n    }\n    \n    // POST /events - Receive new events (Simplified)\n    if (url.pathname === '/events' && req.method === 'POST') {\n      try {\n        const event: HookEvent = await req.json();\n        \n        // Validate required fields\n        if (!event.source_app || !event.session_id || !event.hook_event_type || !event.payload) {\n          return new Response(JSON.stringify({ error: 'Missing required fields' }), {\n            status: 400,\n            headers: { ...headers, 'Content-Type': 'application/json' }\n          });\n        }\n        \n        // Insert event into database\n        const savedEvent = insertEvent(event);\n        \n        // Broadcast to all WebSocket clients (simplified)\n        const message = JSON.stringify({ \n          type: 'event', \n          data: savedEvent\n        });\n        \n        wsClients.forEach(client => {\n          try {\n            client.send(message);\n          } catch (err) {\n            // Client disconnected, remove from set\n            wsClients.delete(client);\n          }\n        });\n        \n        return new Response(JSON.stringify(savedEvent), {\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });\n      } catch (error) {\n        console.error('Error processing event:', error);\n        return new Response(JSON.stringify({ error: 'Invalid request' }), {\n          status: 400,\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });\n      }\n    }\n    \n    // GET /events/filter-options - Get available filter options\n    if (url.pathname === '/events/filter-options' && req.method === 'GET') {\n      const options = getFilterOptions();\n      return new Response(JSON.stringify(options), {\n        headers: { ...headers, 'Content-Type': 'application/json' }\n      });\n    }\n    \n    // GET /events/recent - Get recent events\n    if (url.pathname === '/events/recent' && req.method === 'GET') {\n      const limit = parseInt(url.searchParams.get('limit') || '100');\n      const events = getRecentEvents(limit);\n      return new Response(JSON.stringify(events), {\n        headers: { ...headers, 'Content-Type': 'application/json' }\n      });\n    }\n    \n    // Theme API endpoints (preserved)\n    \n    // POST /api/themes - Create a new theme\n    if (url.pathname === '/api/themes' && req.method === 'POST') {\n      try {\n        const themeData = await req.json();\n        const result = await createTheme(themeData);\n        \n        const status = result.success ? 201 : 400;\n        return new Response(JSON.stringify(result), {\n          status,\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });\n      } catch (error) {\n        console.error('Error creating theme:', error);\n        return new Response(JSON.stringify({ \n          success: false, \n          error: 'Invalid request body' \n        }), {\n          status: 400,\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });\n      }\n    }\n    \n    // GET /api/themes - Search themes\n    if (url.pathname === '/api/themes' && req.method === 'GET') {\n      const query = {\n        query: url.searchParams.get('query') || undefined,\n        isPublic: url.searchParams.get('isPublic') ? url.searchParams.get('isPublic') === 'true' : undefined,\n        authorId: url.searchParams.get('authorId') || undefined,\n        sortBy: url.searchParams.get('sortBy') as any || undefined,\n        sortOrder: url.searchParams.get('sortOrder') as any || undefined,\n        limit: url.searchParams.get('limit') ? parseInt(url.searchParams.get('limit')!) : undefined,\n        offset: url.searchParams.get('offset') ? parseInt(url.searchParams.get('offset')!) : undefined,\n      };\n      \n      const result = await searchThemes(query);\n      return new Response(JSON.stringify(result), {\n        headers: { ...headers, 'Content-Type': 'application/json' }\n      });\n    }\n    \n    // GET /api/themes/:id - Get a specific theme\n    if (url.pathname.startsWith('/api/themes/') && req.method === 'GET') {\n      const id = url.pathname.split('/')[3];\n      if (!id) {\n        return new Response(JSON.stringify({ \n          success: false, \n          error: 'Theme ID is required' \n        }), {\n          status: 400,\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });\n      }\n      \n      const result = await getThemeById(id);\n      const status = result.success ? 200 : 404;\n      return new Response(JSON.stringify(result), {\n        status,\n        headers: { ...headers, 'Content-Type': 'application/json' }\n      });\n    }\n    \n    // PUT /api/themes/:id - Update a theme\n    if (url.pathname.startsWith('/api/themes/') && req.method === 'PUT') {\n      const id = url.pathname.split('/')[3];\n      if (!id) {\n        return new Response(JSON.stringify({ \n          success: false, \n          error: 'Theme ID is required' \n        }), {\n          status: 400,\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });\n      }\n      \n      try {\n        const updates = await req.json();\n        const result = await updateThemeById(id, updates);\n        \n        const status = result.success ? 200 : 400;\n        return new Response(JSON.stringify(result), {\n          status,\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });\n      } catch (error) {\n        console.error('Error updating theme:', error);\n        return new Response(JSON.stringify({ \n          success: false, \n          error: 'Invalid request body' \n        }), {\n          status: 400,\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });\n      }\n    }\n    \n    // DELETE /api/themes/:id - Delete a theme\n    if (url.pathname.startsWith('/api/themes/') && req.method === 'DELETE') {\n      const id = url.pathname.split('/')[3];\n      if (!id) {\n        return new Response(JSON.stringify({ \n          success: false, \n          error: 'Theme ID is required' \n        }), {\n          status: 400,\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });\n      }\n      \n      const authorId = url.searchParams.get('authorId');\n      const result = await deleteThemeById(id, authorId || undefined);\n      \n      const status = result.success ? 200 : (result.error?.includes('not found') ? 404 : 403);\n      return new Response(JSON.stringify(result), {\n        status,\n        headers: { ...headers, 'Content-Type': 'application/json' }\n      });\n    }\n    \n    // GET /api/themes/:id/export - Export a theme\n    if (url.pathname.match(/^\\/api\\/themes\\/[^\\/]+\\/export$/) && req.method === 'GET') {\n      const id = url.pathname.split('/')[3];\n      \n      const result = await exportThemeById(id);\n      if (!result.success) {\n        const status = result.error?.includes('not found') ? 404 : 400;\n        return new Response(JSON.stringify(result), {\n          status,\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });\n      }\n      \n      return new Response(JSON.stringify(result.data), {\n        headers: { \n          ...headers, \n          'Content-Type': 'application/json',\n          'Content-Disposition': `attachment; filename=\"${result.data.theme.name}.json\"`\n        }\n      });\n    }\n    \n    // POST /api/themes/import - Import a theme\n    if (url.pathname === '/api/themes/import' && req.method === 'POST') {\n      try {\n        const importData = await req.json();\n        const authorId = url.searchParams.get('authorId');\n        \n        const result = await importTheme(importData, authorId || undefined);\n        \n        const status = result.success ? 201 : 400;\n        return new Response(JSON.stringify(result), {\n          status,\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });\n      } catch (error) {\n        console.error('Error importing theme:', error);\n        return new Response(JSON.stringify({ \n          success: false, \n          error: 'Invalid import data' \n        }), {\n          status: 400,\n          headers: { ...headers, 'Content-Type': 'application/json' }\n        });\n      }\n    }\n    \n    // GET /api/themes/stats - Get theme statistics\n    if (url.pathname === '/api/themes/stats' && req.method === 'GET') {\n      const result = await getThemeStats();\n      return new Response(JSON.stringify(result), {\n        headers: { ...headers, 'Content-Type': 'application/json' }\n      });\n    }\n    \n    // WebSocket upgrade\n    if (url.pathname === '/stream') {\n      const success = server.upgrade(req);\n      if (success) {\n        return undefined;\n      }\n    }\n    \n    // Default response\n    return new Response('Multi-Agent Observability Server', {\n      headers: { ...headers, 'Content-Type': 'text/plain' }\n    });\n  },\n  \n  websocket: {\n    open(ws) {\n      console.log('WebSocket client connected');\n      wsClients.add(ws);\n      \n      // Send recent events on connection (simplified)\n      const events = getRecentEvents(50);\n      \n      ws.send(JSON.stringify({ \n        type: 'initial', \n        data: events\n      }));\n    },\n    \n    message(ws, message) {\n      // Handle client messages (simplified)\n      try {\n        const request = JSON.parse(message.toString());\n        console.log('WebSocket message received:', request.type);\n      } catch (error) {\n        console.error('Error processing WebSocket message:', error);\n      }\n    },\n    \n    close(ws) {\n      console.log('WebSocket client disconnected');\n      wsClients.delete(ws);\n    },\n    \n    error(ws, error) {\n      console.error('WebSocket error:', error);\n      wsClients.delete(ws);\n    }\n  }\n});\n\nconsole.log(`\ud83d\ude80 Server running on http://localhost:${server.port}`);\nconsole.log(`\ud83d\udcca WebSocket endpoint: ws://localhost:${server.port}/stream`);\nconsole.log(`\ud83d\udcee POST events to: http://localhost:${server.port}/events`);\nconsole.log(`\u2764\ufe0f  Health check: http://localhost:${server.port}/health`);",
+      "structuredPatch": [
+        {
+          "oldStart": 21,
+          "oldLines": 6,
+          "newStart": 21,
+          "newLines": 55,
+          "lines": [
+            " const server = Bun.serve({",
+            "   port: 4000,",
+            "   ",
+            "+  // WebSocket configuration for real-time events",
+            "+  websocket: {",
+            "+    open(ws) {",
+            "+      console.log('WebSocket client connected');",
+            "+      wsClients.add(ws);",
+            "+    },",
+            "+    ",
+            "+    message(ws, message) {",
+            "+      try {",
+            "+        const data = JSON.parse(message as string);",
+            "+        ",
+            "+        // Handle different message types",
+            "+        if (data.type === 'task_completion_event' && data.data) {",
+            "+          // Insert event into database",
+            "+          const event: HookEvent = {",
+            "+            source_app: data.data.source_app || 'cc-hook-multi-agent-obvs',",
+            "+            session_id: data.data.session_id || 'unknown',",
+            "+            hook_event_type: data.data.hook_event_name || 'PostToolUse',",
+            "+            payload: JSON.stringify(data.data),",
+            "+            timestamp: data.timestamp || Date.now()",
+            "+          };",
+            "+          ",
+            "+          const savedEvent = insertEvent(event);",
+            "+          ",
+            "+          // Broadcast to all clients",
+            "+          const broadcastMessage = JSON.stringify({ ",
+            "+            type: 'event', ",
+            "+            data: savedEvent",
+            "+          });",
+            "+          ",
+            "+          wsClients.forEach(client => {",
+            "+            try {",
+            "+              client.send(broadcastMessage);",
+            "+            } catch (err) {",
+            "+              wsClients.delete(client);",
+            "+            }",
+            "+          });",
+            "+        }",
+            "+      } catch (error) {",
+            "+        console.error('WebSocket message error:', error);",
+            "+      }",
+            "+    },",
+            "+    ",
+            "+    close(ws) {",
+            "+      console.log('WebSocket client disconnected');",
+            "+      wsClients.delete(ws);",
+            "+    }",
+            "+  },",
+            "+  ",
+            "   async fetch(req: Request) {",
+            "     const url = new URL(req.url);",
+            "     "
+          ]
+        }
+      ],
+      "userModified": false,
+      "replaceAll": false
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": 1755306698587
+    },
+    "enhanced_timestamp": 1755306698587
+  },
+  {
+    "session_id": "9bfc8bd5-9b5c-4a75-865f-1939503210e5",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/9bfc8bd5-9b5c-4a75-865f-1939503210e5.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Correggere bug timestamp in agent_detector.py",
+          "status": "completed",
+          "id": "1"
+        },
+        {
+          "content": "Aggiungere supporto WebSocket al server",
+          "status": "completed",
+          "id": "2"
+        },
+        {
+          "content": "Correggere porta WebSocket nel post_tool_use.py (3001\u21924000)",
+          "status": "in_progress",
+          "id": "3"
+        },
+        {
+          "content": "Verificare che eventi con agent_context arrivino al database",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "Testare dashboard con eventi ricchi ripristinati",
+          "status": "pending",
+          "id": "5"
+        }
+      ]
+    },
+    "tool_response": {
+      "oldTodos": [
+        {
+          "content": "Correggere bug timestamp in agent_detector.py",
+          "status": "completed",
+          "id": "1"
+        },
+        {
+          "content": "Aggiungere supporto WebSocket al server",
+          "status": "in_progress",
+          "id": "2"
+        },
+        {
+          "content": "Correggere porta WebSocket nel post_tool_use.py (3001\u21924000)",
+          "status": "pending",
+          "id": "3"
+        },
+        {
+          "content": "Verificare che eventi con agent_context arrivino al database",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "Testare dashboard con eventi ricchi ripristinati",
+          "status": "pending",
+          "id": "5"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Correggere bug timestamp in agent_detector.py",
+          "status": "completed",
+          "id": "1"
+        },
+        {
+          "content": "Aggiungere supporto WebSocket al server",
+          "status": "completed",
+          "id": "2"
+        },
+        {
+          "content": "Correggere porta WebSocket nel post_tool_use.py (3001\u21924000)",
+          "status": "in_progress",
+          "id": "3"
+        },
+        {
+          "content": "Verificare che eventi con agent_context arrivino al database",
+          "status": "pending",
+          "id": "4"
+        },
+        {
+          "content": "Testare dashboard con eventi ricchi ripristinati",
+          "status": "pending",
+          "id": "5"
+        }
+      ]
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": 1755306708161
+    },
+    "enhanced_timestamp": 1755306708161
+  },
+  {
+    "session_id": "9bfc8bd5-9b5c-4a75-865f-1939503210e5",
+    "transcript_path": "/Users/sam/.claude/projects/-Users-sam-claude-code-hooks-mastery/9bfc8bd5-9b5c-4a75-865f-1939503210e5.jsonl",
+    "cwd": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/utils",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/post_tool_use.py",
+      "old_string": "        # Connect to existing WebSocket server (from previous implementation)\n        websocket_url = \"ws://localhost:3001\"",
+      "new_string": "        # Connect to existing WebSocket server (updated port)\n        websocket_url = \"ws://localhost:4000\""
+    },
+    "tool_response": {
+      "filePath": "/Users/sam/claude-code-hooks-mastery/.claude/hooks/post_tool_use.py",
+      "oldString": "        # Connect to existing WebSocket server (from previous implementation)\n        websocket_url = \"ws://localhost:3001\"",
+      "newString": "        # Connect to existing WebSocket server (updated port)\n        websocket_url = \"ws://localhost:4000\"",
+      "originalFile": "#!/usr/bin/env -S uv run --script\n# /// script\n# requires-python = \">=3.11\"\n# dependencies = [\n#     \"asyncio\",\n#     \"websockets\", \n#     \"google-cloud-secret-manager\",\n#     \"pyyaml\",\n#     \"numpy\",\n#     \"httpx\",\n#     \"anthropic\",\n#     \"google-generativeai\",\n#     \"openai\"\n# ]\n# ///\n\nimport json\nimport os\nimport sys\nimport asyncio\nimport time\nfrom pathlib import Path\nfrom typing import Dict, Any, Optional, List\nfrom utils.constants import ensure_session_log_dir\nfrom utils.agent_detector import get_current_agent_context, build_agent_metadata\n\n# Import new advanced validation system\ntry:\n    from collective_intelligence_validator import CollectiveIntelligenceValidator, trigger_advanced_ensemble_validation\n    from meta_learning_thresholds import get_adaptive_thresholds_for_context, record_validation_feedback\n    from population_consensus import ConsensusMethod\n    from validation_telemetry import record_validation_event, record_validation_discovery, get_validation_dashboard, cleanup_validation_telemetry\n    ADVANCED_VALIDATION_AVAILABLE = True\nexcept ImportError as e:\n    print(f\"\u26a0\ufe0f Advanced validation system not available: {e}\", file=sys.stderr)\n    ADVANCED_VALIDATION_AVAILABLE = False\n\n\ndef is_task_completion_event(input_data: Dict[str, Any]) -> bool:\n    \"\"\"\n    Detect if this tool use represents a task completion event.\n    \n    Task completion indicators:\n    - mcp__shrimp-task-manager__verify_task calls\n    - Tools with high success scores (\u226580)\n    - Primary agent orchestration completion patterns\n    - Work validator successful completions\n    \"\"\"\n    \n    tool_name = input_data.get('request', {}).get('tool_name', '')\n    tool_params = input_data.get('request', {}).get('parameters', {})\n    \n    # Direct task completion via Shrimp Task Manager\n    if 'shrimp-task-manager' in tool_name and 'verify' in tool_name:\n        score = tool_params.get('score', 0)\n        return score >= 80\n    \n    # Work validator completion patterns\n    if 'work-validator' in tool_name or input_data.get('agent_name') == 'work-validator-sonnet':\n        # Check for validation completion in response\n        response_content = str(input_data.get('response', {}))\n        if 'validation_status' in response_content and 'approved' in response_content:\n            return True\n    \n    # Primary agent completion patterns\n    agent_context = get_current_agent_context()\n    if agent_context.get('agent_name') == 'primary-agent':\n        # Check for completion indicators in tool usage patterns\n        completion_patterns = ['completed', 'finished', 'done', 'success']\n        response_str = str(input_data.get('response', '')).lower()\n        \n        if any(pattern in response_str for pattern in completion_patterns):\n            return True\n    \n    return False\n\n\ndef is_primary_agent_active() -> bool:\n    \"\"\"Check if Primary Agent is currently active using agent_detector patterns.\"\"\"\n    agent_context = get_current_agent_context()\n    return agent_context.get('agent_name') == 'primary-agent'\n\n\nasync def trigger_enhanced_memory_sync(input_data: Dict[str, Any]) -> bool:\n    \"\"\"\n    Trigger enhanced memory sync using the new memory_sync_enhanced.py script.\n    \n    This calls the enhanced memory sync when significant task completions occur,\n    ensuring context and knowledge are preserved across sessions.\n    \"\"\"\n    \n    try:\n        # Import the enhanced memory sync module\n        script_path = Path(__file__).parent / \"utils\" / \"agentic_enhanced\" / \"memory_sync_enhanced.py\"\n        \n        if not script_path.exists():\n            return False\n        \n        # Extract relevant context for memory storage\n        context_data = {\n            \"completion_event\": input_data,\n            \"agent_context\": get_current_agent_context(),\n            \"timestamp\": int(time.time() * 1000),\n            \"tool_usage\": {\n                \"tool_name\": input_data.get('request', {}).get('tool_name'),\n                \"success\": input_data.get('response', {}).get('success', False)\n            }\n        }\n        \n        # Create memory entry for the completion event\n        import subprocess\n        memory_content = f\"Task completion: {context_data['tool_usage']['tool_name']} completed successfully\"\n        \n        result = subprocess.run([\n            str(script_path), \"add\", memory_content\n        ], capture_output=True, text=True, timeout=30)\n        \n        return result.returncode == 0\n        \n    except Exception as e:\n        # Log error but don't fail the hook\n        print(f\"Memory sync error: {e}\", file=sys.stderr)\n        return False\n\n\nasync def trigger_ensemble_validation(input_data: Dict[str, Any]) -> Dict[str, Any]:\n    \"\"\"\n    Trigger advanced ensemble validation using the new collective intelligence system.\n    \n    This replaces the previous primitive validation with sophisticated multi-model\n    validation using adaptive thresholds and collective intelligence patterns.\n    \"\"\"\n    \n    try:\n        # Check if this is a validation-worthy event\n        if not is_task_completion_event(input_data) and not is_primary_agent_active():\n            return {\"ensemble_validation\": \"not_applicable\"}\n        \n        if ADVANCED_VALIDATION_AVAILABLE:\n            # Use advanced collective intelligence validation\n            print(\"\ud83e\udde0 Using advanced collective intelligence validation\", file=sys.stderr)\n            return await trigger_advanced_ensemble_validation(input_data)\n        else:\n            # Fallback to improved legacy validation\n            return await _fallback_ensemble_validation(input_data)\n        \n    except Exception as e:\n        return {\n            \"ensemble_validation\": \"error\",\n            \"error\": str(e),\n            \"fallback_available\": True\n        }\n\n\nasync def _fallback_ensemble_validation(input_data: Dict[str, Any]) -> Dict[str, Any]:\n    \"\"\"\n    Improved fallback validation when advanced system is not available.\n    \"\"\"\n    validation_result = {\n        \"ensemble_validation\": \"fallback_legacy\",\n        \"models_used\": [],\n        \"consensus_score\": 0,\n        \"validation_details\": {}\n    }\n    \n    try:\n        # Model 1: Improved Opus validation with better heuristics\n        opus_result = await run_opus_validation(input_data)\n        validation_result[\"models_used\"].append(\"opus\")\n        validation_result[\"validation_details\"][\"opus\"] = opus_result\n        \n        # Model 2: Improved Gemini validation with better heuristics\n        gemini_result = await run_gemini_validation(input_data)\n        validation_result[\"models_used\"].append(\"gemini_gpro\")\n        validation_result[\"validation_details\"][\"gemini\"] = gemini_result\n        \n        # Calculate improved consensus using weighted scoring\n        opus_weight = opus_result.get(\"confidence\", 0.5) if \"error\" not in opus_result else 0.1\n        gemini_weight = gemini_result.get(\"confidence\", 0.5) if \"error\" not in gemini_result else 0.1\n        \n        total_weight = opus_weight + gemini_weight\n        \n        if total_weight > 0:\n            validation_result[\"consensus_score\"] = (\n                (opus_result.get(\"score\", 0) * opus_weight + \n                 gemini_result.get(\"score\", 0) * gemini_weight) / total_weight\n            )\n        else:\n            validation_result[\"consensus_score\"] = 50.0  # Conservative default\n        \n        # Use adaptive thresholds if available\n        if ADVANCED_VALIDATION_AVAILABLE:\n            try:\n                adaptive_thresholds = get_adaptive_thresholds_for_context(input_data)\n                approved_threshold = adaptive_thresholds.get(\"approved\", 80.0)\n                needs_revision_threshold = adaptive_thresholds.get(\"needs_revision\", 60.0)\n            except:\n                approved_threshold = 80.0\n                needs_revision_threshold = 60.0\n        else:\n            approved_threshold = 80.0\n            needs_revision_threshold = 60.0\n        \n        # Determine final validation status\n        if validation_result[\"consensus_score\"] >= approved_threshold:\n            validation_result[\"final_status\"] = \"approved\"\n        elif validation_result[\"consensus_score\"] >= needs_revision_threshold:\n            validation_result[\"final_status\"] = \"needs_revision\" \n        else:\n            validation_result[\"final_status\"] = \"rejected\"\n        \n        return validation_result\n        \n    except Exception as e:\n        return {\n            \"ensemble_validation\": \"fallback_error\",\n            \"error\": str(e)\n        }\n\n\nasync def run_opus_validation(input_data: Dict[str, Any]) -> Dict[str, Any]:\n    \"\"\"\n    Enhanced Opus model validation.\n    \n    If advanced system is available, uses real API calls.\n    Otherwise provides improved heuristic-based validation.\n    \"\"\"\n    \n    if ADVANCED_VALIDATION_AVAILABLE:\n        try:\n            validator = CollectiveIntelligenceValidator()\n            from collective_intelligence_validator import ValidationModel\n            result = await validator._validate_with_model(ValidationModel.CLAUDE_OPUS, input_data)\n            \n            return {\n                \"model\": \"opus\",\n                \"score\": result.score,\n                \"reflection\": result.reasoning,\n                \"recommendations\": [\"Consider ensemble validation\", \"Review safety scores\"],\n                \"confidence\": result.confidence,\n                \"tokens_used\": result.tokens_used,\n                \"dimensions\": result.dimensions.__dict__ if hasattr(result, 'dimensions') else {},\n                \"response_time\": result.response_time\n            }\n        except Exception as e:\n            print(f\"Advanced Opus validation failed: {e}\", file=sys.stderr)\n            # Fall through to heuristic validation\n    \n    # Improved heuristic-based validation\n    tool_name = input_data.get('request', {}).get('tool_name', '')\n    tool_params = input_data.get('request', {}).get('parameters', {})\n    response_content = input_data.get('response', {})\n    \n    # Heuristic scoring based on tool type and success indicators\n    base_score = 70.0\n    confidence = 0.6  # Lower confidence for heuristic\n    \n    # Tool-specific scoring\n    tool_scores = {\n        'Write': 80.0,\n        'Read': 75.0,\n        'Bash': 85.0,\n        'git': 82.0,\n        'search': 70.0\n    }\n    \n    base_score = tool_scores.get(tool_name, base_score)\n    \n    # Success indicators\n    if response_content.get('success', False):\n        base_score += 10.0\n        confidence += 0.1\n    \n    # Error indicators\n    if 'error' in str(response_content).lower():\n        base_score -= 15.0\n        confidence -= 0.1\n    \n    # Parameter complexity (more complex = potentially higher quality if successful)\n    param_complexity = len(str(tool_params)) / 100.0\n    base_score += min(5.0, param_complexity)\n    \n    # Constrain score and confidence\n    final_score = max(10.0, min(95.0, base_score))\n    final_confidence = max(0.2, min(0.8, confidence))\n    \n    return {\n        \"model\": \"opus\",\n        \"score\": final_score,\n        \"reflection\": f\"Heuristic analysis of {tool_name} usage with complexity {param_complexity:.2f}\",\n        \"recommendations\": [\"Consider using real API validation\", \"Review parameter complexity\"],\n        \"confidence\": final_confidence,\n        \"tokens_used\": 0,  # No actual API call\n        \"dimensions\": {\n            \"performance\": final_score * 0.9,\n            \"novelty\": final_score * 0.7,\n            \"efficiency\": final_score * 0.8,\n            \"safety\": final_score * 1.1\n        }\n    }\n\n\nasync def run_gemini_validation(input_data: Dict[str, Any]) -> Dict[str, Any]:\n    \"\"\"\n    Enhanced Gemini GPro validation.\n    \n    If advanced system is available, uses real API calls.\n    Otherwise provides improved heuristic-based validation.\n    \"\"\"\n    \n    if ADVANCED_VALIDATION_AVAILABLE:\n        try:\n            validator = CollectiveIntelligenceValidator()\n            from collective_intelligence_validator import ValidationModel\n            result = await validator._validate_with_model(ValidationModel.GEMINI_PRO, input_data)\n            \n            return {\n                \"model\": \"gemini_gpro\", \n                \"score\": result.score,\n                \"analysis\": result.reasoning,\n                \"hook_context\": \"Validated through advanced API integration\",\n                \"confidence\": result.confidence,\n                \"tokens_used\": result.tokens_used,\n                \"dimensions\": result.dimensions.__dict__ if hasattr(result, 'dimensions') else {},\n                \"response_time\": result.response_time\n            }\n        except Exception as e:\n            print(f\"Advanced Gemini validation failed: {e}\", file=sys.stderr)\n            # Fall through to heuristic validation\n    \n    # Improved heuristic-based validation (slightly different from Opus)\n    tool_name = input_data.get('request', {}).get('tool_name', '')\n    tool_params = input_data.get('request', {}).get('parameters', {})\n    response_content = input_data.get('response', {})\n    \n    # Different base scoring for diversity\n    base_score = 68.0\n    confidence = 0.55\n    \n    # Different tool scoring to provide diversity\n    tool_scores = {\n        'Write': 78.0,\n        'Read': 72.0,\n        'Bash': 88.0,  # Gemini might be better at shell analysis\n        'git': 80.0,\n        'search': 74.0\n    }\n    \n    base_score = tool_scores.get(tool_name, base_score)\n    \n    # Different success weighting\n    if response_content.get('success', False):\n        base_score += 12.0\n        confidence += 0.15\n    \n    # Different error penalty\n    if 'error' in str(response_content).lower():\n        base_score -= 12.0\n        confidence -= 0.05\n    \n    # Response size factor (Gemini might prefer detailed responses)\n    response_size = len(str(response_content)) / 200.0\n    base_score += min(3.0, response_size)\n    \n    # Constrain values\n    final_score = max(15.0, min(92.0, base_score))\n    final_confidence = max(0.25, min(0.85, confidence))\n    \n    return {\n        \"model\": \"gemini_gpro\",\n        \"score\": final_score,\n        \"analysis\": f\"Heuristic analysis of {tool_name} with response complexity {response_size:.2f}\",\n        \"hook_context\": \"Validated through improved heuristic analysis\",\n        \"confidence\": final_confidence,\n        \"tokens_used\": 0,\n        \"dimensions\": {\n            \"performance\": final_score * 0.85,\n            \"novelty\": final_score * 0.9,\n            \"efficiency\": final_score * 0.75,\n            \"safety\": final_score * 1.05\n        }\n    }\n\n\nasync def send_to_observability_system(data: Dict[str, Any]) -> bool:\n    \"\"\"Send enhanced data to existing Vue.js observability system.\"\"\"\n    \n    try:\n        import websockets\n        \n        # Connect to existing WebSocket server (from previous implementation)\n        websocket_url = \"ws://localhost:3001\"\n        \n        async with websockets.connect(websocket_url, timeout=5) as websocket:\n            await websocket.send(json.dumps({\n                \"type\": \"task_completion_event\",\n                \"data\": data,\n                \"timestamp\": int(time.time() * 1000)\n            }))\n            return True\n            \n    except Exception:\n        # Fallback to file-based communication if WebSocket unavailable\n        try:\n            observability_dir = Path.cwd() / \"apps\" / \"server\" / \"data\"\n            observability_dir.mkdir(parents=True, exist_ok=True)\n            \n            event_file = observability_dir / \"task_completion_events.json\"\n            \n            events = []\n            if event_file.exists():\n                with open(event_file, 'r') as f:\n                    events = json.load(f)\n            \n            events.append(data)\n            \n            # Keep only last 100 events\n            events = events[-100:]\n            \n            with open(event_file, 'w') as f:\n                json.dump(events, f, indent=2)\n            \n            return True\n        except Exception:\n            return False\n\n\nasync def main_async():\n    \"\"\"Main async function with enhanced task completion monitoring.\"\"\"\n    try:\n        # Read JSON input from stdin\n        input_data = json.load(sys.stdin)\n        \n        # Extract session_id and enhance with agent context\n        session_id = input_data.get('session_id', 'unknown')\n        agent_context = get_current_agent_context()\n        \n        # Enhance input data with agent context\n        enhanced_data = {\n            **input_data,\n            \"agent_context\": agent_context,\n            \"enhanced_timestamp\": int(time.time() * 1000)\n        }\n        \n        # === TASK COMPLETION MONITORING ===\n        task_completed = is_task_completion_event(input_data)\n        primary_agent_active = is_primary_agent_active()\n        \n        # Record validation telemetry if advanced system is available\n        if ADVANCED_VALIDATION_AVAILABLE:\n            record_validation_event(enhanced_data)\n        \n        # If task completion detected, trigger enhanced workflows\n        if task_completed:\n            print(f\"\ud83c\udfaf Task completion detected: {input_data.get('request', {}).get('tool_name', 'unknown')}\", \n                  file=sys.stderr)\n            \n            # Trigger enhanced memory sync\n            memory_sync_success = await trigger_enhanced_memory_sync(input_data)\n            enhanced_data[\"memory_sync_triggered\"] = memory_sync_success\n            \n            # Trigger ensemble validation if applicable\n            if primary_agent_active or task_completed:\n                ensemble_result = await trigger_ensemble_validation(input_data)\n                enhanced_data[\"ensemble_validation\"] = ensemble_result\n                \n                # Enhanced status reporting\n                if isinstance(ensemble_result, dict) and \"consensus_score\" in ensemble_result:\n                    status = ensemble_result.get('final_status', 'unknown')\n                    score = ensemble_result.get('consensus_score', 0)\n                    models = len(ensemble_result.get('models_used', []))\n                    \n                    if ADVANCED_VALIDATION_AVAILABLE and ensemble_result.get(\"ensemble_validation\") == \"advanced_collective_intelligence\":\n                        print(f\"\ud83e\udde0 Advanced ensemble validation: {status} (score: {score:.1f}, {models} models)\", file=sys.stderr)\n                        \n                        # Record validation feedback for learning if real validation was used\n                        if ensemble_result.get(\"final_status\") in [\"approved\", \"needs_revision\", \"rejected\"]:\n                            # We don't have actual success feedback yet, so skip recording for now\n                            pass\n                    else:\n                        print(f\"\ud83d\udd0d Ensemble validation: {status} (score: {score:.1f})\", file=sys.stderr)\n        \n        # === EXISTING LOG FUNCTIONALITY (PRESERVED) ===\n        # Ensure session log directory exists\n        log_dir = ensure_session_log_dir(session_id)\n        log_path = log_dir / 'post_tool_use.json'\n        \n        # Read existing log data or initialize empty list\n        if log_path.exists():\n            with open(log_path, 'r') as f:\n                try:\n                    log_data = json.load(f)\n                except (json.JSONDecodeError, ValueError):\n                    log_data = []\n        else:\n            log_data = []\n        \n        # Append enhanced data instead of raw input_data\n        log_data.append(enhanced_data)\n        \n        # Write back to file with formatting\n        with open(log_path, 'w') as f:\n            json.dump(log_data, f, indent=2)\n        \n        # === OBSERVABILITY INTEGRATION ===\n        # Send to existing Vue.js observability system\n        if task_completed or primary_agent_active:\n            observability_success = await send_to_observability_system(enhanced_data)\n            if observability_success:\n                print(\"\ud83d\udcca Observability data sent\", file=sys.stderr)\n        \n        # === ADVANCED TELEMETRY DASHBOARD ===\n        if ADVANCED_VALIDATION_AVAILABLE and task_completed:\n            try:\n                dashboard = get_validation_dashboard()\n                recent_discoveries = len(dashboard.get(\"recent_discoveries\", []))\n                if recent_discoveries > 0:\n                    print(f\"\ud83d\udd2c {recent_discoveries} validation discoveries recorded\", file=sys.stderr)\n            except Exception as e:\n                print(f\"\u26a0\ufe0f Telemetry dashboard error: {e}\", file=sys.stderr)\n        \n        sys.exit(0)\n        \n    except json.JSONDecodeError:\n        # Handle JSON decode errors gracefully\n        print(\"\u26a0\ufe0f JSON decode error in post_tool_use hook\", file=sys.stderr)\n        sys.exit(0)\n    except Exception as e:\n        # Log error but exit cleanly to avoid breaking Claude Code\n        print(f\"\u26a0\ufe0f Post-tool-use hook error: {e}\", file=sys.stderr)\n        sys.exit(0)\n    finally:\n        # Cleanup telemetry if available\n        if ADVANCED_VALIDATION_AVAILABLE:\n            try:\n                await cleanup_validation_telemetry()\n            except Exception as e:\n                print(f\"\u26a0\ufe0f Telemetry cleanup error: {e}\", file=sys.stderr)\n\n\ndef main():\n    \"\"\"Sync wrapper for async main function.\"\"\"\n    try:\n        # Check if event loop exists\n        try:\n            loop = asyncio.get_event_loop()\n            if loop.is_running():\n                # If event loop is running, create new thread\n                import threading\n                import concurrent.futures\n                \n                def run_async():\n                    new_loop = asyncio.new_event_loop()\n                    asyncio.set_event_loop(new_loop)\n                    return new_loop.run_until_complete(main_async())\n                \n                with concurrent.futures.ThreadPoolExecutor() as executor:\n                    future = executor.submit(run_async)\n                    future.result(timeout=30)  # 30 second timeout\n            else:\n                loop.run_until_complete(main_async())\n        except RuntimeError:\n            # No event loop exists, create new one\n            asyncio.run(main_async())\n    \n    except Exception as e:\n        print(f\"\u26a0\ufe0f Hook execution error: {e}\", file=sys.stderr)\n        sys.exit(0)\n\nif __name__ == '__main__':\n    main()",
+      "structuredPatch": [
+        {
+          "oldStart": 388,
+          "oldLines": 8,
+          "newStart": 388,
+          "newLines": 8,
+          "lines": [
+            "     try:",
+            "         import websockets",
+            "         ",
+            "-        # Connect to existing WebSocket server (from previous implementation)",
+            "-        websocket_url = \"ws://localhost:3001\"",
+            "+        # Connect to existing WebSocket server (updated port)",
+            "+        websocket_url = \"ws://localhost:4000\"",
+            "         ",
+            "         async with websockets.connect(websocket_url, timeout=5) as websocket:",
+            "             await websocket.send(json.dumps({"
+          ]
+        }
+      ],
+      "userModified": false,
+      "replaceAll": false
+    },
+    "agent_context": {
+      "agent_name": "primary-agent",
+      "agent_role": "orchestrator",
+      "agent_category": "core_development",
+      "delegation_chain": "primary-agent",
+      "timestamp": 1755306715791
+    },
+    "enhanced_timestamp": 1755306715791
+  }
+]

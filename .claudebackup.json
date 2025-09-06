@@ -1,0 +1,215 @@
+{
+  "mcpServers": {
+    "krag-graphiti": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://localhost:8002/sse"
+      ],
+      "env": {
+        "NPM_CONFIG_USERCONFIG": "/Users/sam/.npmrc-claude",
+        "NPM_CONFIG_CACHE": "/Users/sam/.npm-claude-secure/cache"
+      },
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "krag-graphiti-memory": {
+      "command": "uv",
+      "args": ["run", "mcp-server-krag-graphiti-memory"],
+      "env": {
+        "GOOGLE_API_KEY": "${GOOGLE_API_KEY}",
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}"
+      }
+    },
+    "krag-qdrant-memory": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://localhost:8001/sse"
+      ],
+      "env": {
+        "NPM_CONFIG_USERCONFIG": "/Users/sam/.npmrc-claude",
+        "NPM_CONFIG_CACHE": "/Users/sam/.npm-claude-secure/cache"
+      },
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "matlab-server": {
+      "command": "node",
+      "args": [
+        "/Users/sam/matlab-mcp-server/build_files/index.js"
+      ],
+      "env": {
+        "MATLAB_PATH": "/Applications/MATLAB_R2024a.app/bin/matlab"
+      },
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "wolframalpha": {
+      "command": "node",
+      "args": [
+        "/Users/sam/wolframalpha-llm-mcp/build/index.js"
+      ],
+      "env": {
+        "WOLFRAM_LLM_APP_ID": "VYR43J-GW3TWJ9G3K"
+      },
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "youtube": {
+      "command": "node",
+      "args": [
+        "/Users/sam/.npm-global/lib/node_modules/@anaisbetts/mcp-youtube/lib/index.mjs"
+      ],
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "shrimp-task-manager": {
+      "command": "node",
+      "args": [
+        "/Users/sam/mcp-shrimp-task-manager/dist/index.js"
+      ],
+      "env": {
+        "DATA_DIR": "/Users/sam/ShrimpData",
+        "TEMPLATES_USE": "en",
+        "ENABLE_GUI": "true"
+      },
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "paper-search-mcp": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "paper_search_mcp.server"
+      ],
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "papers-with-code-mcp": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "papers_with_code_mcp"
+      ],
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "desktop-commander": {
+      "command": "npx",
+      "args": [
+        "@wonderwhy-er/desktop-commander@latest"
+      ],
+      "env": {
+        "NPM_CONFIG_USERCONFIG": "/Users/sam/.npmrc-claude",
+        "NPM_CONFIG_CACHE": "/Users/sam/.npm-claude-secure/cache"
+      },
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "env": {
+        "NPM_CONFIG_USERCONFIG": "/Users/sam/.npmrc-claude",
+        "NPM_CONFIG_CACHE": "/Users/sam/.npm-claude-secure/cache"
+      },
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "git-mcp": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://gitmcp.io/docs"
+      ],
+      "env": {
+        "NPM_CONFIG_USERCONFIG": "/Users/sam/.npmrc-claude",
+        "NPM_CONFIG_CACHE": "/Users/sam/.npm-claude-secure/cache"
+      },
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-sequentialthinking-tools"
+      ],
+      "env": {
+        "MAX_HISTORY_SIZE": "1000",
+        "NPM_CONFIG_USERCONFIG": "/Users/sam/.npmrc-claude",
+        "NPM_CONFIG_CACHE": "/Users/sam/.npm-claude-secure/cache"
+      },
+      "disabled": false,
+      "trust": true,
+      "autoapprove": [
+        "*"
+      ]
+    },
+    "firecrawl-mcp": {
+      "command": "npx",
+      "args": ["firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_API_KEY": "${FIRECRAWL_API_KEY}",
+        "NPM_CONFIG_USERCONFIG": "/Users/sam/.npmrc-claude",
+        "NPM_CONFIG_CACHE": "/Users/sam/.npm-claude-secure/cache"
+      }
+    },
+    "cipher": {
+      "command": "cipher",
+      "args": ["--mode", "mcp", "--agent", "/Users/sam/claude-code-hooks-mastery/.claude/cipher-gemini.yml"],
+      "env": {
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}",
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}"
+      }
+    },
+    "ElevenLabs": {
+          "command": "npx",
+          "args": [
+            "elevenlabs-mcp"
+          ],
+          "env": {
+            "ELEVENLABS_API_KEY": "${ELEVENLABS_API_KEY}",
+            "NPM_CONFIG_USERCONFIG": "/Users/sam/.npmrc-claude",
+        "NPM_CONFIG_CACHE": "/Users/sam/.npm-claude-secure/cache"
+          }
+    }
+  }
+}
